@@ -228,5 +228,33 @@
   </form>
 </div>
 
+<div class="popup__regForm">
+  <form class="popup__container" method="POST">
+    <div class="popup__wrapper">
+      <a class="popup__btn-close" onclick="closeRegForm()"></a>
+      <div class="popup__logo">
+        <img alt="The Book" height="70" src="src/images/logo-promo.PNG" width="240">
+      </div>
+      <hr>
+      <div class="popup__title">
+        <h1>Войти</h1>
+        <a href="#">Забыли пароль?</a>
+      </div>
+      <div class="popup__input">
+        <input class="popup__login" type="text" placeholder="Введите логин">
+        <div class="popup__password-form">
+          <input class="popup__password" id="popup__password-id" type="password" placeholder="Введите пароль" name="password">
+          <a href="#" class="popup__showHideButton" onclick="return showHidePassword(this);"></a>
+        </div>
+      </div>
+      <div class="popup__space"></div>
+      <button class="popup__btn-login">Войти</button>
+      <p class="popup__new-p">Новая учетная запись</p>
+      <button class="popup__btn-newAccount">Создать учетную запись</button>
+      <p class="popup__submit">Продолжая, вы соглашаетесь с <a href="#">политикой обработки персональных данных</a></p>
+    </div>
+  </form>
+</div>
+
 </body>
 </html>

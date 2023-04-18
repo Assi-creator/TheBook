@@ -502,9 +502,7 @@ ul {
 }
 
 
-
-
-.popup__container {
+.popup__regForm {
     display: none;
     font-family: "Source Sans Pro", sans-serif;
     position: absolute;
@@ -522,7 +520,7 @@ ul {
     flex-direction: column;
 }
 
-.popup__regForm {
+.popup__modal {
     z-index: 10001;
     background: #fff;
     position: fixed;
@@ -536,7 +534,7 @@ ul {
     display: none;
 }
 
-.popup__container.open {
+.popup__regForm.open {
     display: block;
 }
 
@@ -552,11 +550,11 @@ ul {
     -webkit-box-align: center;
 }
 
-.popup__btn-close{
+.popup__btn-close {
     position: absolute;
     height: 24px;
     right: 24px;
-    top: 16px;
+    top: 32px;
     width: 24px;
     background-color: transparent;
     border: none;
@@ -575,16 +573,17 @@ ul {
     top: 3px;
     left: 12px;
 }
+
 .popup__btn-close::after {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
 
-.popup__logo{
+.popup__logo {
     text-align: center;
 }
 
-hr{
+hr {
     background: #6f7073;
 }
 
@@ -599,7 +598,7 @@ hr{
     font-size: 24px;
 }
 
-.popup__input{
+.popup__input {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -633,12 +632,12 @@ hr{
     color: #252626;
 }
 
-.popup__space{
+.popup__space {
     width: 100%;
     height: 150px;
 }
 
-.popup__btn-login{
+.popup__btn-login {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     border: 0;
@@ -726,6 +725,95 @@ hr{
 .popup__showHideButton.view {
     background: url(https://snipp.ru/demo/495/no-view.svg) 0 0 no-repeat;
 }
+
+.popup__forgotPass {
+    display: none;
+    font-family: "Source Sans Pro", sans-serif;
+    position: absolute;
+    background: #fff;
+    animation-duration: 0.5ms;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    height: 616px;
+    width: 508px;
+    flex-direction: column;
+}
+
+.popup__forgotPass.open {
+    display: block;
+    z-index: 100000;
+}
+
+.popup__title-forgot {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.popup__title-forgot h1 {
+    font-size: 26px;
+    width: 100%;
+    text-align: center;
+}
+
+.popup__email {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    margin-top: 45px;
+    font-family: "Source Sans Pro", sans-serif;
+    border: none;
+    background: #EDF0F7;
+    border-radius: 100px;
+    padding: 20px;
+    align-items: center;
+}
+
+.popup__send-code {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    border: 0;
+    padding: 10px;
+    background-color: rgba(55, 108, 251);
+    border-radius: 100px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.popup__btn-back {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    top: 32px;
+    left: 32px;
+}
+
+.popup__btn-back::before {
+    position: absolute;
+    content: '';
+    top: 6px;
+    left: 9px;
+    width: 10px;
+    height: 10px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: 1px solid #000;
+    border-right: none;
+    border-top: none;
+}
+
 
 @keyframes fadeIn {
     from {

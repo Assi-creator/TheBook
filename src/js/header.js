@@ -1,10 +1,19 @@
-const regForm = document.querySelector('.popup__container');
-const popup = document.querySelector('.popup__regForm');
+const regForm = document.querySelector('.popup__regForm');
+const forgotForm = document.querySelector('.popup__forgotPass')
+const popup = document.querySelector('.popup__modal');
 
 
 function showRegForm() {
     regForm.classList.add('open');
     popup.classList.add('popup_open');
+}
+
+function showForgotPassForm() {
+    forgotForm.classList.add('open');
+}
+
+function backToForm() {
+    forgotForm.classList.remove('open');
 }
 
 function closeRegForm () {

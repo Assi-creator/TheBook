@@ -1,0 +1,141 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+html {
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: 100%;
+}
+
+body {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    font-family: "Source Sans Pro", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    cursor: pointer; }
+
+input:focus {
+    outline: none;
+}
+
+
+.page-content{
+    justify-content: left;
+    position: relative;
+    margin: 0 auto;;
+    max-width: 1200px;
+    display: flex;
+    -webkit-box-pack: center;
+    flex-wrap: wrap;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+
+/*ПОПУЛЯРНОЕ*/
+
+.article__popular{
+    position: relative;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: end;
+    align-items: flex-end;
+    margin: 0 0 58px;
+    width: 100%;
+}
+
+.main-page__popular{
+    margin: 0 0 10px 5px;
+}
+
+.book {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    width: 50%;
+    border-radius: 20px;
+}
+
+.book img {
+    display: block;
+    height: auto;
+    max-width: 75%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.info {
+    padding: 10px;
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.genre {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.desc {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+@media screen and  (min-width: 480px) {
+    .book {
+        width: calc(50% - 10px);
+    }
+}
+
+@media screen and  (min-width: 768px) {
+    .book {
+        width: calc(20% - 10px);
+    }
+}
+
+
+
+
+

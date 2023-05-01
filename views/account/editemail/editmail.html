@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Читайте, изучайте интересные подборки книг, делитесь впечатлениями о книгах" name="description">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Читайте, изучайте интересные подборки книг, делитесь впечатлениями о книгах">
 
-    <title>Библиотека им. Л.Н.Толстого</title>
+    <title>Изменить email</title>
 
-    <link href="src/css/main.css" rel="stylesheet">
-    <link href="src/css/header.css" rel="stylesheet">
-    <link href="src/images/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="/src/css/main.css">
+    <link href="/src/css/header.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/src/images/the-book-icon.ico" type="image/x-i con">
 
-    <script defer src="/src/js/header.js"></script>
+    <script src="/src/js/header.js" defer></script>
+    <script src="/src/js/profile.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
 </head>
-
 <body>
 <header class="page-header">
     <div class="page-header__wrapper">
-        <a class="page-header__logo" href="/thebook">
+        <a class="page-header__logo" href="/index.php">
             <img alt="The Book" height="55" src="/src/images/logo-promo.PNG" width="200">
         </a>
         <div class="page-header__search">
@@ -30,15 +31,15 @@
             </form>
           </span>
         </div>
-        <button class="page-header__login" href="../reader/index.php" onclick="showRegForm()">Войти</button>
+        <button class="page-header__login" onclick="showRegForm()">Войти</button>
     </div>
 
     <div class="page-header__wrapper-mob">
         <div class="page-header__mob">
             <a class="page-header__logo-mob" href="#">
-                <img alt="The Book" height="55" src="src/images/logo-promo.PNG" width="200">
+                <img alt="The Book" height="55" src="/src/images/logo-promo.PNG" width="200">
             </a>
-            <button class="page-header__login-mob" href="../reader/index.php" onclick="showRegForm()">Войти</button>
+            <button class="page-header__login-mob" onclick="showRegForm()">Войти</button>
         </div>
         <div class="page-header__search-mob">
           <span style="display: inline-block; width: 100%" tabindex="1">
@@ -54,77 +55,66 @@
 
     <nav>
         <ul class="main-menu">
-            <li><a href="views/reader/">Главная</a></li>
-            <li><a href="views/reader/">Жанры</a></li>
+            <li><a href="/index.php">Главная</a></li>
+            <li><a href="#">Жанры</a></li>
             <li><a href="#">Авторы</a></li>
         </ul>
     </nav>
 </header>
-
-<br>
-<br>
-<br>
 <br>
 
-<main class="page-content">
-    <div class="container">
+<main class="main-body page-content">
+    <section class="header">
+        <div class="header-context profile-context">
+            <div class="header-container">
+                <ul class="nav context">
+                    <li class="standard">
+                        <a href="/views/reader/">←</a>
+                    </li>
+                    <li class="standard">
+                        <a href="/views/account/editprofile">Профиль</a>
+                    </li>
+                    <li class="active" style="position: relative;">
+                        <div id="div-profileedit-account-dropdown" class="div-context-more ll-toggle-hide"
+                             style="margin-top: 65px; left: 0px; margin-left: 0px; display: none">
+                            <div class="div-context-shadow" onclick="hideAccountDetails()"></div>
+                            <ul id="ul-context-more" class="share-menu share-menu-ul oneline">
+                                <li class="personal"><a href="/views/account/editemail">Добавить email</a></li>
+                                <li class="personal"><a href="/views/account/editpassword/">Установить пароль</a></li>
+                                <li class="personal"><a href="/views/account/lastvisits/">Входы в аккаунт</a></li>
+                                <li class="personal"><a href="/views/account/close/">Закрыть аккаунт</a></li>
+                            </ul>
+                        </div>
+                        <a onclick="showAccountDetails()">Аккаунт</a>
+                    </li>
+                    <li class="standard">
+                        <a href="/views/account/security/" style="color:#FA385D">Настройки безопасности</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        <article class="article__popular">
-            <h2 class="main-page__popular">Популярное</h2>
-
-            <div class="books-container">
-                <div class="book">
-                    <img alt="Book 1"
-                         src="https://s1.livelib.ru/boocover/1008221116/o/39e3/Lea_Stenberg__Rennvind._Serdtse_tmy.jpeg">
-                    <div class="info">
-                        <h3 class="title">Book 1</h3>
-                        <p class="genre">Author 1</p>
-                        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
+    <div class="wrapper-ugc" style="max-width: 816px; margin-top: 15px;">
+        <form action="/account/editpassword" method="post" enctype="multipart/form-data" name="account_info">
+            <div class="block-border card-block">
+                <h2 class="group-title">Изменить email</h2>
+                <div class="with-pad form-new">
+                    <table class="form">
+                        <tbody><tr>
+                            <td>Email</td>
+                            <td><input class="wide" type="password" name="account[old_password]" value=""></td>
+                        </tr>
+                        </tbody></table>
                 </div>
-
-                <div class="book">
-                    <img alt="Book 2"
-                         src="https://s1.livelib.ru/boocover/1007474455/o/542e/Syu_Linn_Tan__Doch_Lunnoj_bogini.jpeg">
-                    <div class="info">
-                        <h3 class="title">Book 2</h3>
-                        <p class="genre">Author 2</p>
-                        <p class="desc">Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-                    </div>
-                </div>
-
-                <div class="book">
-                    <img alt="Book 3"
-                         src="https://s1.livelib.ru/boocover/1002918457/o/5fca/Viktoriya_Shvab__Gorod_prizrakov.jpeg">
-                    <div class="info">
-                        <h3 class="title">Book 3</h3>
-                        <p class="genre">Author 3</p>
-                        <p class="desc">At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
-                    </div>
-                </div>
-
-                <div class="book">
-                    <img alt="Book 3"
-                         src="https://s1.livelib.ru/boocover/1002918457/o/5fca/Viktoriya_Shvab__Gorod_prizrakov.jpeg">
-                    <div class="info">
-                        <h3 class="title">Book 3</h3>
-                        <p class="genre">Author 3</p>
-                        <p class="desc">At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
-                    </div>
-                </div>
-
-                <div class="book">
-                    <img alt="Book 3" src="https://webref.ru/assets/images/html5-css3/img-01.jpg">
-                    <div class="info">
-                        <h3 class="title">Book 3</h3>
-                        <p class="genre">Author 3</p>
-                        <p class="desc">At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
-                    </div>
+                <div class="with-mpad block-bottom block-border-t" id="user-posts-more">
+                    <input type="submit" name="btn_save" class="btn-fill btn-darkgreen" value="Сохранить">
+                    <input type="button" class="btn-fill btn-wh right" value="Отмена" onclick="location.href='/views/reader/';">
                 </div>
             </div>
-        </article>
-
+        </form>
     </div>
+
 </main>
 
 <footer>
@@ -177,7 +167,7 @@
             <div class="footer-logo-block">
                 <div class="footer-logo-block-wrapper">
                     <a class="footer-logo" href="#">
-                        <img alt="The Book" height="45" src="src/images/logo-nobg-black.png" width="150">
+                        <img alt="The Book" height="45" src="/src/images/logo-nobg-black.png" width="150">
                     </a>
                     <p class="footer-copyright">© The Book 2023</p>
                 </div>
@@ -205,7 +195,7 @@
         <div class="popup__wrapper">
             <a class="popup__btn-close" onclick="closeRegForm()"></a>
             <div class="popup__logo">
-                <img alt="The Book" height="70" src="src/images/logo-promo.PNG" width="240">
+                <img alt="The Book" height="70" src="/src/images/logo-promo.PNG" width="240">
             </div>
             <hr>
             <div class="popup__title">
@@ -253,6 +243,5 @@
         </div>
     </form>
 </div>
-
 </body>
 </html>

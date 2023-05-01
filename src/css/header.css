@@ -3,6 +3,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     display: block;
 }
 
+/********HEADER********/
+
 header {
     position: relative;
 }
@@ -131,10 +133,6 @@ a {
     box-shadow: 0 9px 9px rgba(55, 108, 251, .1);
 }
 
-@media (max-width: 1024px) {
-
-}
-
 @media (max-width: 768px) {
 
     .page-header__wrapper-mob {
@@ -160,6 +158,10 @@ a {
         justify-content: space-between;
     }
 
+    .page-header__login-mob:hover {
+        cursor: pointer;
+    }
+
     .page-header__login-mob {
         font-family: "Source Sans Pro", sans-serif;
         border: 0;
@@ -173,6 +175,12 @@ a {
         font-weight: 500;
     }
 
+    .page-header__login-mob:hover {
+        transform: scale(1.04);
+        color: white;
+        box-shadow: 0 9px 9px rgba(55, 108, 251, .1);
+    }
+    
     .page-header__search-mob {
         position: relative;
         flex-grow: 1;
@@ -187,16 +195,9 @@ a {
 }
 
 
-@media (max-width: 640px) {
-
-}
-
-@media (max-width: 500px) {
-
-}
-
-
 /********FOOTER********/
+
+
 footer {
     margin: 0 auto;
     max-width: 1200px;
@@ -502,6 +503,8 @@ ul {
 }
 
 
+/********MODAL AUTH********/
+
 .popup__regForm {
     display: none;
     font-family: "Source Sans Pro", sans-serif;
@@ -696,7 +699,7 @@ hr {
     margin: 0 -100% 0 0;
 }
 
-.popup__submit {
+.popup__submit, .popup__forgot {
     margin-top: 10px;
     font-family: "Source Sans Pro", sans-serif;
     font-size: 12px;
@@ -725,6 +728,43 @@ hr {
 .popup__showHideButton.view {
     background: url(https://snipp.ru/demo/495/no-view.svg) 0 0 no-repeat;
 }
+
+@media (max-width: 550px) {
+    .popup__regForm {
+        height: 550px;
+        width: 450px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+@media (max-width: 450px) {
+    .popup__regForm {
+        height: 550px;
+        width: 380px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+@media (max-width: 380px) {
+    .popup__regForm {
+        height: 520px;
+        width: 350px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+
+/********MODAL FORGOT PASS********/
+
 
 .popup__forgotPass {
     display: none;
@@ -814,6 +854,104 @@ hr {
     border-top: none;
 }
 
+@media (max-width: 550px) {
+    .popup__forgotPass {
+        height: 550px;
+        width: 450px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+@media (max-width: 450px) {
+    .popup__forgotPass {
+        height: 550px;
+        width: 380px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+@media (max-width: 380px) {
+    .popup__forgotPass {
+        height: 520px;
+        width: 350px;
+    }
+
+    .popup__space {
+        height: 80px;
+    }
+}
+
+@media (max-height: 625px) and (orientation: landscape){
+    .popup__regForm {
+        height: 415px;
+        width: 508px;
+    }
+
+    .popup__forgotPass {
+        height: 415px;
+        width: 508px;
+    }
+
+    .popup__space {
+        height: 40px;
+    }
+
+    .popup__new-p {
+        display: none;
+    }
+
+    .popup__submit{
+        display: none;
+    }
+
+    .popup__btn-newAccount {
+        margin-top: 15px;
+    }
+
+    .popup__logo img{
+        width: 200px;
+        height: 60px;
+    }
+}
+
+@media (max-height: 400px) and (orientation: landscape) {
+    .popup__regForm {
+        height: 360px;
+        width: 508px;
+    }
+
+    .popup__forgotPass {
+        height: 360px;
+        width: 508px;
+    }
+
+    .popup__space {
+        height: 10px;
+    }
+
+    .popup__new-p {
+        display: none;
+    }
+
+    .popup__submit {
+        display: none;
+    }
+
+    .popup__btn-newAccount {
+       margin-top: 10px;
+    }
+
+    .popup__logo img{
+        width: 200px;
+        height: 55px;
+    }
+}
 
 @keyframes fadeIn {
     from {

@@ -309,15 +309,15 @@ footer {
 }
 
 .footer-soc__item:nth-of-type(1) {
-    background-image: url("/src/images/telegram.svg");
+    background-image: url("/assets/images/telegram.svg");
 }
 
 .footer-soc__item:nth-of-type(2) {
-    background-image: url("/src/images/vkontakte.svg");
+    background-image: url("/assets/images/vkontakte.svg");
 }
 
 .footer-soc__item:nth-of-type(3) {
-    background-image: url("/src/images/okru.svg");
+    background-image: url("/assets/images/okru.svg");
 }
 
 p:last-child {

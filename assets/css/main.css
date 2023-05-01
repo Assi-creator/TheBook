@@ -200,7 +200,7 @@ section {
 .user-profile {
     height: 148px;
     width: 100%;
-    background: #d8dadc url(/src/images/back-profile.png) center center repeat-x;
+    background: #d8dadc url(/assets/images/back-profile.png) center center repeat-x;
     background-size: auto;
 }
 
@@ -258,7 +258,7 @@ section {
 }
 
 .group-more-menu {
-    background: url(/src/images/icons.png) -100px -610px no-repeat;
+    background: url(/assets/images/icons.png) -100px -610px no-repeat;
     width: 18px;
     height: 10px;
     display: inline-block;
@@ -416,7 +416,7 @@ div.profile-avatar {
 }
 
 .i-tag-add {
-    background: url(/src/images/icons.png) -100px -140px no-repeat;
+    background: url(/assets/images/icons.png) -100px -140px no-repeat;
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -425,7 +425,7 @@ div.profile-avatar {
 }
 
 .i-cardclose {
-    background: url(/src/images/icons.png) -120px -720px no-repeat;
+    background: url(/assets/images/icons.png) -120px -720px no-repeat;
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -586,7 +586,7 @@ input.file, input[type="file"], textarea, select, .form-scroll {
     color: #fff !important;
     line-height: 33px;
     cursor: pointer;
-    height: 100%;
+    height: auto;
     padding: 0 25px;
     font-weight: 500;
     border-radius: 50px;
@@ -875,7 +875,7 @@ h1, h2.h1 {
 }
 
 .i-group-edit {
-    background: url(/src/images/icons.png) -220px -680px no-repeat;
+    background: url(/assets/images/icons.png) -220px -680px no-repeat;
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -1071,10 +1071,10 @@ select.max {
     line-height: 20px;
 }
 .radiogroup a.active .ub-check {
-    background: url(/src/images/icons.png) -61px -760px no-repeat;
+    background: url(/assets/images/icons.png) -61px -760px no-repeat;
 }
 .radiogroup a .ub-check {
-    background: url(/src/images/icons.png) -41px -760px no-repeat;
+    background: url(/assets/images/icons.png) -41px -760px no-repeat;
     width: 18px;
     margin-right: 8px;
     vertical-align: -4px;

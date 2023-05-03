@@ -19,7 +19,10 @@
 </head>
 <body>
 
-<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
+<?php
+session_start();
+
+require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
 <br>
@@ -27,7 +30,8 @@
     <section class="header">
 
         <!--Верхнее меню-->
-        <div id="profile-bg-wrapper" class="gp-wrapper user-profile">
+        <div id="profile-bg-wrapper" class="gp-wrapper user-profile"
+             style="background: url(<?php echo '../../' . $_SESSION['user']['cover_path']; ?>) center center no-repeat; object-fit: cover; background-size: cover !important; height: 148px; width: 100%;">
             <div class="gp-outer">
                 <div class="gp-inner">
                     <table class="gp-table">
@@ -35,7 +39,8 @@
                         <tr>
 
                             <td class="gp-avatar">
-                                <div id="profile-avatar" class="profile-avatar" style="background-image: url(/assets/images/noavatar.svg)">
+                                <div id="profile-avatar" class="profile-avatar"
+                                     style="background-image: url(<?php echo '../../' . $_SESSION['user']['avatar_path']; ?>)">
                                     <div id="userpic-edit" class="userpic-edit">
                                         <div class="userpic-edit-back"></div>
                                         <a class="userpic-edit-a" onclick="showImagePopup()">
@@ -59,14 +64,16 @@
                                             <div class="div-context-shadow" onclick="hideMoreDetails()"></div>
                                             <div id="profile-menu-more" class="ll-select-holder"
                                                  style="top: 36px; z-index: 10002;">
-                                                <a class="ll-select-row" onclick="showImagePopup()">Добавить аватарку</a>
+                                                <a class="ll-select-row" onclick="showImagePopup()">Добавить
+                                                    аватарку</a>
                                                 <a class="ll-select-row">Добавить обложку</a>
                                                 <a class="ll-select-row">Редактировать профиль</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <span id="header-profile-login" class="header-profile-login">Мастя Списюгина</span>
+                                <span id="header-profile-login"
+                                      class="header-profile-login"><?php echo $_SESSION['user']['login']; ?></span>
                             </td>
                         </tr>
                         </tbody>
@@ -75,14 +82,16 @@
                     <!--Окно с добавлением аватара-->
                     <div id="user-pic-edit" style="display: none">
                         <div id="userpic-edit-popup">
-                            <div class="popup-back" style="display: block; z-index: 1000; overflow: auto; background: rgba(57, 66, 76, 0.5);">
+                            <div class="popup-back"
+                                 style="display: block; z-index: 1000; overflow: auto; background: rgba(57, 66, 76, 0.5);">
                                 <div style="position: absolute; width: 100%; height: 100%">
                                     <div style="width: 100%; height: 100%; display: table">
                                         <div style="text-align: center; vertical-align: middle; display:table-cell;">
                                             <div class="block-border card-block"
                                                  style="z-index: 1001; width: 908px; text-align: left; margin: 0 auto">
                                                 <div class="group-title">
-                                                    <a class="right uderpic-popup-close" onclick="hideImagePopup()" title="Закрыть">
+                                                    <a class="right uderpic-popup-close" onclick="hideImagePopup()"
+                                                       title="Закрыть">
                                                         <span class="i-cardclose" style="margin-right: -2px;"></span>
                                                     </a>
                                                     <h2>Изменение аватарки</h2>
@@ -110,41 +119,45 @@
                                                                                      style="width: 208px; height: 208px; transform: none;">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="cropper-drag-box cropper-crop cropper-modal"
-                                                                             data-cropper-action="crop"></div>
+                                                                        <div
+                                                                            class="cropper-drag-box cropper-crop cropper-modal"
+                                                                            data-cropper-action="crop"></div>
                                                                         <div class="cropper-crop-box"
                                                                              style="width: 161.6px; height: 163.2px; transform: translateX(16.4px);">
                                                                             <span class="cropper-view-box">
                                                                                 <img src="/assets/images/noavatar.svg"
-                                                                                    alt="The image to preview" style="width: 208px; height: 208px; transform: translateX(-19.4px);">
+                                                                                     alt="The image to preview"
+                                                                                     style="width: 208px; height: 208px; transform: translateX(-19.4px);">
                                                                             </span>
-                                                                            <span class="cropper-dashed dashed-h"></span>
-                                                                            <span class="cropper-dashed dashed-v"></span>
+                                                                            <span
+                                                                                class="cropper-dashed dashed-h"></span>
+                                                                            <span
+                                                                                class="cropper-dashed dashed-v"></span>
                                                                             <span class="cropper-center"></span>
                                                                             <span class="cropper-face cropper-move"
-                                                                                data-cropper-action="all"></span>
+                                                                                  data-cropper-action="all"></span>
                                                                             <span class="cropper-line line-e"
-                                                                                data-cropper-action="e"></span>
+                                                                                  data-cropper-action="e"></span>
                                                                             <span class="cropper-line line-n"
-                                                                                data-cropper-action="n"></span>
+                                                                                  data-cropper-action="n"></span>
                                                                             <span class="cropper-line line-w"
-                                                                                data-cropper-action="w"></span>
+                                                                                  data-cropper-action="w"></span>
                                                                             <span class="cropper-line line-s"
-                                                                                data-cropper-action="s"></span>
+                                                                                  data-cropper-action="s"></span>
                                                                             <span class="cropper-point point-e"
-                                                                                data-cropper-action="e"></span>
+                                                                                  data-cropper-action="e"></span>
                                                                             <span class="cropper-point point-n"
-                                                                                data-cropper-action="n"></span>
+                                                                                  data-cropper-action="n"></span>
                                                                             <span class="cropper-point point-w"
-                                                                                data-cropper-action="w"></span>
+                                                                                  data-cropper-action="w"></span>
                                                                             <span class="cropper-point point-s"
-                                                                                data-cropper-action="s"></span>
+                                                                                  data-cropper-action="s"></span>
                                                                             <span class="cropper-point point-ne"
-                                                                                data-cropper-action="ne"></span>
+                                                                                  data-cropper-action="ne"></span>
                                                                             <span class="cropper-point point-nw"
-                                                                                data-cropper-action="nw"></span>
+                                                                                  data-cropper-action="nw"></span>
                                                                             <span class="cropper-point point-sw"
-                                                                                data-cropper-action="sw"></span>
+                                                                                  data-cropper-action="sw"></span>
                                                                             <span class="cropper-point point-se"
                                                                                   data-cropper-action="se"></span>
                                                                         </div>
@@ -174,7 +187,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="with-mpad block-bottom block-border-t">
-                                                    <a class="btn-fill-empty btn-wh userpic-popup-close" onclick="hideImagePopup()">Отмена</a>
+                                                    <a class="btn-fill-empty btn-wh userpic-popup-close"
+                                                       onclick="hideImagePopup()">Отмена</a>
                                                     <a id="userpic-save-btn" class="btn-fill btn-darkblue">Сохранить
                                                         изображение</a>
                                                 </div>
@@ -216,50 +230,51 @@
     </section>
 
 
-        <!--Начинка страницы-->
+    <!--Начинка страницы-->
     <div class="wrapper-ugc" style="max-width: 816px; margin-top: 25px;">
         <section class="page-content__section">
             <h1>Мой профиль</h1>
             <div class="block-border card-block">
                 <div class="group-title">
-                    <a class="right" href="../account/editprofile/">
-                        <span class="i-group-edit" style="margin-right: 0;"></span>
-                    </a>
                     <h2>Информация</h2>
                 </div>
                 <div class="with-pad">
                     <div class="profile-into-column">
                         <span class="group-row-title">
                             <b>Фамилия</b>
-                            : Списюгина
+                            : <?php echo $_SESSION['user']['surname']; ?>
                         </span>
                         <span class="group-row-title">
                             <b>Имя</b>
-                            : Мастя
+                            : <?php echo $_SESSION['user']['name']; ?>
                         </span>
                         <span class="group-row-title">
                             <b>Отчество</b>
-                            : Сыргеевна
+                            : <?php echo $_SESSION['user']['patronymic']; ?>
                         </span>
                         <span class="group-row-title">
                             <b>Пол</b>
-                            : Attack Helicopter
+                            : <?php if ($_SESSION['user']['gender'] == 'ж') {
+                                echo 'женский';
+                            } else {
+                                echo 'мужской';
+                            }; ?>
                         </span>
                         <span class="group-row-title">
                             <b>Дата рождения</b>
-                            : 18.12.2003
+                            : <?php echo $_SESSION['user']['birthday']; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>JUST MONIKA</b>
+                            <b>Я не придумала что ту еще может быть</b>
                         </span>
                         <span class="group-row-title">
-                            <b>JUST MONIKA</b>
+                            <b>C</b>
                         </span>
                         <span class="group-row-title">
-                            <b>JUST MONIKA</b>
+                            <b>I</b>
                         </span>
                         <span class="group-row-title">
-                            <b>JUST MONIKA</b>
+                            <b>R</b>
                         </span>
                     </div>
                 </div>
@@ -274,7 +289,7 @@
                 </div>
                 <div class="with-pad">
                     <div id="user-about">
-                        Вы пока ничего не написали о себе.
+                        <?php echo $_SESSION['user']['about']; ?>
                     </div>
                 </div>
             </div>

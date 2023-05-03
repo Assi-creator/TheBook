@@ -39,14 +39,14 @@
     <nav>
         <ul class="main-menu">
             <li><a href="/index.php">Главная</a></li>
-            <li><a href="#">Жанры</a></li>
+            <li><a href="./views/reader/">Жанры</a></li>
             <li><a href="#">Авторы</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="popup__modal">
-    <form class="popup__regForm" method="POST">
+    <form class="popup__regForm" method="POST" action="/api/controller/user/user.php">
         <div class="popup__wrapper">
             <a class="popup__btn-close" onclick="closeRegForm()"></a>
             <div class="popup__logo">
@@ -59,7 +59,7 @@
             </div>
             <div class="popup__input">
                 <label>
-                    <input class="popup__login" placeholder="Введите логин" type="text">
+                    <input class="popup__login" name="login" placeholder="Введите логин" type="text">
                 </label>
                 <div class="popup__password-form">
                     <label for="popup__password-id"></label><input class="popup__password" id="popup__password-id"
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="popup__space"></div>
-            <button class="popup__btn-login">Войти</button>
+            <button class="popup__btn-login" name="log">Войти</button>
             <p class="popup__new-p">Новая учетная запись</p>
             <button class="popup__btn-newAccount">Создать учетную запись</button>
             <p class="popup__submit">Продолжая, вы соглашаетесь с <a href="#">политикой обработки персональных
@@ -77,7 +77,7 @@
         </div>
     </form>
 
-    <form class="popup__forgotPass" method="POST">
+    <form class="popup__forgotPass" method="POST" action="/api/controller/user/user.php">
         <div class="popup__wrapper">
             <a class="popup__btn-back" onclick="backToForm()"></a>
             <div class="popup__logo">
@@ -94,7 +94,7 @@
                 </label>
             </div>
             <div class="popup__space"></div>
-            <button class="popup__send-code">Отправить</button>
+            <button class="popup__send-code" name="forgot">Отправить</button>
         </div>
     </form>
 </div>

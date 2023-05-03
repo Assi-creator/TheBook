@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/thebook</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Librarian_Workplace@LENOVO-PC" uuid="278fae35-3478-4f75-824e-176dec250122">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://LENOVO-PC:1433;database=Librarian_Workplace</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

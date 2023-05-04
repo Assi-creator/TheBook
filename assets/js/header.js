@@ -32,3 +32,16 @@ function showHidePassword(target){
     }
     return false;
 }
+
+
+function regProfile() {
+    event.preventDefault();
+    const form = document.querySelector('.popup__regForm');
+    $.ajax({
+        url: form.attr('/api/controller/user/user.php'),
+        data: form.serialize(),
+        success: function (response) {
+
+        }
+    })
+}

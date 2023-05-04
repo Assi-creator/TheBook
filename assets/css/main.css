@@ -279,7 +279,8 @@ div.profile-avatar {
     width: 106px;
     height: 106px;
     position: relative;
-    background-size: cover;
+    background-size: cover !important;
+    background: white;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -1198,6 +1199,7 @@ table {
 
 table.form tr td {
     padding: 5px 10px;
+    height: 32px;
 }
 
 .input, input.text, input.password, input[type="password"], input.file, select {

@@ -19,7 +19,6 @@
 <body>
 
 <?php use TheBook\Book;
-
 require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>

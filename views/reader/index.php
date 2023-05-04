@@ -37,10 +37,13 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                     <table class="gp-table">
                         <tbody>
                         <tr>
-
                             <td class="gp-avatar">
                                 <div id="profile-avatar" class="profile-avatar"
-                                     style="background-image: url(<?php echo '../../' . $_SESSION['user']['avatar_path']; ?>)">
+                                     style="background-image: url(<?php if (isset($_SESSION['user']['avatar_path'])) {
+                                 echo $_SESSION['user']['avatar_path'];
+                             } else {
+                                 echo '/assets/images/noavatar.svg';
+                             } ?>); object-fit: cover; color: white;">
                                     <div id="userpic-edit" class="userpic-edit">
                                         <div class="userpic-edit-back"></div>
                                         <a class="userpic-edit-a" onclick="showImagePopup()">
@@ -67,7 +70,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                                 <a class="ll-select-row" onclick="showImagePopup()">Добавить
                                                     аватарку</a>
                                                 <a class="ll-select-row">Добавить обложку</a>
-                                                <a class="ll-select-row">Редактировать профиль</a>
+                                                <a class="ll-select-row" href="/views/account/editprofile/">Редактировать профиль</a>
                                             </div>
                                         </div>
                                     </div>
@@ -241,40 +244,41 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                 <div class="with-pad">
                     <div class="profile-into-column">
                         <span class="group-row-title">
-                            <b>Фамилия</b>
-                            : <?php echo $_SESSION['user']['surname']; ?>
+                            <b>Фамилия:</b>
+                             <?php echo $_SESSION['user']['surname']; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>Имя</b>
-                            : <?php echo $_SESSION['user']['name']; ?>
+                            <b>Имя:</b>
+                             <?php echo $_SESSION['user']['name']; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>Отчество</b>
-                            : <?php echo $_SESSION['user']['patronymic']; ?>
+                            <b>Отчество:</b>
+                            <?php echo $_SESSION['user']['patronymic']; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>Пол</b>
-                            : <?php if ($_SESSION['user']['gender'] == 'ж') {
+                            <b>Пол:</b>
+                             <?php if ($_SESSION['user']['gender'] == 'ж') {
                                 echo 'женский';
                             } else {
                                 echo 'мужской';
                             }; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>Дата рождения</b>
-                            : <?php echo $_SESSION['user']['birthday']; ?>
+                            <b>Дата рождения:</b>
+                            <?php echo (formatDate($_SESSION['user']['birthday'])); ?>
                         </span>
                         <span class="group-row-title">
-                            <b>Я не придумала что ту еще может быть</b>
+                            <b>Номер читательской карточки:</b>
+                            <?php echo $_SESSION['user']['card']; ?>
                         </span>
                         <span class="group-row-title">
-                            <b>C</b>
-                        </span>
-                        <span class="group-row-title">
-                            <b>I</b>
-                        </span>
-                        <span class="group-row-title">
-                            <b>R</b>
+                            <b>Email:</b>
+                            <?php if (isset($_SESSION['user']['email'])){
+                                echo $_SESSION['user']['email'];
+                            } else {
+                                echo 'Не указана';
+                            }
+                            ?>
                         </span>
                     </div>
                 </div>
@@ -301,3 +305,26 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 </body>
 </html>
+
+<?php function formatDate($date) {
+    $months = array(
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    );
+    $dateParts = explode('-', $date);
+    $day = (int)$dateParts[2];
+    $month = $months[(int)$dateParts[1]-1];
+    $year = (int)$dateParts[0];
+    return $day.' '.$month.' '.$year.' г.';
+}
+?>

@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,36 +23,7 @@
 
 <br>
 <main class="main-body page-content">
-    <section class="header">
-        <div class="header-context profile-context">
-            <div class="header-container">
-                <ul class="nav context">
-                    <li class="standard">
-                        <a href="/views/reader/">←</a>
-                    </li>
-                    <li class="standard">
-                        <a href="/views/account/editprofile">Профиль</a>
-                    </li>
-                    <li class="active" style="position: relative;">
-                        <div id="div-profileedit-account-dropdown" class="div-context-more ll-toggle-hide"
-                             style="margin-top: 65px; left: 0px; margin-left: 0px; display: none">
-                            <div class="div-context-shadow" onclick="hideAccountDetails()"></div>
-                            <ul id="ul-context-more" class="share-menu share-menu-ul oneline">
-                                <li class="personal"><a href="/views/account/editemail">Добавить email</a></li>
-                                <li class="personal"><a href="/views/account/editpassword/">Установить пароль</a></li>
-                                <li class="personal"><a href="/views/account/lastvisits/">Входы в аккаунт</a></li>
-                                <li class="personal"><a href="/views/account/close/">Закрыть аккаунт</a></li>
-                            </ul>
-                        </div>
-                        <a onclick="showAccountDetails()">Аккаунт</a>
-                    </li>
-                    <li class="standard">
-                        <a href="/views/account/security/" style="color:#FA385D">Настройки безопасности</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/editheader.php"; ?>
 </main>
 
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/footer.php"; ?>

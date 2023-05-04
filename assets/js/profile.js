@@ -28,3 +28,4 @@ function showAccountDetails(){
 function hideAccountDetails(){
     document.getElementById('div-profileedit-account-dropdown').style.display = 'none';
 }
+

@@ -1,7 +1,6 @@
-
 <header class="page-header">
     <div class="page-header__wrapper">
-        <a class="page-header__logo" href="/index.php">
+        <a class="page-header__logo" href="/">
             <img alt="The Book" height="55" src="/assets/images/logo-promo.PNG" width="200">
         </a>
         <div class="page-header__search">
@@ -14,15 +13,115 @@
             </form>
           </span>
         </div>
-        <button class="page-header__login" onclick="showRegForm()">Войти</button>
+
+        <?php if (isset($_SESSION['user'])) : ?>
+            <details class="user-nav ll-details-closed">
+                <summary class="user-nav__toggle" title="Меню">
+                    <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                         src="<?php if (isset($_SESSION['user']['avatar_path'])) {
+                             echo $_SESSION['user']['avatar_path'];
+                         } else {
+                             echo '/assets/images/noavatar.svg';
+                         } ?>" width="100%" height="100%">
+                </summary>
+                <ul class="user-nav__list" data-simplebar="init">
+                    <div class="simplebar-wrapper" style="margin: -14px 0;">
+                        <div class="simplebar-mask">
+                            <div class="simplebar-offset" style="right: 0; bottom: 0;">
+                                <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
+                                    <div class="simplebar-content" style="padding: 14px 0;">
+                                        <li class="user-nav__item">
+                                            <a class="user-nav__login" href="/views/reader">
+                                                <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                                                     src="<?php if (isset($_SESSION['user']['avatar_path'])) {
+                                                         echo $_SESSION['user']['avatar_path'];
+                                                     } else {
+                                                         echo '/assets/images/noavatar.svg';
+                                                     } ?>" width="100%"
+                                                     height="100%">
+                                                <p><?php echo $_SESSION['user']['login']; ?></p>
+                                            </a>
+                                        </li>
+                                        <li class="user-nav__item">
+                                            <details>
+                                                <summary>
+                                                    <a href="/">Мои книги</a>
+                                                </summary>
+                                                <div>
+                                                    <a href="/">Хочу прочитать</a>
+                                                    <a href="/">Читаю сейчас</a>
+                                                    <a href="/">Прочитала</a>
+                                                </div>
+                                            </details>
+                                        </li>
+                                        <li class="user-nav__item"><a href="/api/controller/user/user.php">Выйти</a>
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </details>
+        <?php else: ?>
+            <button class="page-header__login" onclick="showRegForm()">Войти</button>
+        <?php endif; ?>
     </div>
 
     <div class="page-header__wrapper-mob">
         <div class="page-header__mob">
-            <a class="page-header__logo-mob" href="#">
+            <a class="page-header__logo-mob" href="/">
                 <img alt="The Book" height="55" src="/assets/images/logo-promo.PNG" width="200">
             </a>
-            <button class="page-header__login-mob" onclick="showRegForm()">Войти</button>
+            <?php if (isset($_SESSION['user'])) : ?>
+                <details class="user-nav ll-details-closed">
+                    <summary class="user-nav__toggle" title="Меню">
+                        <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                             src="<?php if (isset($_SESSION['user']['avatar_path'])) {
+                                 echo $_SESSION['user']['avatar_path'];
+                             } else {
+                                 echo '/assets/images/noavatar.svg';
+                             } ?>" width="100%" height="100%">
+                    </summary>
+                    <ul class="user-nav__list" data-simplebar="init">
+                        <div class="simplebar-wrapper" style="margin: -14px 0;">
+                            <div class="simplebar-mask">
+                                <div class="simplebar-offset" style="right: 0; bottom: 0;">
+                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
+                                        <div class="simplebar-content" style="padding: 14px 0;">
+                                            <li class="user-nav__item">
+                                                <a class="user-nav__login"
+                                                   href="/views/reader">
+                                                    <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                                                         src="<?php echo $_SESSION['user']['avatar_path']; ?>"
+                                                         width="100%" height="100%">
+                                                    <p><?php echo $_SESSION['user']['login']; ?></p>
+                                                </a>
+                                            </li>
+                                            <li class="user-nav__item">
+                                                <details>
+                                                    <summary>
+                                                        <a href="/">Мои книги</a>
+                                                    </summary>
+                                                    <div>
+                                                        <a href="/">Хочу прочитать</a>
+                                                        <a href="/">Читаю сейчас</a>
+                                                        <a href="/">Прочитала</a>
+                                                    </div>
+                                                </details>
+                                            </li>
+                                            <li class="user-nav__item"><a href="/api/controller/user/user.php">Выйти</a>
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </details>
+            <?php else: ?>
+                <button class="page-header__login" onclick="showRegForm()">Войти</button>
+            <?php endif; ?>
         </div>
         <div class="page-header__search-mob">
           <span style="display: inline-block; width: 100%" tabindex="1">
@@ -38,9 +137,9 @@
 
     <nav>
         <ul class="main-menu">
-            <li><a href="/index.php">Главная</a></li>
-            <li><a href="./views/reader/">Жанры</a></li>
-            <li><a href="#">Авторы</a></li>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/">Жанры</a></li>
+            <li><a href="/">Авторы</a></li>
         </ul>
     </nav>
 </header>
@@ -68,6 +167,7 @@
                     <a class="popup__showHideButton" href="#" onclick="return showHidePassword(this);"></a>
                 </div>
             </div>
+            <span class="popup__reg-error"></span>
             <div class="popup__space"></div>
             <button class="popup__btn-login" name="log">Войти</button>
             <p class="popup__new-p">Новая учетная запись</p>

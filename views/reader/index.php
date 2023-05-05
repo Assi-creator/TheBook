@@ -8,7 +8,7 @@
     <title>Мой профиль</title>
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link href="/assets/css/header.css" rel="stylesheet">
+    <link href="/assets/css/template.css" rel="stylesheet">
     <link rel="shortcut icon" href="/assets/images/the-book-icon.ico" type="image/x-i con">
     <link href="/assets/libs/node_modules/cropperjs/dist/cropper.css" rel="stylesheet">
 
@@ -212,19 +212,19 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                 <div id="menu-inner" class="menu-group" style="overflow: hidden; height: 60px;">
                     <ul id="menu-container" class="nav context">
                         <li class="active" data-width="65">
-                            <a href="/reader/NastyaMastyugina">Профиль</a>
+                            <a href="/reader/">Профиль</a>
                         </li>
                         <li class="personal" data-width="65">
-                            <a href="/reader/NastyaMastyugina">Мои книги</a>
+                            <a href="/reader/mybook/">Мои книги</a>
                         </li>
                         <li class="personal" data-width="65">
-                            <a href="/reader/NastyaMastyugina">Прочитала</a>
+                            <a href="/reader/read/">Прочитала</a>
                         </li>
                         <li class="personal" data-width="65">
-                            <a href="/reader/NastyaMastyugina">Хочу прочитать</a>
+                            <a href="/reader/wish/">Хочу прочитать</a>
                         </li>
                         <li class="personal" data-width="65">
-                            <a href="/reader/NastyaMastyugina">Читаю сейчас</a>
+                            <a href="/reader/reading/">Читаю сейчас</a>
                         </li>
                     </ul>
                 </div>

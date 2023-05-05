@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Читайте, изучайте интересные подборки книг, делитесь впечатлениями о книгах">
 
-    <title>Входы в аккаунт</title>
+    <title>Восстановление пароля</title>
 
     <link rel="stylesheet" href="/assets/css/main.css">
     <link href="/assets/css/template.css" rel="stylesheet">
@@ -23,10 +21,11 @@
 
 <br>
 <main class="main-body page-content">
-    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/editheader.php"; ?>
+
 </main>
 
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/footer.php"; ?>
 
 </body>
 </html>
+

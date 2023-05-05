@@ -10,7 +10,7 @@
     <title>Настройки безопасности</title>
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link href="/assets/css/header.css" rel="stylesheet">
+    <link href="/assets/css/template.css" rel="stylesheet">
     <link rel="shortcut icon" href="/assets/images/the-book-icon.ico" type="image/x-i con">
 
     <script src="/assets/js/header.js" defer></script>

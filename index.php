@@ -10,7 +10,7 @@
     <title>Библиотека им. Л.Н.Толстого</title>
 
     <link href="assets/css/main.css" rel="stylesheet">
-    <link href="assets/css/header.css" rel="stylesheet">
+    <link href="assets/css/template.css" rel="stylesheet">
     <link href="assets/images/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
 
     <script defer src="/assets/js/header.js"></script>

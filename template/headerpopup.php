@@ -1,14 +1,14 @@
 <div class="popup__modal">
-    <form class="popup__regForm" method="POST" action="/api/controller/user/user.php">
+    <form class="popup__regForm">
         <div class="popup__wrapper">
-            <a class="popup__btn-close" onclick="closeRegForm()"></a>
+            <a class="popup__btn-close"></a>
             <div class="popup__logo">
-                <img alt="The Book" src="/assets/images/logo-promo.PNG" style="width: 240px !important; height: 70px !important;">
+                <img alt="The Book" src="/assets/images/root/icons/logo-promo.PNG" style="width: 240px !important; height: 70px !important;">
             </div>
             <hr>
             <div class="popup__title">
                 <h1>Войти</h1>
-                <a onclick="showForgotPassForm()">Забыли пароль?</a>
+                <a>Забыли пароль?</a>
             </div>
             <div class="popup__input">
                 <label>
@@ -21,21 +21,22 @@
                     <a class="popup__showHideButton" href="#" onclick="return showHidePassword(this);"></a>
                 </div>
             </div>
-            <span class="popup__reg-error"></span>
-            <div class="popup__space"></div>
+            <div class="popup__space">
+                <p class="popup__reg-error"></p>
+            </div>
             <button class="popup__btn-login" name="log">Войти</button>
             <p class="popup__new-p">Новая учетная запись</p>
-            <button class="popup__btn-newAccount">Создать учетную запись</button>
+            <a class="popup__btn-newAccount" onclick="document.location='../../views/registration/'">Создать учетную запись</a>
             <p class="popup__submit">Продолжая, вы соглашаетесь с <a href="#">политикой обработки персональных
                     данных</a></p>
         </div>
     </form>
 
-    <form class="popup__forgotPass" method="POST" action="/api/controller/user/user.php">
+    <form class="popup__forgotPass">
         <div class="popup__wrapper">
-            <a class="popup__btn-back" onclick="backToForm()"></a>
+            <a class="popup__btn-back"></a>
             <div class="popup__logo">
-                <img alt="The Book" src="/assets/images/logo-promo.PNG" style="width: 240px !important; height: 70px !important;">
+                <img alt="The Book" src="/assets/images/root/icons/logo-promo.PNG" style="width: 240px !important; height: 70px !important;">
             </div>
             <hr>
             <div class="popup__title-forgot">

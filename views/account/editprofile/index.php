@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="/assets/css/main.css">
     <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/images/the-book-icon.ico" type="image/x-i con">
+    <link rel="shortcut icon" href="/assets/images/root/icons/the-book-icon.ico" type="image/x-i con">
 
     <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
@@ -39,7 +39,7 @@
                             <div style="display:flex; justify-content: space-between;">
                                 <label class="label-form" for="account-name">Логин</label>
                                 <a title="Ваш логин должен содержать не более 30 символов.">
-                                    <img src="/assets/images/icon-question.png" style="width: 20px !important; height: 20px !important; object-fit: cover; border-radius: 50%; cursor: help;">
+                                    <img src="/assets/images/root/icons/icon-question.png" style="width: 20px !important; height: 20px !important; object-fit: cover; border-radius: 50%; cursor: help;">
                                 </a>
                             </div>
                             <div class="form-input">

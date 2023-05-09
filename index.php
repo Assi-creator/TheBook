@@ -1,4 +1,6 @@
-<?php session_start();?>
+<?php
+include 'api/controller/book/book.php';
+session_start();?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,9 +13,7 @@
 
     <link href="assets/css/main.css" rel="stylesheet">
     <link href="assets/css/template.css" rel="stylesheet">
-    <link href="assets/images/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
-
-    <script defer src="/assets/js/header.js"></script>
+    <link href="assets/images/root/icons/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
 
 <body>
@@ -36,12 +36,11 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                         <div class="slick-track" style="opacity: 1; width: 3500px; transform: translate3d(0px, 0px, 0px);">
 
                             <?php
-                                include 'api/controller/book/book.php';
                                 $result = (new Book)->test();
 
                                 foreach ($result as $book): ?>
                             <li class="slide-book__item slick-slide slick-current slick-active" data-book-id="<?php echo $book['id']; ?>" data-author-id="id" data-slick-index="0">
-                                <a class="slide-book__link" href="#" tabindex="0">
+                                <a class="slide-book__link" href="/views/book/?book=<?php echo $book['id']?>" tabindex="0">
                                     <img alt="name" src="<?php echo $book['image'] ?>" width="100%" height="auto">
                                 </a>
                                 <div class="slide-book__wrapper">

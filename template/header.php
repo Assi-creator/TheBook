@@ -1,7 +1,10 @@
+<script src="/assets/libs/jquery-3.6.4.min.js"></script>
+<script defer src="/assets/js/header.js"></script>
+
 <header class="page-header">
     <div class="page-header__wrapper">
         <a class="page-header__logo" href="/">
-            <img alt="The Book" src="/assets/images/logo-promo.PNG" style="width: 200px !important; height: 55px !important;">
+            <img alt="The Book" src="/assets/images/root/icons/logo-promo.PNG" style="width: 200px !important; height: 55px !important;">
         </a>
         <div class="page-header__search">
           <span style="display: inline-block; width: 100%" tabindex="1">
@@ -45,12 +48,12 @@
                                         <li class="user-nav__item">
                                             <details>
                                                 <summary>
-                                                    <a href="/">Мои книги</a>
+                                                    <a href="/../views/reader/mybook/">Мои книги</a>
                                                 </summary>
                                                 <div>
-                                                    <a href="/">Хочу прочитать</a>
-                                                    <a href="/">Читаю сейчас</a>
-                                                    <a href="/">Прочитала</a>
+                                                    <a href="/../views/reader/wish/">Хочу прочитать</a>
+                                                    <a href="/../views/reader/reading/">Читаю сейчас</a>
+                                                    <a href="/../views/reader/read/">Прочитала</a>
                                                 </div>
                                             </details>
                                         </li>
@@ -64,14 +67,14 @@
                 </ul>
             </details>
         <?php else: ?>
-            <button class="page-header__login" onclick="showRegForm()">Войти</button>
+            <button class="page-header__login">Войти</button>
         <?php endif; ?>
     </div>
 
     <div class="page-header__wrapper-mob">
         <div class="page-header__mob">
             <a class="page-header__logo-mob" href="/">
-                <img alt="The Book" src="/assets/images/logo-promo.PNG" style="width: 200px !important; height: 55px !important;">
+                <img alt="The Book" src="/assets/images/root/icons/logo-promo.PNG" style="width: 200px !important; height: 55px !important;">
             </a>
             <?php if (isset($_SESSION['user'])) : ?>
                 <details class="user-nav ll-details-closed">
@@ -120,7 +123,7 @@
                     </ul>
                 </details>
             <?php else: ?>
-                <button class="page-header__login" onclick="showRegForm()">Войти</button>
+                <button class="page-header__login">Войти</button>
             <?php endif; ?>
         </div>
         <div class="page-header__search-mob">
@@ -138,7 +141,7 @@
     <nav>
         <ul class="main-menu">
             <li><a href="/">Главная</a></li>
-            <li><a href="/">Жанры</a></li>
+            <li><a href="/../views/genres/">Жанры</a></li>
             <li><a href="/">Авторы</a></li>
         </ul>
     </nav>

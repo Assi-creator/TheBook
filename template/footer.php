@@ -48,7 +48,7 @@
             <div class="footer-logo-block">
                 <div class="footer-logo-block-wrapper">
                     <a class="footer-logo" href="#">
-                        <img alt="The Book" src="/assets/images/logo-nobg-black.png" style="width: 150px !important; height: 45px !important;">
+                        <img alt="The Book" src="/assets/images/root/icons/logo-nobg-black.png" style="width: 150px !important; height: 45px !important;">
                     </a>
                     <p class="footer-copyright">© The Book 2023</p>
                 </div>

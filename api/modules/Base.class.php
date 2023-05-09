@@ -21,4 +21,21 @@ class Base
         $this->config   = new ConfigBase();
         $this->db       = new DataBase($this->config::DB_CONNECT);
     }
+
+    function request_api(bool $ok = false, $result = null, string $description = ''): array
+    {
+        if($ok === true){
+            return array(
+                'ok' => true,
+                'result'=> $result,
+            );
+
+        }else{
+            return array(
+                'ok' => false,
+                'description'=> $description,
+            );
+        }
+
+    }
 }

@@ -38,19 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'session') {
     } else {
         $avatar = setAvatar($_POST, $_FILES);
 
+        $reader = (new DataBase)->getRow("SELECT id_reader FROM reader WHERE card='" . $card . "'");
         $password = trim($_POST['password']);
         $about = trim($_POST['about']);
 
         $query = "INSERT INTO profile SET ?u";
         $in = array(
             'login' => $login,
-            'password' => $password,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
             'about' => $about,
             'email' => $email,
             'reserved_email' => null,
             'avatar_path' => $avatar,
             'cover_path' => null,
-            'id_reader' => 1
+            'id_reader' => $reader['id_reader']
         );
         echo json_encode($base->request_api(true, null));
         $base->db->query($query, $in);

@@ -25,13 +25,13 @@ $('.popup__btn-login').click(function (e) {
 
 
     $.ajax({
-        url: '../../api/controller/user/user.php',
+        url: '../../api/controller/session/session.php',
         type: 'POST',
         dataType: 'JSON',
         data: {
             login: login,
             password: password,
-            action: 'auth'
+            action: 'session'
         },
         success(data) {
             if (data.ok) {
@@ -77,12 +77,20 @@ $('.menu-item').click(function (e) {
 
 
 let avatar;
+let value;
 $('input[name="profile-file"]').change(function (e) {
     avatar = e.target.files[0];
-    console.log(avatar)
 });
 
-let error;
+const buttons = document.querySelectorAll('a[data-id]');
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        const id = this.dataset.id;
+        const input = document.querySelector(`#${id}`);
+        value = input.value;
+    });
+});
+
 $('#btn_reg').click(function (e) {
     e.preventDefault();
 
@@ -98,7 +106,6 @@ $('#btn_reg').click(function (e) {
         avatarurl = $('input[name="profile-url"]').val();
 
         let formData = new FormData();
-        formData.append('avatar', avatar);
         formData.append('action', 'reg');
         formData.append('card', card);
         formData.append('reader', reader);
@@ -106,11 +113,13 @@ $('#btn_reg').click(function (e) {
         formData.append('password', password);
         formData.append('email', email);
         formData.append('about', about);
+        formData.append('value', value);
+        formData.append('avatar', avatar);
         formData.append('avatarurl', avatarurl);
 
 
         $.ajax({
-            url: '../../api/controller/user/user.php',
+            url: '../../api/controller/session/session.php',
             type: 'POST',
             processData: false,
             contentType: false,

@@ -128,15 +128,12 @@ if (isset($_SESSION['user'])) {
                             </div>
 
                             <div class="tb-column-sep"></div>
-                            <div class="tb-column-2 radiogroup">
-                            </div>
-
-
+                            <div class="tb-column-2 radiogroup"></div>
                         </div>
                         <div class="form-row">
                             <div class="tb-column-2 radiogroup">
                                 <a id="account_picture" class="campaign-groups-a color-gray ll-toggle-active menu-item" data-radio="campaign-groups-a" data-id="account_picture_action_new"><span class="ub-check"></span>Загрузить с компьютера</a>
-                                <input id="account_picture_action_new" name="account[picture_action]" value="new" style="display:none;" type="radio">
+                                <input id="account_picture_action_new" name="account[picture_action]" value="new" style="display:none;" type="radio" checked="checked">
                                 <div class="form-file form-bottom-checkgroup">
                                     <input type="file" name="profile-file">
                                 </div>
@@ -146,7 +143,7 @@ if (isset($_SESSION['user'])) {
 
                             <div class="tb-column-2 radiogroup">
                                 <a id="account_url" class="campaign-groups-a color-gray ll-toggle-active menu-item" data-radio="campaign-groups-a" data-id="account_picture_action_url"><span class="ub-check"></span>Ссылка на внешнюю картинку</a>
-                                <input id="account_picture_action_url" name="account[picture_action]" value="url" style="display:none;" type="radio">
+                                <input id="account_picture_action_url" name="account[picture_action]" value="url" style="display:none;" type="radio" checked="checked">
                                 <div class="form-input form-bottom-checkgroup">
                                     <input placeholder="http://" type="text" name="profile-url" value=""">
                                 </div>

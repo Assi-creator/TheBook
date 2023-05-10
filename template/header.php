@@ -113,7 +113,7 @@
                                                     </div>
                                                 </details>
                                             </li>
-                                            <li class="user-nav__item"><a href="/api/controller/user/user.php">Выйти</a>
+                                            <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a>
                                             </li>
                                         </div>
                                     </div>

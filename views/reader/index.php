@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: /index.php');
+} ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,10 +72,10 @@
                         </span>
                         <span class="group-row-title">
                             <b>Email:</b>
-                            <?php if (isset($_SESSION['user']['email'])){
+                            <?php if (($_SESSION['user']['email']) != ''){
                                 echo $_SESSION['user']['email'];
                             } else {
-                                echo 'Не указана';
+                                echo 'Не указан';
                             }
                             ?>
                         </span>
@@ -89,7 +92,11 @@
                 </div>
                 <div class="with-pad">
                     <div id="user-about">
-                        <?php echo $_SESSION['user']['about']; ?>
+                        <?php if($_SESSION['user']['about'] == '' || $_SESSION['user']['about'] == null){
+                            echo 'Информация отсутствует';
+                        }else{
+                            echo $_SESSION['user']['about'];
+                        } ?>
                     </div>
                 </div>
             </div>

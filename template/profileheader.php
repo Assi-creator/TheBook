@@ -1,24 +1,15 @@
 <section class="header">
-
     <!--Верхнее меню-->
     <div id="profile-bg-wrapper" class="gp-wrapper user-profile"
-         style="background-image: url(<?php if (isset($_SESSION['user']['avatar_path'])) {
-             echo $_SESSION['user']['cover_path'];
-         } else {
-             echo '/assets/images/back-profile.png';
-         } ?>); center center no-repeat; object-fit: cover; background-size: cover !important; height: 148px; width: 100%;">
+         style="background: url(<?php echo $_SESSION['user']['cover_path']; ?>) <?php if($_SESSION['user']['cover_path'] === '/assets/images/root/icons/back-profile.png'){echo 'center center repeat-x #dbe0e6; background-size: contain !important;';} else{echo 'center center no-repeat; background-size: cover !important;';} ?> ;  height: 148px; width: 100%;">
         <div class="gp-outer">
             <div class="gp-inner">
                 <table class="gp-table">
                     <tbody>
                     <tr>
                         <td class="gp-avatar">
-                            <div id="profile-avatar" class="profile-avatar"
-                                 style="background-image: url(<?php if (isset($_SESSION['user']['avatar_path'])) {
-                                     echo $_SESSION['user']['avatar_path'];
-                                 } else {
-                                     echo '/assets/images/noavatar.svg';
-                                 } ?>); object-fit: cover; color: white;">
+                            <div id="profile-avatar" class="profile-avatar">
+                                 <img src="<?php echo $_SESSION['user']['avatar_path']; ?>" height="100%" width="100%" style="width:92px !important; height:92px !important; object-fit: cover;"  alt="">
                                 <div id="userpic-edit" class="userpic-edit">
                                     <div class="userpic-edit-back"></div>
                                     <a class="userpic-edit-a" onclick="showImagePopup()">
@@ -182,8 +173,13 @@
     </div>
 
     <?php
+    include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
+    use TheBook\User;
+
+    $user = new User;
     $url =  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     $url = explode('/', $url);
+    $countAction = $user->getCountActionForProfile($_SESSION['user']['id_profile']);
 
     ?>
 
@@ -205,17 +201,21 @@
                     <li <?php if ($url[3] == 'read') {
                         echo 'class="active"';
                     }  ?>>
-                        <a href="/views/reader/read/">Прочитала</a>
+                        <a href="/views/reader/read/">Прочитала <b><?php echo $countAction['read']; ?></b></a>
                     </li>
                     <li <?php if ($url[3] == 'wish') {
                         echo 'class="active"';
                     } ?>>
-                        <a href="/views/reader/wish/">Хочу прочитать</a>
+                        <a href="/views/reader/wish/">Хочу прочитать <b><?php echo $countAction['reading']; ?></b></a>
                     </li>
                     <li <?php if ($url[3] == 'reading') {
                         echo 'class="active"';
                     } ?>>
-                        <a href="/views/reader/reading/">Читаю сейчас</a>
+                        <a href="/views/reader/reading/">Читаю сейчас <b><?php echo $countAction['wish']; ?></b></a>
+                    </li>
+
+                    <li>
+                        <a href="/views/reader/reading/">Мои рецензии <b>0</b></a>
                     </li>
                 </ul>
             </div>

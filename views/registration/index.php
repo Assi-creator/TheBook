@@ -17,9 +17,6 @@ if (isset($_SESSION['user'])) {
     <link rel="stylesheet" href="/assets/css/main.css">
     <link href="/assets/css/template.css" rel="stylesheet">
     <link rel="shortcut icon" href="/assets/images/root/icons/the-book-icon.ico" type="image/x-i con">
-    <link href="/assets/libs/node_modules/cropperjs/dist/cropper.css" rel="stylesheet">
-
-    <script src="/assets/libs/node_modules/cropperjs/dist/cropper.js"></script>
 </head>
 <body>
 
@@ -41,7 +38,7 @@ if (isset($_SESSION['user'])) {
                                         style="width: 10px; height: 10px; color: red; display: inline-block;">*</p>
                                 </label>
                                 <div class="form-input">
-                                    <input class="index _req" id="card-index" maxlength="11" type="text" name="card-index" value="">
+                                    <input class="index _req" id="card-index" maxlength="11" type="text" placeholder="00000000000" name="card-index" value="">
                                 </div>
                             </div>
                             <div class="tb-column-sep"></div>
@@ -53,7 +50,7 @@ if (isset($_SESSION['user'])) {
                                         style="width: 10px; height: 10px; color: red; display: inline-block;">*</p>
                                 </label>
                                 <div class="form-input">
-                                    <input class="reader _req" id="name-reader" type="text" name="name-reader" value="">
+                                    <input class="reader _req" id="name-reader" type="text" placeholder="Иванов Иван Иванович" name="name-reader" value="">
                                 </div>
                             </div>
                             <div class="tb-column-sep"></div>

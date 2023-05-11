@@ -24,15 +24,16 @@ a {
 
 .page-header {
     width: 100%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
 }
 
 .page-header__wrapper {
     height: inherit;
     display: flex;
     align-items: center;
-    max-width: 100%;
+    max-width: 1200px;
     box-sizing: border-box;
+    margin: 0 auto;
 }
 
 .page-header__logo {
@@ -46,7 +47,7 @@ a {
 .main-menu {
     list-style-type: none;
     padding-left: 0;
-    margin-bottom: 0;
+    margin: 0 15px;
 }
 
 .main-menu li {
@@ -419,6 +420,63 @@ a {
         width: 90%;
     }
 
+}
+
+#tinyalert {
+    position: fixed;
+    z-index: 10004;
+    max-height: 100%;
+    overflow: hidden;
+    font-size: 14px;
+    color: #000000;
+    top: 11px;
+    right: 11px;
+}
+
+#tinyalert > div {
+    width: 240px;
+    margin: 0 0 14px;
+    -moz-box-shadow: 1px 1px 3px #c8c8c8;
+    -webkit-box-shadow: 1px 1px 3px #c8c8c8;
+    box-shadow: 1px 1px 3px #c8c8c8;
+    position: relative;
+    border-radius: 11px;
+    -moz-border-radius: 11px;
+    -webkit-border-radius: 11px;
+}
+
+#tinyalert > div.green {
+    background-color: #9fe581;
+    padding: 14px 21px;
+}
+
+#tinyalert > div.red {
+    background-color: #FF7575;
+    padding: 14px 21px;
+}
+
+a.action {
+    display: inline-block;
+    white-space: nowrap;
+    color: #757B82;
+    text-decoration: none;
+    font-size: 80%;
+    line-height: 140%;
+}
+
+.a-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.a-close .i-clear {
+    background: url(/assets/images/root/icons/sprite.png) no-repeat -51px -17px !important;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 3px;
+    vertical-align: -4px;
 }
 
 /*#endregion header.php*/

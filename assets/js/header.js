@@ -1,3 +1,6 @@
+let avatar;
+let value;
+let alert = document.getElementById('tinyalert');
 $('.page-header__login').click(function (e) {
     $('.popup__regForm').addClass('open');
     $('.popup__modal').addClass('popup_open');
@@ -25,7 +28,7 @@ $('.popup__btn-login').click(function (e) {
 
 
     $.ajax({
-        url: '../../api/controller/session/session.php',
+        url: '/api/controller/session/session.php',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -75,11 +78,9 @@ $('.menu-item').click(function (e) {
     }
 });
 
-
-let avatar;
-let value;
 $('input[name="profile-file"]').change(function (e) {
     avatar = e.target.files[0];
+    console.log(avatar)
 });
 
 const buttons = document.querySelectorAll('a[data-id]');
@@ -88,6 +89,7 @@ buttons.forEach(button => {
         const id = this.dataset.id;
         const input = document.querySelector(`#${id}`);
         value = input.value;
+        console.log(value)
     });
 });
 
@@ -95,6 +97,7 @@ $('#btn_reg').click(function (e) {
     e.preventDefault();
 
     let error = formValidate();
+    alert.innerHTML = ''
 
     if (error === 0) {
         let card = $('input[name="card-index"]').val(),
@@ -119,14 +122,21 @@ $('#btn_reg').click(function (e) {
 
 
         $.ajax({
-            url: '../../api/controller/session/session.php',
+            url: '/api/controller/session/session.php',
             type: 'POST',
             processData: false,
             contentType: false,
             cache: false,
             data: formData,
             success(data) {
-                console.log(data)
+                let response = JSON.parse(data)
+                if (response.ok === true){
+                    document.location.href = '/index.php';
+                } else {
+                    let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + response.description + '</div>'
+                    alert.innerHTML += message
+                    window.scrollTo(0, 0);
+                }
             }
         });
     } else {
@@ -134,9 +144,57 @@ $('#btn_reg').click(function (e) {
     }
 });
 
+$('#btn-editprofile-save').click(function (e) {
+    e.preventDefault();
+    let error = 0;
+    alert.innerHTML = ''
+    if (error === 0) {
+        let login = $('input[name="profile-login"]').val(),
+            about = $('textarea[name="profile-about"]').val();
+        avatarurl = $('input[name="profile-url"]').val();
+
+        let formEditData = new FormData();
+        formEditData.append('action', 'editprofile');
+        formEditData.append('login', login);
+        formEditData.append('about', about);
+        formEditData.append('value', value);
+        formEditData.append('avatar', avatar);
+        formEditData.append('avatarurl', avatarurl);
+
+        $.ajax({
+            url: '/api/controller/user/account.php',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formEditData,
+            success(data) {
+                let response = JSON.parse(data)
+                if (response.ok === true){
+                    let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Профиль изменен</div>'
+                    alert.innerHTML += message
+                    window.scrollTo(0, 0);
+                } else {
+                    let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + response.description + '</div>'
+                    alert.innerHTML += message
+                    window.scrollTo(0, 0);
+                }
+            }
+        });
+    }
+});
+
+
+
+
+function Close(){
+    alert.innerHTML = ''
+}
+
 function formValidate() {
     let error = 0;
     let formReq = document.querySelectorAll('._req');
+    let email = document.getElementById('profile-email');
 
     for (let index = 0; index < formReq.length; index++) {
         const input = formReq[index];

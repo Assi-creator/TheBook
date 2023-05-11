@@ -46,7 +46,7 @@
                                             </a>
                                         </li>
                                         <li class="user-nav__item">
-                                            <details>
+                                            <details open="">
                                                 <summary>
                                                     <a href="/../views/reader/mybook/">Мои книги</a>
                                                 </summary>
@@ -57,7 +57,7 @@
                                                 </div>
                                             </details>
                                         </li>
-                                        <li class="user-nav__item"><a href="/api/controller/user/user.php">Выйти</a>
+                                        <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a>
                                         </li>
                                     </div>
                                 </div>
@@ -70,6 +70,8 @@
             <button class="page-header__login">Войти</button>
         <?php endif; ?>
     </div>
+
+    <div id="tinyalert"></div>
 
     <div class="page-header__wrapper-mob">
         <div class="page-header__mob">
@@ -138,7 +140,12 @@
         </div>
     </div>
 
-    <nav>
+    <nav style="height: inherit;
+                display: flex;
+                align-items: center;
+                max-width: 1200px;
+                box-sizing: border-box;
+                margin: 0 auto;">
         <ul class="main-menu">
             <li><a href="/">Главная</a></li>
             <li><a href="/../views/genres/">Жанры</a></li>

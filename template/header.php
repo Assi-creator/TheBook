@@ -21,49 +21,30 @@
             <details class="user-nav ll-details-closed">
                 <summary class="user-nav__toggle" title="Меню">
                     <img alt="<?php echo $_SESSION['user']['login']; ?>"
-                         src="<?php if (isset($_SESSION['user']['avatar_path'])) {
-                             echo $_SESSION['user']['avatar_path'];
-                         } else {
-                             echo '/assets/images/noavatar.svg';
-                         } ?>" width="100%" height="100%">
+                         src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="100%" height="100%">
                 </summary>
                 <ul class="user-nav__list" data-simplebar="init">
-                    <div class="simplebar-wrapper" style="margin: -14px 0;">
-                        <div class="simplebar-mask">
-                            <div class="simplebar-offset" style="right: 0; bottom: 0;">
-                                <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
-                                    <div class="simplebar-content" style="padding: 14px 0;">
-                                        <li class="user-nav__item">
-                                            <a class="user-nav__login" href="/views/reader">
-                                                <img alt="<?php echo $_SESSION['user']['login']; ?>"
-                                                     src="<?php if (isset($_SESSION['user']['avatar_path'])) {
-                                                         echo $_SESSION['user']['avatar_path'];
-                                                     } else {
-                                                         echo '/assets/images/noavatar.svg';
-                                                     } ?>" width="100%"
-                                                     height="100%">
-                                                <p><?php echo $_SESSION['user']['login']; ?></p>
-                                            </a>
-                                        </li>
-                                        <li class="user-nav__item">
-                                            <details open="">
-                                                <summary>
-                                                    <a href="/../views/reader/mybook/">Мои книги</a>
-                                                </summary>
-                                                <div>
-                                                    <a href="/../views/reader/wish/">Хочу прочитать</a>
-                                                    <a href="/../views/reader/reading/">Читаю сейчас</a>
-                                                    <a href="/../views/reader/read/">Прочитала</a>
-                                                </div>
-                                            </details>
-                                        </li>
-                                        <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a>
-                                        </li>
-                                    </div>
-                                </div>
+                    <li class="user-nav__item">
+                        <a class="user-nav__login" href="/views/reader">
+                            <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                                 src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="100%" height="100%">
+                            <p><?php echo $_SESSION['user']['login']; ?></p>
+                        </a>
+                    </li>
+                    <li class="user-nav__item">
+                        <details open="">
+                            <summary>
+                                <a href="/views/reader/mybook/">Мои книги</a>
+                            </summary>
+                            <div>
+                                <a href="/views/reader/wish/">Хочу прочитать</a>
+                                <a href="/views/reader/reading/">Читаю сейчас</a>
+                                <a href="/views/reader/read/"><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'Прочитала';} else {echo 'Прочитал';} ?></a>
                             </div>
-                        </div>
-                    </div>
+                        </details>
+                    </li>
+                    <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
+                    <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a></li>
                 </ul>
             </details>
         <?php else: ?>
@@ -82,54 +63,39 @@
                 <details class="user-nav ll-details-closed">
                     <summary class="user-nav__toggle" title="Меню">
                         <img alt="<?php echo $_SESSION['user']['login']; ?>"
-                             src="<?php if (isset($_SESSION['user']['avatar_path'])) {
-                                 echo $_SESSION['user']['avatar_path'];
-                             } else {
-                                 echo '/assets/images/noavatar.svg';
-                             } ?>" width="100%" height="100%">
+                             src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="100%" height="100%">
                     </summary>
                     <ul class="user-nav__list" data-simplebar="init">
-                        <div class="simplebar-wrapper" style="margin: -14px 0;">
-                            <div class="simplebar-mask">
-                                <div class="simplebar-offset" style="right: 0; bottom: 0;">
-                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
-                                        <div class="simplebar-content" style="padding: 14px 0;">
-                                            <li class="user-nav__item">
-                                                <a class="user-nav__login"
-                                                   href="/views/reader">
-                                                    <img alt="<?php echo $_SESSION['user']['login']; ?>"
-                                                         src="<?php echo $_SESSION['user']['avatar_path']; ?>"
-                                                         width="100%" height="100%">
-                                                    <p><?php echo $_SESSION['user']['login']; ?></p>
-                                                </a>
-                                            </li>
-                                            <li class="user-nav__item">
-                                                <details>
-                                                    <summary>
-                                                        <a href="/../views/reader/mybook/">Мои книги</a>
-                                                    </summary>
-                                                    <div>
-                                                        <a href="/../views/reader/wish/">Хочу прочитать</a>
-                                                        <a href="/../views/reader/reading/">Читаю сейчас</a>
-                                                        <a href="/../views/reader/read/">Прочитала</a>
-                                                    </div>
-                                                </details>
-                                            </li>
-                                            <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a>
-                                            </li>
-                                        </div>
-                                    </div>
+                        <li class="user-nav__item">
+                            <a class="user-nav__login"
+                               href="/views/reader">
+                                <img alt="<?php echo $_SESSION['user']['login']; ?>"
+                                     src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="100%" height="100%">
+                                <p><?php echo $_SESSION['user']['login']; ?></p>
+                            </a>
+                        </li>
+                        <li class="user-nav__item">
+                            <details open="">
+                                <summary>
+                                    <a href="/views/reader/mybook/">Мои книги</a>
+                                </summary>
+                                <div>
+                                    <a href="/views/reader/wish/">Хочу прочитать</a>
+                                    <a href="/views/reader/reading/">Читаю сейчас</a>
+                                    <a href="/views/reader/read/"><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'Прочитала';} else {echo 'Прочитал';} ?></a>
                                 </div>
-                            </div>
-                        </div>
+                            </details>
+                        </li>
+                        <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
+                        <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a></li>
                     </ul>
                 </details>
             <?php else: ?>
-                <button class="page-header__login">Войти</button>
+                <button class="page-header__login" style="margin: auto 0;">Войти</button>
             <?php endif; ?>
         </div>
         <div class="page-header__search-mob">
-          <span style="display: inline-block; width: 100%" tabindex="1">
+          <span style=" display: inline-block; width: 100%" tabindex="1">
             <form autocomplete="off" method="POST">
               <div class="page-header__search-form">
                 <input class="page-header__search-input" placeholder="Поиск книги" type="text" value="">

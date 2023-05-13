@@ -12,9 +12,8 @@ if (!isset($_SESSION['user'])) {
 
     <title>Мой профиль</title>
 
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/images/root/icons/the-book-icon.ico" type="image/x-i con">
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
+
     <link href="/assets/libs/node_modules/cropperjs/dist/cropper.css" rel="stylesheet">
 
     <script src="/assets/libs/node_modules/cropperjs/dist/cropper.js"></script>
@@ -28,12 +27,12 @@ if (!isset($_SESSION['user'])) {
 
 <br>
 <br>
-<main class="page-content-reader main-body">
+<main class="page-content-reader page-content main-body">
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>
 
     <!--Начинка страницы-->
-    <div class="wrapper-ugc" style="max-width: 816px; margin-top: 25px;">
+    <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
         <section class="page-content__section">
             <h1>Мой профиль</h1>
             <div class="block-border card-block">

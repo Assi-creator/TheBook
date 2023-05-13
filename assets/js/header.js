@@ -184,6 +184,12 @@ $('#btn-editprofile-save').click(function (e) {
     }
 });
 
+$("div.header-card__menu").each(function() {
+    $(this).hover(function() {
+        $(this).find(".header-card__menu-block").toggleClass("show");
+    });
+});
+
 
 
 

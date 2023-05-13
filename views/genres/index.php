@@ -13,11 +13,7 @@ session_start(); ?>
 
     <title>Жанры</title>
 
-    <link href="/assets/css/main.css" rel="stylesheet">
-    <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
-    />
-    <link href="/assets/images/root/icons/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
     <script defer src="/assets/js/header.js"></script>
     <script defer src="/assets/libs/jquery-3.6.4.min.js"></script>

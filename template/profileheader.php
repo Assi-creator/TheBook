@@ -33,9 +33,7 @@
                                         <div class="div-context-shadow" onclick="hideMoreDetails()"></div>
                                         <div id="profile-menu-more" class="ll-select-holder"
                                              style="top: 36px; z-index: 10002;">
-                                            <a class="ll-select-row" onclick="showImagePopup()">Добавить
-                                                аватарку</a>
-                                            <a class="ll-select-row">Добавить обложку</a>
+                                            <a class="ll-select-row" onclick="showImagePopup()">Добавить обложку</a>
                                             <a class="ll-select-row" href="/views/account/editprofile/">Редактировать профиль</a>
                                         </div>
                                     </div>
@@ -201,7 +199,7 @@
                     <li <?php if ($url[3] == 'read') {
                         echo 'class="active"';
                     }  ?>>
-                        <a href="/views/reader/read/">Прочитала <b><?php echo $countAction['read']; ?></b></a>
+                        <a href="/views/reader/read/"><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'Прочитала';} else {echo 'Прочитал';} ?> <b><?php echo $countAction['read']; ?></b></a>
                     </li>
                     <li <?php if ($url[3] == 'wish') {
                         echo 'class="active"';
@@ -214,8 +212,10 @@
                         <a href="/views/reader/reading/">Читаю сейчас <b><?php echo $countAction['wish']; ?></b></a>
                     </li>
 
-                    <li>
-                        <a href="/views/reader/reading/">Мои рецензии <b>0</b></a>
+                    <li <?php if ($url[3] == 'reviews') {
+                        echo 'class="active"';
+                    } ?>>
+                        <a href="/views/reader/reviews/">Мои рецензии <b><?php echo $countAction['review']; ?></b></a>
                     </li>
                 </ul>
             </div>

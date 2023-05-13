@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     echo json_encode($base->request_api(true, null));
 }
 
-function checkExistsLogin($login)
+function checkExistsLogin($login): bool
 {
     $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE login = '" . $login . "' AND id_profile != '".$_SESSION['user']['id_profile']."'");
     return ($check['count'] == 0);

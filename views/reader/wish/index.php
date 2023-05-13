@@ -11,9 +11,7 @@ if (!isset($_SESSION['user'])) {
 
     <title>Хочу прочитать</title>
 
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/images/root/icons/the-book-icon.ico" type="image/x-i con">
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
     <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
@@ -25,33 +23,127 @@ if (!isset($_SESSION['user'])) {
 
 <br>
 <br>
-<main class="main-body page-content">
+<main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>
 
-    <div id="bodywrapper" style="margin-top: 25px">
-        <div id="innerwrapper">
-            <div id="contentwrapper">
-                <div style="margin: 0 auto">
-                    <div id="main-container" class="container container-main" style="min-height: 0px">
-                        <h1>Хочу прочитать</h1>
-                        <div id="es-top-wrapper" class="block-border card-block es-top-wrapper for-books">
-                            <div class="with-pads">
-                                <div class="es-img">
-                                    <img src="/assets/images/root/icons/wish.svg" alt="">
+    <?php
+    $api = new TheBook\Book;
+    $book = $api->getAllProfileBook($_SESSION['user']['id_profile']);
+
+    $wish = $book['wish'];
+    ?>
+    <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
+        <h1>Хочу прочитать</h1>
+        <?php if (!empty($wish)): ?>
+
+            <div class="blist-biglist" id="booklist">
+                <?php foreach ($wish as $reads): ?>
+                    <div class="book-item-manage">
+                        <div class="block-border card-block brow">
+                            <div class="brow-inner">
+
+                                <div class="brow-cover">
+                                    <div class="cover-wrapper">
+                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="">
+                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>"
+                                                 style="min-width: 140px; background-color: #ffffff;" width="140">
+                                        </a>
+                                    </div>
+                                    <div class="brow-rating"></div>
+                                    <div class="book-data">
+                                        <div class="userbook-container" style="text-align: left;">
+                                            <div class="ub-container" style="display: flex; justify-content: center;">
+                                    <span class="ub-container-btn">
+                                        <a class="btn-fill btn-wh right">Добавить</a>
+                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="separator"></div>
                                 </div>
-                                <div class="es-data">
-                                    Ваш список пока пуст!
-                                    <br>
-                                    <br>
-                                    Выберите свой любимый <a href="/views/genres/">Жанр</a>, там Вы гарантированно найдете интересные книги.
+
+
+                                <div class="brow-data">
+                                    <div>
+                                        <a class="brow-book-name with-cycle" href="/views/book/?book=<?php echo $reads['id']; ?>"><?php echo $reads['title']; ?></a>
+                                        <div style="padding-top: 8px;"></div>
+                                        <p class="brow-book-author"><?php echo $reads['author']; ?></p>
+                                        <div class="brow-genres">
+                                            <?php
+                                            $genre = $api->getGenresForSingleBook($reads['id']);
+                                            $stats = $api->getStatForSingleBook($reads['id']);
+                                            for ($i = 0; $i < count($genre); $i++):
+                                                ?>
+                                                <a class="label-genre">
+                                                    <?php echo $genre[$i]; ?>
+                                                </a>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <div class="brow-stats">
+                                            <a style="cursor: default">
+                                                <span class="i-cusers opc-054"></span> <?php echo $stats['read']; ?>
+                                                прочитали
+                                            </a>
+                                            <a>
+                                                <span class="i-creviews opc-054"></span> <?php echo $stats['review']; ?>
+                                                рецензий
+                                            </a>
+                                        </div>
+                                        <div class="brow-details">
+                                            <table class="compact">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="font-weight: bold;padding-right: 6px;">ISBN:</td>
+                                                    <td><span itemprop="isbn"><?php echo $reads['ISBN'] ?></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight: bold;padding-right: 6px;">Год издания:</td>
+                                                    <td><?php echo $reads['year'] ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight: bold;padding-right: 6px;">Издательство:</td>
+                                                    <td><span
+                                                            itemprop="publisher"><p><?php echo $reads['publishing'] ?></p></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight: bold;padding-right: 6px;">Язык:</td>
+                                                    <td>Русский</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="brow-marg">
+                                            <p><?php echo $reads['annotation']; ?></p>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="separator"></div>
                             </div>
                         </div>
                     </div>
+                <?php endforeach; ?>
+            </div>
+
+        <?php else: ?>
+            <div id="es-top-wrapper" class="block-border card-block es-top-wrapper for-books">
+                <div class="with-pads">
+                    <div class="es-img">
+                        <img src="/assets/images/root/icons/wish.svg">
+                    </div>
+                    <div class="es-data">
+                        Ваш список пока пуст!
+                        <br>
+                        <br>
+                        Выберите свой любимый <a href="/views/genres/">Жанр</a>, там Вы гарантированно найдете
+                        интересные
+                        книги.
+                    </div>
+                    <div class="separator"></div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 </main>
 

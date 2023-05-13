@@ -98,6 +98,11 @@ class Book extends Base {
         }
     }
 
+    function getMyMark($id, $profile){
+        $mark = $this->db->getAll("SELECT rating FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE review.id_book = ".$id." AND review.id_profile = ".$profile."");
+        return $mark;
+    }
+
     function getOtherAuthorBook($id, $author){
         $other = $this->db->getAll("SELECT book.id, book.name AS `book`, book.image, a.name FROM book JOIN book_author ba on book.id = ba.id_book JOIN author a on a.id_author = ba.id_author WHERE ba.id_author = ".$author." and book.id != ".$id." LIMIT 15");
         return $other;
@@ -107,5 +112,34 @@ class Book extends Base {
         $currentYear = date('Y');
         $previousYear = $currentYear - 1;
         return $this->db->getAll("SELECT book.id, book.name AS `book`, book.image, a.name FROM book JOIN book_author ba on book.id = ba.id_book JOIN author a on a.id_author = ba.id_author WHERE book.year = ".$currentYear." OR book.year = ".$previousYear." ORDER BY RAND() LIMIT 20 ");
+    }
+
+    function getAllProfileBook($profile){
+        $common_select = "SELECT id, book.name AS title, annotation, ISBN, year, image, a.name AS author, p.name AS publishing FROM book 
+                                JOIN book_author ba on book.id = ba.id_book 
+                                JOIN author a on a.id_author = ba.id_author 
+                                JOIN book_publishing bp on book.id = bp.id_book 
+                                JOIN publishing p on p.id_publishing = bp.id_publishing 
+                                JOIN book_action b on book.id = b.id_book 
+                            WHERE b.id_profile = ".$profile;
+
+        $read = $this->db->getAll($common_select." AND b.id_action = 1");
+        $reading = $this->db->getAll($common_select." AND b.id_action = 2");
+        $wish = $this->db->getAll($common_select." AND b.id_action = 3");
+
+        $result = array(
+            'read' => array_reverse($read),
+            'reading' => array_reverse($reading),
+            'wish' => array_reverse($wish)
+        );
+
+        return $result;
+    }
+
+    function getProfileReviewForSingleBook($book, $profile){
+        $sql = "SELECT * FROM review WHERE id_book = ".$book." AND id_profile = ".$profile."";
+
+        $result = $this->db->getRow($sql);
+        return $result;
     }
 }

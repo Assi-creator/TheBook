@@ -22,9 +22,6 @@ block.forEach((item) => {
             item.querySelector('#subgenre-more').style.display = null;
             item.querySelector('#subgenres-span').style.display = 'none';
         }
-
-
-        console.log(`Вы кликнули на элементе с id ${clickedItem.id}`);
     });
 });
 

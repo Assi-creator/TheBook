@@ -1,7 +1,8 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
 $api = new TheBook\Book;
-$book = $api->getSingleBookById($_GET['book']); ?>
+$book = $api->getSingleBookById($_GET['book']);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,10 +13,7 @@ $book = $api->getSingleBookById($_GET['book']); ?>
 
     <title><?php echo $book['title'] . " - " . $book['author']; ?> </title>
 
-    <link href="/assets/css/main.css" rel="stylesheet">
-    <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
-    <link href="/assets/images/root/icons/the-book-icon.ico" rel="shortcut icon" type="image/x-icon">
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
     <script defer src="/assets/js/header.js"></script>
     <script src="/assets/libs/swiper/swiper.min.js"></script>
@@ -62,7 +60,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                     <div class="userbook-container">
                         <a class="btn-add-plus"></a>
                     </div>
-                    <a class="bc-menu__btn">Написать рецензию</a>
+                    <a class="bc-menu__btn" href="/views/review/create?book=<?php echo $book['id']?>">Написать рецензию</a>
                 </div>
             </div>
             <article class="bc">
@@ -157,10 +155,10 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                     if (count($allReview) > 0) :?>
                         <div class="bc-about__wrapper">
                             <h2 class="bc-about__title">Рецензии</h2>
-                            <a>Всего <?php echo $stat; ?></a>
+                            <a>Всего <?php echo count($allReview); ?></a>
 
                             <?php foreach ($allReview as $review): ?>
-                                <div class="review-card" style="margin-bottom: 25px;">
+                                <div class="review-card" style="margin-bottom: 25px; width: 100%;">
                                     <div class="header-card">
                                         <a class="header-card-user">
                                             <img class="header-card-user__avatar"
@@ -172,11 +170,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                                 <a class="header-card-user__name">
                                                     <span><?php echo $review['login'] ?></span>
                                                 </a>
-                                                <a class="header-card__category"><?php if ($_SESSION['gender'] = 'ж') {
-                                                        echo ' написала';
-                                                    } else {
-                                                        echo ' написал';
-                                                    } ?> рецензию</a>
+                                                <a class="header-card__category"><?php if ($_SESSION['user']['gender'] == 'ж') {echo ' написала';} else {echo ' написал';} ?> рецензию</a>
                                             </div>
                                         </div>
                                     </div>
@@ -295,7 +289,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
             </article>
         </div>
     </section>
-
 </main>
 
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/footer.php"; ?>

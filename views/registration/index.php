@@ -14,9 +14,8 @@ if (isset($_SESSION['user'])) {
 
     <title>Регистрация</title>
 
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link href="/assets/css/template.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/images/root/icons/the-book-icon.ico" type="image/x-i con">
+    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
+
 </head>
 <body>
 

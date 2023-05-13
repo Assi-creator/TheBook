@@ -24,7 +24,9 @@ $book = $api->getSingleBookById($_GET['book']);
 <body>
 
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
+require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
+?>
 
 <br>
 <br>
@@ -57,7 +59,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                         <img class="bc-menu__image" src="<?php echo $book['image']; ?>"
                              style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
-                    <div class="userbook-container">
+                    <div class="userbook-container" data-book-id="<?php echo $book['id']?>" data-book-name="<?php echo $book['title']; ?>">
                         <a class="btn-add-plus"></a>
                     </div>
                     <a class="bc-menu__btn" href="/views/review/create?book=<?php echo $book['id']?>">Написать рецензию</a>
@@ -88,6 +90,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                        name="bc_rating">
                                 <label for="book-radio-rating-1"></label>
                             </div>
+                            <input type="hidden">
                             <p>Моя оценка</p>
                             <span class="popup-book-mark" style=""><?php ?></span>
                         </div>

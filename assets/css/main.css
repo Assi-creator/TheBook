@@ -1678,6 +1678,11 @@ input.radio, input[type="radio"] {
     flex-wrap: wrap;
 }
 
+.bc-new .bc-menu__rating span {
+    color: #3E3F40;
+    font: 18px/24px "Source Sans Pro", sans-serif;
+}
+
 @media (min-width: 1140px) {
     .bc-genre__list {
         margin: 0;

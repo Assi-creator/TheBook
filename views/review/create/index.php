@@ -59,18 +59,24 @@ $book = $api->getSingleBookById($_GET['book']);?>
                                     <div class="tb-column-2">
                                         <label class="label-form">Ваша оценка книги</label>
                                         <div class="bc-menu__rating">
-                                            <div class="bc-menu__stars bc-rating--full" style="margin-left:6px;">
-                                                <input id="book-radio-rating-5" class="rating-radio" type="radio" value="5" name="bc_rating">
+                                            <div class="bc-menu__stars bc-rating--full">
+                                                <input id="book-radio-rating-5" class="rating-radio" type="radio" value="5"
+                                                       name="bc_rating">
                                                 <label for="book-radio-rating-5"></label>
-                                                <input id="book-radio-rating-4" class="rating-radio" type="radio" value="4" name="bc_rating">
+                                                <input id="book-radio-rating-4" class="rating-radio" type="radio" value="4"
+                                                       name="bc_rating">
                                                 <label for="book-radio-rating-4"></label>
-                                                <input id="book-radio-rating-3" class="rating-radio" type="radio" value="3" name="bc_rating">
+                                                <input id="book-radio-rating-3" class="rating-radio" type="radio" value="3"
+                                                       name="bc_rating">
                                                 <label for="book-radio-rating-3"></label>
-                                                <input id="book-radio-rating-2" class="rating-radio" type="radio" value="2" name="bc_rating">
+                                                <input id="book-radio-rating-2" class="rating-radio" type="radio" value="2"
+                                                       name="bc_rating">
                                                 <label for="book-radio-rating-2"></label>
-                                                <input id="book-radio-rating-1" class="rating-radio" type="radio" value="1" name="bc_rating">
+                                                <input id="book-radio-rating-1" class="rating-radio" type="radio" value="1"
+                                                       name="bc_rating">
                                                 <label for="book-radio-rating-1"></label>
                                             </div>
+                                            <input name="mymark" type="hidden">
                                         </div>
                                         <div style="padding-top: 7px;">
 

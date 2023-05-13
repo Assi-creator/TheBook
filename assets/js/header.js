@@ -184,11 +184,50 @@ $('#btn-editprofile-save').click(function (e) {
     }
 });
 
+$('.btn-add-plus').click(function (){
+    let parent = $(this).parent('.userbook-container')
+    let book = parent.attr('data-book-id')
+    let title = parent.attr('data-book-name')
+    $('.add-book__book-title').text(title)
+   $('.add-book').removeClass('hidden')
+});
+
+$('.add-book__close-button').click(function (){
+    $('.add-book').addClass('hidden')
+});
+
 $("div.header-card__menu").each(function() {
     $(this).hover(function() {
         $(this).find(".header-card__menu-block").toggleClass("show");
     });
 });
+
+$('.bc-menu__stars label').click(function(){
+    $('input[type="hidden"]').val($(this).prev('input').val());
+    $('.popup-book-mark').text($(this).prev('input').val());
+});
+
+
+$('.add-book__action-title').on('click', function() {
+    var $parent = $(this).parent('.add-book__action-item');
+    var index = $('.add-book__action-item').index($parent);
+    var mark = $('.rating-in-popup')
+
+    if (!$parent.hasClass('not-selectable')) {
+        var $prevSelected = $('.add-book__action-item.selected');
+        $prevSelected.removeClass('selected extendable');
+
+        if (index % 2 === 0) {
+            $parent.addClass('selected');
+            mark.addClass('hidden')
+        } else {
+            $parent.addClass('selected extendable');
+            mark.removeClass('hidden')
+
+        }
+    }
+});
+
 
 
 

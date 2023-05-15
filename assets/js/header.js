@@ -85,7 +85,7 @@ $('input[name="profile-file"]').change(function (e) {
 
 const buttons = document.querySelectorAll('a[data-id]');
 buttons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         const id = this.dataset.id;
         const input = document.querySelector(`#${id}`);
         value = input.value;
@@ -130,7 +130,7 @@ $('#btn_reg').click(function (e) {
             data: formData,
             success(data) {
                 let response = JSON.parse(data)
-                if (response.ok === true){
+                if (response.ok === true) {
                     document.location.href = '/index.php';
                 } else {
                     let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + response.description + '</div>'
@@ -170,7 +170,7 @@ $('#btn-editprofile-save').click(function (e) {
             data: formEditData,
             success(data) {
                 let response = JSON.parse(data)
-                if (response.ok === true){
+                if (response.ok === true) {
                     let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Профиль изменен</div>'
                     alert.innerHTML += message
                     window.scrollTo(0, 0);
@@ -184,34 +184,88 @@ $('#btn-editprofile-save').click(function (e) {
     }
 });
 
-$('.btn-add-plus').click(function (){
-    let parent = $(this).parent('.userbook-container')
-    let book = parent.attr('data-book-id')
-    let title = parent.attr('data-book-name')
-    $('.add-book__book-title').text(title)
-   $('.add-book').removeClass('hidden')
-});
-
-$('.add-book__close-button').click(function (){
+$('.add-book__close-button').click(function () {
     $('.add-book').addClass('hidden')
 });
 
-$("div.header-card__menu").each(function() {
-    $(this).hover(function() {
+let popupProfile = $('input[name="data-profile-popup"]')
+let popupAction = $('input[name="data-action-popup"]') //Кароче это значение надо менять когда в списке что-то выбираешь, а то остается статический с того блока кнопки
+let popupBook = $('input[name="data-book-id-popup"]')
+
+$('.btn-add-plus').on('click', function () {
+    $('.add-book').removeClass('hidden')
+    $('.add-book__modal-remove').addClass('hidden');
+
+    let $container = $(this).closest('.userbook-container');
+    let title = $container.attr('data-book-name')
+    $('.add-book__book-title').text(title)
+
+    popupProfile.val($container.data('profile'));
+    popupBook.val($container.data('book-id'));
+    popupAction.val($container.data('action'));
+
+    let actionId = $container.data('action');
+    let $statusItem = $('.add-book__action-item').eq(actionId - 1);
+    let mark = $('.rating-in-popup');
+    mark.addClass('hidden');
+
+    if (!$statusItem.hasClass('not-selectable')) {
+        $statusItem.removeClass('selected extendable');
+
+        if (actionId % 2 === 0) {
+            $statusItem.addClass('selected extendable');
+            mark.removeClass('hidden')
+        } else {
+            $statusItem.addClass('selected');
+            mark.addClass('hidden')
+        }
+    }
+
+});
+
+$('.ub-form-cansel').on('click', function () {
+    $('.add-book__modal-remove').addClass('hidden');
+});
+
+
+let status = document.querySelector('.bc-menu__status-wrapper');
+$('.ub-form-remove').on('click', function () {
+    $.ajax({
+        url: '/api/controller/user/account.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            book: popupBook.val(),
+            profile: popupProfile.val(),
+            action: 'removemark'
+        },
+        success(data) {
+            console.log(data);
+            if (data.ok === true) {
+                $('.add-book__modal-remove').addClass('hidden');
+                $('.btn-add-plus').removeClass('btn-add-plus--add');
+            } else {
+            }
+        }
+    });
+});
+
+$("div.header-card__menu").each(function () {
+    $(this).hover(function () {
         $(this).find(".header-card__menu-block").toggleClass("show");
     });
 });
 
-$('.bc-menu__stars label').click(function(){
+$('.bc-menu__stars label').click(function () {
     $('input[type="hidden"]').val($(this).prev('input').val());
     $('.popup-book-mark').text($(this).prev('input').val());
 });
 
-
-$('.add-book__action-title').on('click', function() {
-    var $parent = $(this).parent('.add-book__action-item');
-    var index = $('.add-book__action-item').index($parent);
-    var mark = $('.rating-in-popup')
+$('.add-book__action-title').on('click', function () {
+    let $parent = $(this).closest('.add-book__action-item');
+    let index = $('.add-book__action-item').index($parent);
+    let mark = $('.rating-in-popup');
+    mark.addClass('hidden');
 
     if (!$parent.hasClass('not-selectable')) {
         var $prevSelected = $('.add-book__action-item.selected');
@@ -219,20 +273,54 @@ $('.add-book__action-title').on('click', function() {
 
         if (index % 2 === 0) {
             $parent.addClass('selected');
-            mark.addClass('hidden')
+            mark.addClass('hidden');
         } else {
             $parent.addClass('selected extendable');
-            mark.removeClass('hidden')
-
+            mark.removeClass('hidden');
         }
+
+        $('.btn-add-plus').addClass('btn-add-plus--add');
+        let actionId = index + 1;
+
+        if ($parent.hasClass('selected')) {
+            $('.add-book__modal-remove').removeClass('hidden');
+        } else {
+            $('.add-book__modal-remove').addClass('hidden');
+        }
+
+        $.ajax({
+            url: '/api/controller/user/account.php',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                book: popupBook.val(),
+                profile: popupProfile.val(),
+                act: actionId,
+                action: 'changemark'
+            },
+            success(data) {
+                console.log(data);
+                if (data.ok === true) {
+                    let message;
+                    switch (data.result){
+                        case '1': message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/reading/">Читаю сейчас</a>';
+                        break;
+                        case '2': message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/read/">Прочитал</a>';
+                        break;
+                        case '3': message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/wish/">В планах</a>';
+                        break;
+                    }
+
+                    status.innerHTML += message
+                } else {
+                    console.log('не заебца');
+                }
+            }
+        });
     }
 });
 
-
-
-
-
-function Close(){
+function Close() {
     alert.innerHTML = ''
 }
 

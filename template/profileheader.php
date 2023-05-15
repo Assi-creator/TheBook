@@ -204,12 +204,12 @@
                     <li <?php if ($url[3] == 'wish') {
                         echo 'class="active"';
                     } ?>>
-                        <a href="/views/reader/wish/">Хочу прочитать <b><?php echo $countAction['reading']; ?></b></a>
+                        <a href="/views/reader/wish/">Хочу прочитать <b><?php echo $countAction['wish']; ?></b></a>
                     </li>
                     <li <?php if ($url[3] == 'reading') {
                         echo 'class="active"';
                     } ?>>
-                        <a href="/views/reader/reading/">Читаю сейчас <b><?php echo $countAction['wish']; ?></b></a>
+                        <a href="/views/reader/reading/">Читаю сейчас <b><?php echo $countAction['reading']; ?></b></a>
                     </li>
 
                     <li <?php if ($url[3] == 'reviews') {

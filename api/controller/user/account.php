@@ -8,12 +8,13 @@ require $_SERVER['DOCUMENT_ROOT'] . "/api/modules/Base.class.php";
 
 $base = new Base;
 $db = new DataBase;
+$book = new Book;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') {
     $login = trim($_POST['login']);
     $about = trim($_POST['about']);
 
-    if(strlen($login) < 1){
+    if (strlen($login) < 1) {
         echo json_encode($base->request_api(false, null, 'Некорректный логин'), JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
 
     $avatar = setAvatar($_POST, $_FILES);
 
-    $query = "UPDATE profile SET ?u WHERE id_profile = '".$_SESSION['user']['id_profile']."'";
+    $query = "UPDATE profile SET ?u WHERE id_profile = '" . $_SESSION['user']['id_profile'] . "'";
     $update = array(
         'login' => $login,
         'about' => $about,
@@ -33,15 +34,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     );
 
     $base->db->query($query, $update);
-    $result = $db->getRow("SELECT * FROM profile p JOIN reader r on r.id_reader = p.id_reader WHERE p.id_profile = '".$_SESSION['user']['id_profile']."'");
+    $result = $db->getRow("SELECT * FROM profile p JOIN reader r on r.id_reader = p.id_reader WHERE p.id_profile = '" . $_SESSION['user']['id_profile'] . "'");
     $_SESSION['user'] = $result;
 
-    echo json_encode($base->request_api(true, null));
+
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changemark') {
+    $profile = trim($_POST['profile']);
+    $book = trim($_POST['book']);
+    $act = trim($_POST['act']);
+    $sql = "SELECT count(*) AS `count` FROM book_action WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
+    $action = $db->getRow($sql);
+
+
+    if ($action['count'] == 1) {
+        $sql = "UPDATE book_action SET id_action = '" . $act . "' WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
+        $db->query($sql);
+        echo json_encode($base->request_api(true, $act), JSON_UNESCAPED_UNICODE);
+        die();
+
+    } else if ($action['count'] == 0) {
+        $sql = "INSERT INTO book_action SET ?u";
+        $in = array(
+            'id_book' => $book,
+            'id_profile' => $profile,
+            'id_action' => $act
+        );
+
+        $db->query($sql, $in);
+        echo json_encode($base->request_api(true, 'Статус успешно добавлен'), JSON_UNESCAPED_UNICODE);
+        die();
+    } else {
+        echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_POST['action'] == 'removemark') {
+    $profile = trim($_POST['profile']);
+    $book = trim($_POST['book']);
+    $sql = "DELETE FROM book_action WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
+    $db->query($sql);
+
+    echo json_encode($base->request_api(true, 'Оценка успешно удалена.'), JSON_UNESCAPED_UNICODE);
+    die();
+} else {
+    echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
+    die();
 }
 
 function checkExistsLogin($login): bool
 {
-    $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE login = '" . $login . "' AND id_profile != '".$_SESSION['user']['id_profile']."'");
+    $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE login = '" . $login . "' AND id_profile != '" . $_SESSION['user']['id_profile'] . "'");
     return ($check['count'] == 0);
 }
 
@@ -80,4 +121,11 @@ function setAvatar($post, $files)
             $avatar = $post['avatarurl'];
             return $avatar;
     }
+}
+
+function changeBookAction($profile, $book, $action)
+{
+    $db = new DataBase;
+    $base = new Base;
+
 }

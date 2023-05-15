@@ -1997,6 +1997,11 @@ input.radio, input[type="radio"] {
     display: none !important;
 }
 
+.center {
+    text-align: center;
+    margin: 0 auto;
+}
+
 .add-book__action-item > input[type="radio"] {
     display: none;
 }
@@ -2166,6 +2171,79 @@ input.radio, input[type="radio"] {
 .add-book__save-button_outline:focus {
     background-color: rgba(237, 240, 247, 0.5);
     cursor: pointer;
+}
+
+.add-book__modal-remove, .add-book__modal-save {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    z-index: 10;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-sizing: border-box;
+    background-color: white;
+    box-sizing: border-box;
+    width: 444px;
+    height: 227px;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transform: translateX(-50%);
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+}
+
+.add-book__modal-remove p, .add-book__modal-save p {
+    display: inline-flex;
+    flex: auto;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 0 50px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: black;
+    -webkit-box-flex: 1;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+
+.add-book__modal-remove div, .add-book__modal-save div {
+    display: -webkit-box;
+    display: flex;
+    flex: none;
+    justify-content: space-between;
+    -webkit-box-pack: justify;
+    -webkit-box-flex: 0;
+}
+
+.add-book__modal-remove button, .add-book__modal-save button {
+    flex: none;
+    width: 182px;
+    padding: 5px 20px 9px;
+    font-size: 16px;
+    line-height: 16px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 16px;
+    -webkit-box-flex: 0;
+}
+
+.add-book__modal-remove button:nth-of-type(1), .add-book__modal-save button:nth-of-type(1) {
+    font-weight: 400;
+    color: dimgray;
+    background-color: white;
+    border-color: gray;
+}
+
+.add-book__modal-remove button:nth-of-type(2), .add-book__modal-save button:nth-of-type(2) {
+    font-weight: 600;
+    color: white;
+    background-color: cornflowerblue;
+    border-color: cornflowerblue;
 }
 
 /*endregion action-popup.php*/

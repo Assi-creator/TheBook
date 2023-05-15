@@ -55,16 +55,17 @@ class Book extends Base {
 
     function getActionForSession($id, $profile, $gender) {
         $action = $this->db->getAll("SELECT * FROM book_action WHERE id_book = ".$id." AND id_profile = ".$profile."");
+        $result = array();
 
         switch ($action[0]['id_action']){
-            case 1:
+            case 1: return $result = array('id'=>'1', 'action'=>'Читаю сейчас', 'href' => 'reading');
+            case 2:
                 if ($gender == 'ж'){
-                    return 'Прочитала';
+                    return $result = array('id'=>'2', 'action'=>'Прочитала', 'href' => 'read');
                 } else {
-                    return 'Прочитал';
+                    return $result = array('id' => '2', 'action' => 'Прочитал', 'href' => 'read');
                 }
-            case 2: return 'Читаю сейчас';
-            case 3: return 'В планах';
+            case 3: return $result = array('id'=>'3', 'action'=>'В планах', 'href' => 'wish');
         }
     }
 
@@ -74,7 +75,7 @@ class Book extends Base {
 
     function getStatForSingleBook($id){
         $review = $this->db->getAll("SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE id_book = ".$id."");
-        $read = $this->db->getAll("SELECT * FROM book_action WHERE id_book = ".$id." AND id_action = 1");
+        $read = $this->db->getAll("SELECT * FROM book_action WHERE id_book = ".$id." AND id_action = 2");
         $wish = $this->db->getAll("SELECT * FROM book_action WHERE id_book = ".$id." AND id_action = 3");
 
         $result = array(
@@ -123,8 +124,8 @@ class Book extends Base {
                                 JOIN book_action b on book.id = b.id_book 
                             WHERE b.id_profile = ".$profile;
 
-        $read = $this->db->getAll($common_select." AND b.id_action = 1");
-        $reading = $this->db->getAll($common_select." AND b.id_action = 2");
+        $read = $this->db->getAll($common_select." AND b.id_action = 2");
+        $reading = $this->db->getAll($common_select." AND b.id_action = 1");
         $wish = $this->db->getAll($common_select." AND b.id_action = 3");
 
         $result = array(
@@ -143,3 +144,4 @@ class Book extends Base {
         return $result;
     }
 }
+

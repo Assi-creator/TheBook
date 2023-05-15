@@ -231,6 +231,20 @@ section {
     background: url("/assets/images/root/icons/SVGsprite.svg") -114px -156px no-repeat;
 }
 
+.btn-add-plus--add {
+    border-color: #3E99ED;
+    background-color: #fff;
+}
+
+.btn-add-plus--add::before {
+    content: 'Изменить';
+    color: #3B91E0;
+}
+
+.btn-add-plus--add::after {
+    background: url("/assets/images/root/icons/SVGsprite.svg") -140px -156px no-repeat;
+}
+
 /*#endregion Main-index.php*/
 
 /*#region reader*/

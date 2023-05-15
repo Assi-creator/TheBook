@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
 $api = new TheBook\Book;
 $book = $api->getSingleBookById($_GET['book']);
+$action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
 ?>
 
 <!DOCTYPE html>
@@ -48,10 +49,9 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                 <div class="bc-menu__wrap">
                     <?php
                     if (!empty($_SESSION['user'])):
-                        $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                         if (!empty($action)): ?>
                             <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action; ?></a>
+                            <a class="bc-menu__status bc-menu__status-lists" href="/views/reader/<?php echo $action['href'] ?>/"><?php echo $action['action']; ?></a>
                         </span>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -59,7 +59,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                         <img class="bc-menu__image" src="<?php echo $book['image']; ?>"
                              style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
-                    <div class="userbook-container" data-book-id="<?php echo $book['id']?>" data-book-name="<?php echo $book['title']; ?>">
+                    <div class="userbook-container" data-book-id="<?php echo $book['id']?>" data-book-name="<?php echo $book['title']; ?>"
+                         data-action="<?php echo $action['id']; ?>" data-profile="<?php echo $_SESSION['user']['id_profile']; ?>">
                         <a class="btn-add-plus"></a>
                     </div>
                     <a class="bc-menu__btn" href="/views/review/create?book=<?php echo $book['id']?>">Написать рецензию</a>
@@ -212,7 +213,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                     $action = $api->getActionForSession($other['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                     if (!empty($action)): ?>
                                                         <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action; ?></a>
+                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action['action']; ?></a>
                         </span>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
@@ -258,7 +259,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                 $action = $api->getActionForSession($new['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                 if (!empty($action)): ?>
                                                     <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action; ?></a>
+                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action['action']; ?></a>
                         </span>
                                                 <?php endif; ?>
                                             <?php endif; ?>

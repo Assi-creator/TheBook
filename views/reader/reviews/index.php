@@ -24,6 +24,7 @@ if (!isset($_SESSION['user'])) {
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php";
+    require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
     $api = new TheBook\User;
     $book = new TheBook\Book;
 

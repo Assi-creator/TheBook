@@ -24,6 +24,8 @@ if (!isset($_SESSION['user'])) {
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+
+//Кнопки добавить надо на изменить исправить и в показать все добавить сслыки
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>

@@ -25,6 +25,9 @@ $book = $api->getSingleBookById($_GET['book']);?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+
+//Выбрасывать нахуй если есть рецензия добавить среднию оценку, валидацию хоть какую-то
+
 <main class="page-content-reader page-content main-body">
     <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
         <form class="review-create-form">
@@ -119,10 +122,12 @@ $book = $api->getSingleBookById($_GET['book']);?>
                     </table>
                 </div>
                 <div class="with-mpad block-bottom block-border-t" id="user-posts-more">
-                    <input type="button" class="btn-fill btn-wh right" value="Опубликовать" onclick="location.href='/views/reader/';">
+                    <input type="button" class="btn-fill btn-wh right" id="create-review" value="Опубликовать">
                     <input type="button" class="btn-fill btn-wh right" value="Отмена" onclick="location.href='/views/reader/';">
                 </div>
             </div>
+            <input type="hidden" name="data-editor" value="<?php echo $_SESSION['user']['id_profile'];?>">
+            <input type="hidden" name="data-book" value="<?php echo $book['id'];?>">
         </form>
     </div>
 </main>

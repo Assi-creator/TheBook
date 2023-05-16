@@ -21,6 +21,7 @@ session_start();?>
 require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+//Сделай нормальную страницу ебать
 <br>
 
 <main class="main-body page-content">

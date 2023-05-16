@@ -26,6 +26,7 @@ session_start(); ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+//на кнопку показать все надо повесить событие
 <br>
 
 <main class="main-body page-content">

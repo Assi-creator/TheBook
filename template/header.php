@@ -116,6 +116,7 @@
             <li><a href="/">Главная</a></li>
             <li><a href="/../views/genres/">Жанры</a></li>
             <li><a href="/">Авторы</a></li>
+            <li><a href="/views/review/">Рецензии</a></li>
         </ul>
     </nav>
 </header>

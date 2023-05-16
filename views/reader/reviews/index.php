@@ -21,6 +21,8 @@ if (!isset($_SESSION['user'])) {
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+
+//кнопку, в фильтре там посмотреть чтоб как тут было, ссылки добавить, пол и время изменить на нормально типо 1 января 2020, пагинацию я подумаю и свернуть текст до определнного количества
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php";
@@ -56,7 +58,7 @@ if (!isset($_SESSION['user'])) {
                         <a class="header-card__category">написал рецензию</a>
                         <div class="header-card__menu">
                             <div class="header-card__menu-block">
-                                <a href="/review/edit/3416146" title="Редактировать рецензию">Редактировать</a>
+                                <a href="/views/review/edit?review=<?php echo $review['id_review']; ?>" title="Редактировать рецензию">Редактировать</a>
                             </div>
                         </div>
                     </div>
@@ -87,7 +89,7 @@ if (!isset($_SESSION['user'])) {
                         </div>
                         <h3 class="lenta-card__title">
                             <span class="lenta-card__mymark"><?php echo $review['rating']; ?></span>
-                            <a href=""><?php echo $review['title']; ?></a>
+                            <a href="/views/review/single?review=<?php echo $review['id_review']?>"><?php echo $review['title']; ?></a>
                         </h3>
                         <div class="lenta-card__text">
                             <div id="lenta-card__text-review-escaped">

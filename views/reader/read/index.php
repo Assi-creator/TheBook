@@ -21,6 +21,9 @@ if (!isset($_SESSION['user'])) {
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
+
+//едино для всех ссылки позапихивать и кнопку подправить пагинацию я подумаю
+
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>

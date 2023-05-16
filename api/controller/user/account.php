@@ -8,9 +8,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/api/modules/Base.class.php";
 
 $base = new Base;
 $db = new DataBase;
-$book = new Book;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] = 'editprofile') {
     $login = trim($_POST['login']);
     $about = trim($_POST['about']);
 
@@ -36,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     $base->db->query($query, $update);
     $result = $db->getRow("SELECT * FROM profile p JOIN reader r on r.id_reader = p.id_reader WHERE p.id_profile = '" . $_SESSION['user']['id_profile'] . "'");
     $_SESSION['user'] = $result;
+    echo json_encode($base->request_api(true, 'Профиль обновлен'), JSON_UNESCAPED_UNICODE);
 
 
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changemark') {
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
         echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
         die();
     }
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_POST['action'] == 'removemark') {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'removemark') {
     $profile = trim($_POST['profile']);
     $book = trim($_POST['book']);
     $sql = "DELETE FROM book_action WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";

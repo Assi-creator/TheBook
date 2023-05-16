@@ -29,6 +29,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
 ?>
 
+//разобраться с оценкой, в карусели внизу подправить вывод средней оценки и сделать страницу со всеми рецензиями для этой книги также выводить только 5 крутых рецензий и сворачивать их до определенного слова написать рецензцию изменить на изменить рецензию если она уже есть... модальное окно....
 <br>
 <br>
 
@@ -60,8 +61,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                              style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
                     <div class="userbook-container" data-book-id="<?php echo $book['id']?>" data-book-name="<?php echo $book['title']; ?>"
-                         data-action="<?php echo $action['id']; ?>" data-profile="<?php echo $_SESSION['user']['id_profile']; ?>">
-                        <a class="btn-add-plus"></a>
+                         data-action="<?php echo $action['id']; ?>" data-profile="<?php echo $_SESSION['user']['id_profile']; ?>" data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                        <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                     </div>
                     <a class="bc-menu__btn" href="/views/review/create?book=<?php echo $book['id']?>">Написать рецензию</a>
                 </div>
@@ -184,7 +185,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                         </div>
                                         <h3 class="lenta-card__title">
                                             <span class="lenta-card__mymark"><?php echo $review['rating'] ?></span>
-                                            <a><?php echo $review['title']; ?></a>
+                                            <a href="/views/review/single?review=<?php echo $review['id_review']?>"><?php echo $review['title']; ?></a>
                                         </h3>
                                         <div class="lenta-card__text">
                                             <p><?php echo $review['text']; ?></p>
@@ -213,7 +214,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                     $action = $api->getActionForSession($other['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                     if (!empty($action)): ?>
                                                         <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action['action']; ?></a>
+                            <a class="bc-menu__status bc-menu__status-lists" href="/views/reader/<?php echo $action['href'] ?>/"><?php echo $action['action']; ?></a>
                         </span>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
@@ -259,7 +260,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                 $action = $api->getActionForSession($new['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                 if (!empty($action)): ?>
                                                     <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists"><?php echo $action['action']; ?></a>
+                            <a class="bc-menu__status bc-menu__status-lists" href="/views/reader/<?php echo $action['href'] ?>/"><?php echo $action['action']; ?></a>
                         </span>
                                                 <?php endif; ?>
                                             <?php endif; ?>

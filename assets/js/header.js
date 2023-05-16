@@ -169,6 +169,7 @@ $('#btn-editprofile-save').click(function (e) {
             cache: false,
             data: formEditData,
             success(data) {
+                console.log(data)
                 let response = JSON.parse(data)
                 if (response.ok === true) {
                     let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Профиль изменен</div>'
@@ -184,6 +185,116 @@ $('#btn-editprofile-save').click(function (e) {
     }
 });
 
+$("div.header-card__menu").each(function () {
+    $(this).hover(function () {
+        $(this).find(".header-card__menu-block").toggleClass("show");
+    });
+});
+
+$('.bc-menu__stars label').on({
+    click: function (){
+        $('input[name="mymark"]').val($(this).prev('input').val());
+        $('.popup-book-mark').text($(this).prev('input').val());
+    }
+});
+
+$(document).ready(function() {
+    let mark = $('input[name="mymark"]').val();
+    $('.bc-menu__stars label').each(function(mark) {
+        if ($(this).attr("for")) {
+            $("#" + $(this).attr("for")).prop("checked", true);
+            $(this).click();
+        }
+
+    });
+});
+
+// $(document).ready(function(){
+//     let mark = $('input[name="mymark"]').val();
+//     $('.bc-menu__stars label').slice(5-mark, 5);
+// });
+
+let isReviewDelete = 0;
+$('#reviewremove').click(function () {
+    if ($('#reviewremove').is(':checked')) {
+        isReviewDelete = 1
+    } else {
+        isReviewDelete = 0
+    }
+});
+
+
+$('#create-review').click(function(e){
+    e.preventDefault();
+
+    let mark = $('input[name="mymark"]').val(),
+        title = $('input[name="review[title]"]').val(),
+        text = $('textarea[name="review[review]"]').val(),
+        book = $('input[name="data-book"]').val(),
+        profile = $('input[name="data-editor"]').val();
+
+    console.log(book)
+    console.log(mark)
+
+    $.ajax({
+        url: '/api/controller/book/review.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            action: "newreview",
+            mark: mark,
+            title: title,
+            text: text,
+            book: book,
+            profile: profile
+        },
+        success(data) {
+            if (data.ok) {
+                console.log('Нормалики')
+            } else {
+                console.log('пиздарики')
+            }
+        }
+    });
+});
+
+$('#update-review').click(function(e){
+    e.preventDefault();
+
+    let mark = $('input[name="mymark"]').val(),
+        title = $('input[name="review[title]"]').val(),
+        review = $('input[name="data-review"]').val(),
+        text = $('textarea[name="review[review]"]').val(),
+        book = $('input[name="data-book"]').val(),
+        profile = $('input[name="data-editor"]').val();
+
+    console.log(book)
+    console.log(mark)
+
+    $.ajax({
+        url: '/api/controller/book/review.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            action: "editreview",
+            review: review,
+            mark: mark,
+            title: title,
+            text: text,
+            book: book,
+            profile: profile,
+            delete: isReviewDelete
+        },
+        success(data) {
+            if (data.ok) {
+                console.log('Нормалики')
+            } else {
+                console.log('пиздарики')
+            }
+        }
+    });
+});
+
 $('.add-book__close-button').click(function () {
     $('.add-book').addClass('hidden')
 });
@@ -191,12 +302,18 @@ $('.add-book__close-button').click(function () {
 let popupProfile = $('input[name="data-profile-popup"]')
 let popupAction = $('input[name="data-action-popup"]') //Кароче это значение надо менять когда в списке что-то выбираешь, а то остается статический с того блока кнопки
 let popupBook = $('input[name="data-book-id-popup"]')
+let status = document.querySelector('.bc-menu__status-wrapper');
 
+$('.ub-form-cansel').on('click', function () {
+    $('.add-book__modal-remove').addClass('hidden');
+});
+
+//ОТКРЫТИЕ ОКНА СТАТУСА
 $('.btn-add-plus').on('click', function () {
     $('.add-book').removeClass('hidden')
     $('.add-book__modal-remove').addClass('hidden');
 
-    let $container = $(this).closest('.userbook-container');
+    let $container = $('.userbook-container');
     let title = $container.attr('data-book-name')
     $('.add-book__book-title').text(title)
 
@@ -204,7 +321,7 @@ $('.btn-add-plus').on('click', function () {
     popupBook.val($container.data('book-id'));
     popupAction.val($container.data('action'));
 
-    let actionId = $container.data('action');
+    let actionId = popupAction.val();
     let $statusItem = $('.add-book__action-item').eq(actionId - 1);
     let mark = $('.rating-in-popup');
     mark.addClass('hidden');
@@ -223,44 +340,7 @@ $('.btn-add-plus').on('click', function () {
 
 });
 
-$('.ub-form-cansel').on('click', function () {
-    $('.add-book__modal-remove').addClass('hidden');
-});
-
-
-let status = document.querySelector('.bc-menu__status-wrapper');
-$('.ub-form-remove').on('click', function () {
-    $.ajax({
-        url: '/api/controller/user/account.php',
-        type: 'POST',
-        dataType: 'JSON',
-        data: {
-            book: popupBook.val(),
-            profile: popupProfile.val(),
-            action: 'removemark'
-        },
-        success(data) {
-            console.log(data);
-            if (data.ok === true) {
-                $('.add-book__modal-remove').addClass('hidden');
-                $('.btn-add-plus').removeClass('btn-add-plus--add');
-            } else {
-            }
-        }
-    });
-});
-
-$("div.header-card__menu").each(function () {
-    $(this).hover(function () {
-        $(this).find(".header-card__menu-block").toggleClass("show");
-    });
-});
-
-$('.bc-menu__stars label').click(function () {
-    $('input[type="hidden"]').val($(this).prev('input').val());
-    $('.popup-book-mark').text($(this).prev('input').val());
-});
-
+//ИЗМЕНЕНИЕ СТАТУСА КНИГИ
 $('.add-book__action-title').on('click', function () {
     let $parent = $(this).closest('.add-book__action-item');
     let index = $('.add-book__action-item').index($parent);
@@ -282,7 +362,7 @@ $('.add-book__action-title').on('click', function () {
         $('.btn-add-plus').addClass('btn-add-plus--add');
         let actionId = index + 1;
 
-        if ($parent.hasClass('selected')) {
+        if ($prevSelected.hasClass('selected')) {
             $('.add-book__modal-remove').removeClass('hidden');
         } else {
             $('.add-book__modal-remove').addClass('hidden');
@@ -312,12 +392,43 @@ $('.add-book__action-title').on('click', function () {
                     }
 
                     status.innerHTML += message
+                    console.log(popupAction)
+                    popupAction.val(actionId)
+                    console.log(popupAction)
+                    $('.userbook-container').attr('data-action', actionId)
                 } else {
                     console.log('не заебца');
                 }
             }
         });
     }
+});
+
+//УДАЛЕНИЕ СТАТУСА КНИГИ
+$('.ub-form-remove').on('click', function () {
+    $.ajax({
+        url: '/api/controller/user/account.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            book: popupBook.val(),
+            profile: popupProfile.val(),
+            action: 'removemark'
+        },
+        success(data) {
+            console.log(data);
+            if (data.ok === true) {
+                $('.add-book__modal-remove').addClass('hidden');
+                $('.btn-add-plus').removeClass('btn-add-plus--add');
+            } else {
+            }
+        }
+    });
+});
+
+$('.section-form__search-btn').click(function(e){
+    e.preventDefault();
+    $('#section-form-search').addClass('focus');
 });
 
 function Close() {

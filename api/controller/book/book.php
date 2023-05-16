@@ -87,10 +87,10 @@ class Book extends Base {
     }
 
     function getBookRaiting($id){
-        $review = $this->db->getAll("SELECT rating FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE id_book = ".$id."");
+        $review = $this->db->getAll("SELECT mark FROM mark JOIN profile p on p.id_profile = mark.id_profile  WHERE id_book = ".$id."");
         if (count($review) > 0){
             for($i = 0; $i < count($review); $i++){
-                $result = $result + (int)($review[$i]['rating']);
+                $result = $result + (int)($review[$i]['mark']);
             }
             $result = $result / count($review);
             return $result;
@@ -141,6 +141,50 @@ class Book extends Base {
         $sql = "SELECT * FROM review WHERE id_book = ".$book." AND id_profile = ".$profile."";
 
         $result = $this->db->getRow($sql);
+        return $result;
+    }
+
+    function getReviewById($review){
+        $review = $this->db->getRow("SELECT * FROM review JOIN book b on b.id = review.id_book JOIN book_author ba on b.id = ba.id_book join author a on a.id_author = ba.id_author WHERE id_review = '".$review."'");
+
+        $result = array(
+            'id_review' => $review['id_review'],
+            'id_book' => $review['id_book'],
+            'rating' => $review['rating'],
+            'title' => $review['title'],
+            'text' => $review['text'],
+            'book' => $review['name'],
+            'image' => $review['image'],
+            'author' => $review['a.name'] //Не выводится автор
+        );
+
+        return $result;
+    }
+
+    function getSingleReview($review){
+        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author` FROM review
+                   JOIN book b on b.id = review.id_book
+                   JOIN book_author ba on b.id = ba.id_book
+                   JOIN author a on a.id_author = ba.id_author
+                   join profile p on p.id_profile = review.id_profile
+                WHERE id_review = ".$review."";
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getAllReview(){
+        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author` FROM review
+                   JOIN book b on b.id = review.id_book
+                   JOIN book_author ba on b.id = ba.id_book
+                   JOIN author a on a.id_author = ba.id_author
+                   join profile p on p.id_profile = review.id_profile ORDER BY date DESC limit 20";
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getAllSubgenres(){
+        $sql = "SELECT * FROM genre_title";
+        $result = $this->db->getAll($sql);
         return $result;
     }
 }

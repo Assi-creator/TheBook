@@ -8,6 +8,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/api/vendor/autoload.php";
 
 date_default_timezone_set('Europe/Moscow');
 use Exception;
+
 class Base
 {
     public ConfigBase $config;
@@ -22,6 +23,12 @@ class Base
         $this->db       = new DataBase($this->config::DB_CONNECT);
     }
 
+    /**
+     * @param bool $ok
+     * @param $result
+     * @param string $description
+     * @return array
+     */
     function request_api(bool $ok = false, $result = null, string $description = ''): array
     {
         if($ok === true){

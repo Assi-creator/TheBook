@@ -9,7 +9,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/api/modules/Base.class.php";
 $base = new Base;
 $db = new DataBase;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'session') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'session') {
     $login = trim($_POST['login']);
     $password = trim($_POST['password']);
     $result = $db->getRow("SELECT * FROM profile p JOIN reader r on r.id_reader = p.id_reader WHERE login='" . $login . "'");
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'session') {
     } else {
         echo json_encode($base->request_api(false, null, 'Пользователь не найден!'));
     }
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'reg') {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'reg') {
 
     $card = trim($_POST['card']);
     $reader = trim(str_replace(' ', '',$_POST['reader']));
@@ -82,7 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'session') {
     header('Location: /index.php');
 }
 
-function checkReader($card, $reader)
+/**
+ * @param $card
+ * @param $reader
+ * @return bool
+ */
+function checkReader($card, $reader): bool
 {
     $check = (new DataBase)->getRow("SELECT CONCAT(surname,name,patronymic) AS `reader` FROM reader WHERE card='" . $card . "'");
     if ($check != null) {
@@ -91,7 +96,11 @@ function checkReader($card, $reader)
     return false;
 }
 
-function checkExistsEmail($email)
+/**
+ * @param $email
+ * @return bool
+ */
+function checkExistsEmail($email): bool
 {
     if ($email == null){
         return true;
@@ -100,17 +109,30 @@ function checkExistsEmail($email)
     return ($check['count'] == 0);
 }
 
-function checkExistsLogin($login)
+/**
+ * @param $login
+ * @return bool
+ */
+function checkExistsLogin($login): bool
 {
     $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE login = '" . $login . "'");
     return ($check['count'] == 0);
 }
 
-function checkExistAccount($card){
+/**
+ * @param $card
+ * @return bool
+ */
+function checkExistAccount($card): bool
+{
     $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM reader JOIN profile p on reader.id_reader = p.id_reader WHERE reader.card='" . $card . "'");
     return ($check['count'] == 0);
 }
 
+/**
+ * @param $email
+ * @return mixed
+ */
 function checkEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) ;
 }

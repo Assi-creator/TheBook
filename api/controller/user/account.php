@@ -80,12 +80,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] = 'editprofile') {
     die();
 }
 
+/**
+ * @param $login
+ * @return bool
+ */
 function checkExistsLogin($login): bool
 {
     $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE login = '" . $login . "' AND id_profile != '" . $_SESSION['user']['id_profile'] . "'");
     return ($check['count'] == 0);
 }
 
+/**
+ * @param $post
+ * @param $files
+ * @return mixed|string|void
+ */
 function setAvatar($post, $files)
 {
     switch ($post['value']) {
@@ -123,9 +132,3 @@ function setAvatar($post, $files)
     }
 }
 
-function changeBookAction($profile, $book, $action)
-{
-    $db = new DataBase;
-    $base = new Base;
-
-}

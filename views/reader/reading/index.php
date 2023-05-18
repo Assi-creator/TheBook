@@ -17,7 +17,8 @@ if (!isset($_SESSION['user'])) {
 </head>
 <body>
 
-<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 
 <br>
 <br>
@@ -41,22 +42,33 @@ if (!isset($_SESSION['user'])) {
 
                                 <div class="brow-cover">
                                     <div class="cover-wrapper">
-                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="">
-                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>"
-                                                 style="min-width: 140px; background-color: #ffffff;" width="140">
+                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="<?php echo $reads['title']; ?>">
+                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>" style="min-width: 140px; background-color: #ffffff;" width="140" alt="<?php echo $reads['title']; ?>">
                                         </a>
                                     </div>
+                                    <?php
+                                    $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                    $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
+                                    $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
+                                    $rating = $api->getBookRaiting($reads['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
                                         <div class="userbook-container" style="text-align: left;">
                                             <div class="ub-container" style="display: flex; justify-content: center;">
-                                    <span class="ub-container-btn">
-                                        <a class="btn-fill btn-wh right">Добавить</a>
-                                    </span>
+                                                <div class="userbook-container" data-book-id="<?php echo $reads['id'];?>"
+                                                     data-book-name="<?php echo $reads['title']; ?>"
+                                                     data-action="<?php echo $action['id']; ?>"
+                                                     data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                                     data-review = "<?php echo $reviewId;?>"
+                                                     data-exist-review="<?php echo $review;?>"
+                                                     data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                                    <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="separator"></div>
+                                    <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
                                 </div>
 
 
@@ -81,7 +93,7 @@ if (!isset($_SESSION['user'])) {
                                                 <span class="i-cusers opc-054"></span> <?php echo $stats['read']; ?>
                                                 прочитали
                                             </a>
-                                            <a>
+                                            <a href="/views/book/review?book=<?php echo $reads['id']; ?>">
                                                 <span class="i-creviews opc-054"></span> <?php echo $stats['review']; ?>
                                                 рецензий
                                             </a>

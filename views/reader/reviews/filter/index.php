@@ -52,7 +52,7 @@ if (!isset($_SESSION['user'])) {
                                 <img class="header-card-user__avatar" src="<?php echo $_SESSION['user']['avatar_path']; ?>" alt="" width="100%" height="100%">
                             </a>
                             <a class="header-card-user__name"><span><?php echo $_SESSION['user']['login']; ?></span></a>
-                            <a class="header-card__category">написал рецензию</a>
+                            <a class="header-card__category"><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'написала';} else {echo 'написал';} ?> рецензию</a>
                             <div class="header-card__menu">
                                 <div class="header-card__menu-block">
                                     <a href="/views/review/edit?review=<?php echo $review['id_review']; ?>" title="Редактировать рецензию">Редактировать</a>
@@ -70,29 +70,47 @@ if (!isset($_SESSION['user'])) {
                                     <p class="lenta-card__author-wrap">
                                         <a class="lenta-card__author"><?php echo $review['author']; ?></a>
                                     </p>
-                                    <?php $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    <?php
+                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    <?php
+                                    $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                    $reviewa = $book->getExistReview($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $rating = $book->getBookRaiting($review['id_book']); ?>
+
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>
                                     <div class="userbook-container ub-container">
-                                        <a class="btn-add-plus"></a>
+                                        <div class="userbook-container" data-book-id="<?php echo $review['id_book'];?>"
+                                             data-book-name="<?php echo $review['book']; ?>"
+                                             data-action="<?php echo $action['id']; ?>"
+                                             data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                             data-review = "<?php echo $reviewId;?>"
+                                             data-exist-review="<?php echo $reviewa;?>"
+                                             data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                            <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="lenta-card__details">
                                 <p class="lenta-card__date">
-                                    <?php echo $review['date']; ?>
+                                    <?php echo formatDate($review['date']); ?>
                                 </p>
                             </div>
                             <h3 class="lenta-card__title">
                                 <span class="lenta-card__mymark"><?php echo $review['rating']; ?></span>
-                                <a href=""><?php echo $review['title']; ?></a>
+                                <a  href="/views/review/single?review=<?php echo $review['id_review']?>"><?php echo $review['title']; ?></a>
                             </h3>
                             <div class="lenta-card__text">
-                                <div id="lenta-card__text-review-escaped">
+                                <div id="lenta-card__text-review-escaped" style="max-height: 220px;">
                                     <p><?php echo $review['text']; ?></p>
                                 </div>
                             </div>
+                            <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
                         </div>
                     </article>
                 <?php endforeach; ?>
@@ -109,3 +127,29 @@ if (!isset($_SESSION['user'])) {
 </body>
 </html>
 
+<?php
+function formatDate($date) {
+    $months = array(
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    );
+    $parts = explode(' ', $date);
+    $dateParts = explode('-', $parts[0]);
+    $timeParts = explode(':', $parts[1]);
+    $day = (int)$dateParts[2];
+    $month = $months[(int)$dateParts[1]-1];
+    $year = (int)$dateParts[0];
+    $hour = $timeParts[0];
+    $minutes = $timeParts[1];
+    return "$day $month $year г. $hour:$minutes";
+}?>

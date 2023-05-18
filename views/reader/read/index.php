@@ -18,11 +18,10 @@ if (!isset($_SESSION['user'])) {
 </head>
 <body>
 
-<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 
 <br>
-
-//едино для всех ссылки позапихивать и кнопку подправить пагинацию я подумаю
 
 <br>
 <main class="page-content-reader page-content main-body">
@@ -43,25 +42,34 @@ if (!isset($_SESSION['user'])) {
                     <div class="book-item-manage">
                         <div class="block-border card-block brow">
                             <div class="brow-inner">
-
                                 <div class="brow-cover">
                                     <div class="cover-wrapper">
-                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="">
-                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>"
-                                                 style="min-width: 140px; background-color: #ffffff;" width="140">
+                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="<?php echo $reads['title']; ?>">
+                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>" alt="<?php echo $reads['title']; ?>" style="min-width: 140px; background-color: #ffffff;" width="140">
                                         </a>
                                     </div>
+                                    <?php $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                    $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
+                                    $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
+                                    $rating = $api->getBookRaiting($reads['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
                                         <div class="userbook-container" style="text-align: left;">
                                             <div class="ub-container" style="display: flex; justify-content: center;">
-                                    <span class="ub-container-btn">
-                                        <a class="btn-fill btn-wh right">Добавить</a>
-                                    </span>
+                                                <div class="userbook-container" data-book-id="<?php echo $reads['id'];?>"
+                                                     data-book-name="<?php echo $reads['title']; ?>"
+                                                     data-action="<?php echo $action['id']; ?>"
+                                                     data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                                     data-review = "<?php echo $reviewId;?>"
+                                                     data-exist-review="<?php echo $review;?>"
+                                                     data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                                    <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="separator"></div>
+                                    <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
                                 </div>
 
 
@@ -82,17 +90,14 @@ if (!isset($_SESSION['user'])) {
                                                 </a>
                                             <?php endfor; ?>
                                         </div>
-                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mark)) {
-                                                    echo $mark[0]['rating'];
-                                                } else {
-                                                    echo 0;
-                                                } ?></span></div>
+                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mark)) {echo $mark[0]['rating'];} else {echo 0;} ?></span>
+                                        </div>
                                         <div class="brow-stats">
                                             <a style="cursor: default">
                                                 <span class="i-cusers opc-054"></span> <?php echo $stats['read']; ?>
                                                 прочитали
                                             </a>
-                                            <a>
+                                            <a href="/views/book/review?book=<?php echo $reads['id']; ?>">
                                                 <span class="i-creviews opc-054"></span> <?php echo $stats['review']; ?>
                                                 рецензий
                                             </a>
@@ -102,7 +107,10 @@ if (!isset($_SESSION['user'])) {
                                                 <tbody>
                                                 <tr>
                                                     <td style="font-weight: bold;padding-right: 6px;">ISBN:</td>
-                                                    <td><span itemprop="isbn"><?php echo $reads['ISBN'] ?></span></td>
+                                                    <td>
+                                                        <span itemprop="isbn">
+                                                            <?php echo $reads['ISBN'] ?>
+                                                        </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-weight: bold;padding-right: 6px;">Год издания:</td>
@@ -110,8 +118,10 @@ if (!isset($_SESSION['user'])) {
                                                 </tr>
                                                 <tr>
                                                     <td style="font-weight: bold;padding-right: 6px;">Издательство:</td>
-                                                    <td><span
-                                                            itemprop="publisher"><p><?php echo $reads['publishing'] ?></p></span>
+                                                    <td>
+                                                        <span itemprop="publisher">
+                                                            <p><?php echo $reads['publishing'] ?></p>
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -141,33 +151,27 @@ if (!isset($_SESSION['user'])) {
                                                      style="margin-bottom: 0; line-height: 20px;">
                                                     <div class="group-login-date dont-author">
                                             <span class="date-topright">
-                                                <a title="Рецензия на книгу " href="">
-                                                    <span class="date"><?php echo $review['date']; ?></span>
+                                                <a title="Рецензия на книгу ">
+                                                    <span style="cursor:default;" class="date"><?php echo formatDate($review['date']); ?></span>
                                                 </a>
                                             </span>
-                                                        <a class="a-login-black" href="">Моя рецензия на книгу</a>
+                                                        <a class="a-login-black" href="/views/review/">Моя рецензия на книгу</a>
                                                         <br>
-                                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>"
-                                                           title="Название книги"><?php echo $reads['title']; ?></a>
+                                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="<?php echo $reads['title']; ?>"><?php echo $reads['title']; ?></a>
                                                         автора
-                                                        <a title="Автор"
-                                                           style="color: black; cursor: default;"><?php echo $reads['author']; ?></a>
+                                                        <a title="Автор" style="color: black; cursor: default;"><?php echo $reads['author']; ?></a>
                                                     </div>
                                                     <div class="separator"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="backgr-block review">
-                                            <div class="card-block-text with-pad" style="min-height: 0;">
-                                                <a class="post-scifi-title" href=""><?php echo $review['title']; ?></a>
-                                                <div>
-                                                    <div class="description">
-                                                        <div id="review-text-full"></div>
-                                                        <div id="review-text-brief">
-                                                            <p><?php echo $review['text']; ?></p>
-                                                        </div>
-                                                    </div>
+                                            <div class="lenta-card" style="min-height: 0; padding: 20px">
+                                                <a class="post-scifi-title" href="/views/review/single?review=<?php echo $review['id_review']?>"><?php echo $review['title']; ?></a>
+                                                <div class="lenta-card__text" id="review-text-brief" style="max-height: 220px;">
+                                                    <p><?php echo $review['text']; ?></p>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -203,3 +207,30 @@ if (!isset($_SESSION['user'])) {
 
 </body>
 </html>
+
+<?php
+function formatDate($date) {
+    $months = array(
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    );
+    $parts = explode(' ', $date);
+    $dateParts = explode('-', $parts[0]);
+    $timeParts = explode(':', $parts[1]);
+    $day = (int)$dateParts[2];
+    $month = $months[(int)$dateParts[1]-1];
+    $year = (int)$dateParts[0];
+    $hour = $timeParts[0];
+    $minutes = $timeParts[1];
+    return "$day $month $year г. $hour:$minutes";
+}?>

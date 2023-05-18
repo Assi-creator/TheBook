@@ -1,7 +1,6 @@
 
 const block = document.querySelectorAll(".genre-block");
 block.forEach((item) => {
-    console.log(item)
     item.querySelector('#subgenre-a').addEventListener("click", (event) => {
         const clickedItem = event.target;
 

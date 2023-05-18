@@ -14,12 +14,9 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <link href="/assets/libs/node_modules/cropperjs/dist/cropper.css" rel="stylesheet">
 
-    <script src="/assets/libs/node_modules/cropperjs/dist/cropper.js"></script>
     <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
 </head>
 <body>
 
@@ -31,7 +28,65 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>
 
-    <!--Начинка страницы-->
+    <div id="user-pic-edit" class="userpic hidden">
+        <div id="profilepic-edit-popup">
+            <div class="popup-back" onclick="" style="display:block;z-index:1000;overflow: auto;">
+                <div style="position:absolute;width:100%;height:100%;">
+                    <div style="width:100%;height:100%;display:table;">
+                        <div style="text-align:center;vertical-align:middle;display: table-cell;">
+                            <div class="block-border card-block"
+                                 style="z-index:1001;width:908px;text-align:left;margin:0 auto;">
+                                <div class="group-title">
+                                    <a title="Закрыть" class="right userpic-popup-close">
+                                        <span style="margin-right:-2px;" class="i-cardclose"></span>
+                                    </a>
+                                    <h2>Изменение обложки</h2>
+                                </div>
+                                <div class="with-pad">
+                                    <p>Выберите способ загрузки изображения.</p>
+                                    <div class="margs-top" style="position:relative;">
+                                        <div>
+                                            <div id="userpic-crop-image" class="marg-right" style="float:left;">
+                                                <div id="imgouter" style="width: 860px;">
+                                                    <div id="imgsource" class="user-profile"  style="background: url(<?php echo $_SESSION['user']['cover_path']; ?>) <?php if($_SESSION['user']['cover_path'] === '/assets/images/root/icons/back-profile.png'){echo 'center center repeat-x #dbe0e6; background-size: contain !important;';} else{echo 'center center no-repeat; background-size: cover !important;';} ?> ;"></div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-new picture-form-bottom">
+                                                <div id="picture-default"></div>
+
+                                                <div id="picture-new">
+                                                    <a id="userpic-file-load" class="btn-fill marg-right">Загрузить с компьютера</a>
+                                                    <span class="picture-size">Формат: png, jpg.<br>Размер от 1196x148 пикселей.</span>
+                                                    <input id="picture-new-file" type="file" name="file" style="display:none;">
+                                                    <div class="separator"></div>
+                                                    <div class="marg-top picture-new">
+                                                        <input type="text"id="picture-url-new" class="marg-right" style="width: 191px;" placeholder="Ссылка на картинку">
+                                                        <a class="btn-fill opc-038" id="userpic-url-load">Загрузить</a>
+                                                    </div>
+                                                    <div class="separator"></div>
+                                                </div>
+                                            </div>
+                                            <div class="separator"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="with-mpad block-bottom block-border-t" style="display: block;">
+                                    <a class="btn-fill-empty btn-wh userpic-popup-close">Отмена</a>
+                                    <a class="btn-fill-empty btn-darkred marg-left btn-wh">Удалить изображение</a>
+                                    <a class="btn-fill btn-darkblue right" id="userpic-save-btn">Сохранить изображение</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
         <section class="page-content__section">
             <h1>Мой профиль</h1>

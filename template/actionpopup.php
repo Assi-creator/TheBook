@@ -64,11 +64,13 @@
         </div>
 
         <div class="add-book__footer add-book__footer-buttons">
-            <button class="add-book__save-button add-book__save-button_outline">Написать рецензию</button>
-            <button class="add-book__save-button" type="button">Сохранить</button>
+
         </div>
     </div>
     <input type="hidden" name="data-profile-popup">
     <input type="hidden" name="data-book-id-popup">
     <input type="hidden" name="data-action-popup">
+    <input type="hidden" name="data-exist-review-popup">
+    <input type="hidden" name="data-exist-review-popup">
+    <input type="hidden" name="data-review-popup">
 </div>

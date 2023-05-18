@@ -9,12 +9,12 @@ require $_SERVER['DOCUMENT_ROOT'] . "/api/modules/Base.class.php";
 $base = new Base;
 $db = new DataBase;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] = 'editprofile') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') {
     $login = trim($_POST['login']);
     $about = trim($_POST['about']);
 
     if (strlen($login) < 1) {
-        echo json_encode($base->request_api(false, null, 'Некорректный логин'), JSON_UNESCAPED_UNICODE);
+        echo json_encode($base->request_api(false, null, 'Некорректный логин' . $login), JSON_UNESCAPED_UNICODE);
         die();
     }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] = 'editprofile') {
     $query = "UPDATE profile SET ?u WHERE id_profile = '" . $_SESSION['user']['id_profile'] . "'";
     $update = array(
         'login' => $login,
-        'about' => $about,
+        'about' => nl2br($about),
         'avatar_path' => $avatar
     );
 
@@ -75,7 +75,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] = 'editprofile') {
 
     echo json_encode($base->request_api(true, 'Оценка успешно удалена.'), JSON_UNESCAPED_UNICODE);
     die();
-} else {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changeemail') {
+   $email = $_POST['email'];
+
+
+   if (!checkEmail($email)){
+       echo json_encode($base->request_api(false, null, 'Некорректный email'), JSON_UNESCAPED_UNICODE);
+       die();
+   }
+
+   if (!checkExistsEmail($email)){
+       echo json_encode($base->request_api(false, null, 'Данный email занят'), JSON_UNESCAPED_UNICODE);
+       die();
+   }
+
+   $password = $_POST['password'];
+   if (!checkPassword($password)){
+       echo json_encode($base->request_api(false, null, 'Неверный пароль'), JSON_UNESCAPED_UNICODE);
+       die();
+   }
+
+    // TODO: Создать класс PHPMailer и отправлять код туда, после отправки записывать email.
+    echo json_encode($base->request_api(true, 'Все супер'), JSON_UNESCAPED_UNICODE);
+    die();
+
+} else if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changepassword') {
+
+    $old = $_POST['old'];
+    $new = $_POST['new'];
+    $repeat = $_POST['repeat'];
+
+    if (empty($old) or empty($new) or empty($repeat)){
+        echo json_encode($base->request_api(false, null, 'Заполните все поля'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if (!checkPassword($old)){
+        echo json_encode($base->request_api(false, null, 'Неверный пароль'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if ($old == $new){
+        echo json_encode($base->request_api(false, null, 'Старый и новый пароли совпадают'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if (strlen($new) < 8){
+        echo json_encode($base->request_api(false, null, 'Пароль должен быть не менее 8 символов'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if ($new != $repeat){
+        echo json_encode($base->request_api(false, null, 'Пароли не совпадают'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    try {
+        $sql = "UPDATE profile SET password = '".password_hash($new, PASSWORD_DEFAULT)."' WHERE id_profile = '".$_SESSION['user']['id_profile']."'";
+        $db->query($sql);
+    } catch (\Exception $e){
+        echo json_encode($base->request_api(false, null, 'Внутренняя ошибка сервера: '.$e), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    echo json_encode($base->request_api(true, 'Все супер'), JSON_UNESCAPED_UNICODE);
+    die();
+
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changereservedemail') {
+    $backup = $_POST['backup'];
+
+    if (empty($backup)){
+        echo json_encode($base->request_api(false, null, 'Заполните поле'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if (!checkEmail($backup)){
+        echo json_encode($base->request_api(false, null, 'Некорректный email'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    if (!checkExistsEmail($backup)){
+        echo json_encode($base->request_api(false, null, 'Данный email занят'), JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    // TODO: Создать класс PHPMailer и отправлять код туда, после отправки записывать email.
+    echo json_encode($base->request_api(true, 'Все супер'), JSON_UNESCAPED_UNICODE);
+    die();
+}
+else {
     echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
     die();
 }
@@ -130,5 +218,28 @@ function setAvatar($post, $files)
             $avatar = $post['avatarurl'];
             return $avatar;
     }
+}
+
+function checkExistsEmail($email): bool
+{
+    if ($email == null){
+        return true;
+    }
+    $check = (new DataBase)->getRow("SELECT count(*) AS `count` FROM profile WHERE email = '" . $email . "'");
+    return ($check['count'] == 0);
+}
+
+function checkPassword($password): bool
+{
+    $db = new DataBase;
+    $result = $db->getRow("SELECT * FROM profile WHERE id_profile='" . $_SESSION['user']['id_profile'] . "'");
+    if (password_verify($password, $result['password'])){
+        return true;
+    }
+    return false;
+}
+
+function checkEmail($email){
+    return filter_var($email, FILTER_VALIDATE_EMAIL) ;
 }
 

@@ -37,7 +37,7 @@ class User extends Base
                                                         JOIN book b on b.id = review.id_book 
                                                         JOIN book_author ba on b.id = ba.id_book 
                                                         JOIN author a on a.id_author = ba.id_author
-                                                                    WHERE id_profile = " . $profile . "";
+                                                                    WHERE id_profile = " . $profile . " ORDER BY date asc";
 
         $result = $this->db->getAll($sql);
         return array_reverse($result);
@@ -54,6 +54,13 @@ class User extends Base
                                                         JOIN book_author ba on b.id = ba.id_book 
                                                         JOIN author a on a.id_author = ba.id_author
                                                                     WHERE id_profile = " . $profile . " ORDER BY rating DESC";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getAllSessions(){
+        $sql = "SELECT * FROM sessions WHERE id_profile = '".$_SESSION['user']['id_profile']."'";
 
         $result = $this->db->getAll($sql);
         return $result;

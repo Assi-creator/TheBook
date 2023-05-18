@@ -36,37 +36,15 @@ if (!isset($_SESSION['user'])) {
                     <div class="tb-column-2">
                         <label class="label-form" for="email-backup">Резервный адрес электронной почты</label>
                         <div class="form-input" style="margin-right: 0;">
-                            <input type="text" id="email-backup" name="security[email_backup]"
+                            <input type="text" id="email-backup" name="security-email_backup"
                                    style="box-sizing: border-box;" value="">
                         </div>
                     </div>
                     <div class="tb-column-sep"></div>
-                    <input type="button" class="btn-fill btn-darkgreen event-spad"
-                           onclick="save_account_email_backup();" value="Сохранить">
+                    <div class="tb-column-2"></div>
+                    <input type="button" class="btn-fill btn-darkgreen event-spad change-reserv-email" value="Сохранить" style="margin-top: 10px;">
                 </div>
 
-                <div class="form-row">
-                    <div class="tb-column-2">
-                        <label class="label-form">Секретный вопрос</label>
-                        <select name="security[question]" id="select-security-question"
-                                style="box-sizing: border-box;width:100%;">
-                            <option value="0" selected="selected">Выберите секретный вопрос</option>
-                            <option value="1">Кличка первого домашнего животного?</option>
-                            <option value="2">В каком городе вы родились?</option>
-                            <option value="3">Ваше прозвище в детстве?</option>
-                            <option value="4">В каком городе встретились ваши родители?</option>
-                            <option value="5">Имя вашего двоюродного брата или сестры?</option>
-                            <option value="6">Название первой школы, в которую вы ходили?</option>
-                        </select>
-
-                        <label class="label-form event-spad" for="security-answer">Секретный ответ</label>
-                        <div class="form-input" style="margin-right: 0;">
-                            <input type="text" id="security-answer-backup" value="" style="box-sizing: border-box;">
-                        </div>
-                    </div>
-                    <div class="tb-column-sep"></div>
-                    <input type="button" class="btn-fill btn-darkgreen event-spad" value="Сохранить">
-                </div>
             </div>
         </div>
     </div>

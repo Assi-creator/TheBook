@@ -25,9 +25,6 @@ $review = $api->getReviewById($_GET['review']);?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
-
-//ну здесь надо запилить эти звездочки и валидацию и автора забыла с оценкой средней
-
 <main class="page-content-reader page-content main-body">
     <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
         <form class="review-create-form">
@@ -39,12 +36,12 @@ $review = $api->getReviewById($_GET['review']);?>
                     <a href="/views/book/?book=<?php echo $review['id_book']?>">
                         <img src="<?php echo $review['image']?>" style="min-width: 100px; background-color: white; float: left;" width="100">
                     </a>
-                    <div class="book-block-data" style="margin-left: 35px;">
+                    <div class="book-block-data" style="margin-left: 35px; width: 500px;">
                         <a class="post-scifi-title" href="/views/book/?book=<?php echo $review['id_book']?>"><?php echo $review['book'];?></a>
                         <br>
                         <a style="cursor:default; color: black;"><?php echo $review['author']; ?></a>
                         <br>
-                        <div style="margin-top: 5px;">
+                        <div style="margin-top: 5px; display: flex;flex-wrap: wrap; width: 500px;">
                             <?php $genre = $api->getGenresForSingleBook($review['id_book']); for ($i = 0; $i < count($genre); $i++):?>
                                 <a class="label-genre">
                                     <?php echo $genre[$i]; ?>

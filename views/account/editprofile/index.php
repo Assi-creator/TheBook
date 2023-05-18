@@ -79,7 +79,7 @@ if (!isset($_SESSION['user'])) {
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row" id="image">
                         <label class="label-form" for="account-picture">Аватарка</label>
                         <img alt="<?php echo $_SESSION['user']['login'] ?>" title="<?php echo $_SESSION['user']['login'] ?>"
                              style="min-width:200px; height: 200px; object-fit: cover; background-color: #ffffff;"

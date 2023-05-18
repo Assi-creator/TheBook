@@ -13,9 +13,17 @@ function hideMoreDetails(){
 }
 
 function showImagePopup(){
-    document.getElementById('user-pic-edit').style.display = null;
+    $('.userpic').removeClass('hidden');
     hideMoreDetails();
 }
+
+$('.userpic-popup-close').click(function(){
+    $('.userpic').addClass('hidden');
+});
+
+$('#userpic-file-load').click(function(){
+    $("#picture-new-file").click()
+});
 
 function hideImagePopup(){
     document.getElementById('user-pic-edit').style.display = 'none';

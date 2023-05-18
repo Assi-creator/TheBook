@@ -18,9 +18,6 @@
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
-
-//Поменять пол в зависимости от гендера, кнопочка + на v если есть книжка, ссылки всякие
-
 <br>
 <main class="page-content-reader page-content main-body">
     <?php
@@ -35,11 +32,11 @@
     <section class="ugs-sotring">
         <h3 class="ugs-sorting__title">Больше рецензий</h3>
         <ul class="ugs-sotring__list">
-            <li class="ugs-sotring__item ugs-sotring__item">
-                <a href="/views/reader/reviews">Все рецензии <?php echo $reviews[0]['login']; ?></a>
-            </li>
+<!--            <li class="ugs-sotring__item ugs-sotring__item">-->
+<!--                <a href="/views/reader/reviews">Все рецензии --><?php //echo $reviews[0]['login']; ?><!--</a>-->
+<!--            </li>-->
             <li class="ugs-sotring__item ">
-                <a href="/views/reader/reviews/filter">Все рецензии на книгу "<?php echo $reviews[0]['book']; ?>"</a>
+                <a href="/views/book/review?book=<?php echo $reviews[0]['id_book']; ?>">Все рецензии на книгу "<?php echo $reviews[0]['book']; ?>"</a>
             </li>
         </ul>
     </section>
@@ -54,18 +51,15 @@
                                      width="100%" height="100%">
                             </a>
                             <a class="header-card-user__name"><span><?php echo $review['login']; ?></span></a>
-
-
-                            <!--ИЗМЕНИТЬ ПОЛ!!!!!!!!!!!!!!!-->
-                            <a class="header-card__category">написал рецензию</a>
-
-
+                            <a class="header-card__category"><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'написала';} else {echo 'написал';} ?>  рецензию</a>
+                            <?php if($_SESSION['user']['id_profile'] == $review['id_profile']): ?>
                             <div class="header-card__menu">
                                 <div class="header-card__menu-block">
                                     <a href="/views/review/edit?review=<?php echo $review['id_review']; ?>"
                                        title="Редактировать рецензию">Редактировать</a>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                         <div class="lenta-card">
                             <div class="lenta-card-book">
@@ -82,18 +76,35 @@
                                     <p class="lenta-card__author-wrap">
                                         <a class="lenta-card__author"><?php echo $review['author']; ?></a>
                                     </p>
+                                    <?php
+                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
+
+                                    $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    <?php
+                                    $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                    $reviewa = $book->getExistReview($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $rating = $book->getBookRaiting($review['id_book']); ?>
                                     <?php $middle = $book->getBookRaiting($review['id_book']); ?>
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>
                                     <div class="userbook-container ub-container">
-                                        <a class="btn-add-plus"></a>
+                                        <div class="userbook-container" data-book-id="<?php echo $review['id_book'];?>"
+                                             data-book-name="<?php echo $review['book']; ?>"
+                                             data-action="<?php echo $action['id']; ?>"
+                                             data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                             data-review = "<?php echo $reviewId;?>"
+                                             data-exist-review="<?php echo $reviewa;?>"
+                                             data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                            <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="lenta-card__details">
                                 <p class="lenta-card__date">
-                                    <?php echo $review['date']; ?>
+                                    <?php echo formatDate($review['date']); ?>
                                 </p>
                             </div>
                             <h3 class="lenta-card__title">
@@ -123,5 +134,32 @@
 
 </body>
 </html>
+
+<?php
+function formatDate($date) {
+    $months = array(
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    );
+    $parts = explode(' ', $date);
+    $dateParts = explode('-', $parts[0]);
+    $timeParts = explode(':', $parts[1]);
+    $day = (int)$dateParts[2];
+    $month = $months[(int)$dateParts[1]-1];
+    $year = (int)$dateParts[0];
+    $hour = $timeParts[0];
+    $minutes = $timeParts[1];
+    return "$day $month $year г. $hour:$minutes";
+}?>
 
 

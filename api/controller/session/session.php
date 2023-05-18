@@ -10,22 +10,23 @@ $base = new Base;
 $db = new DataBase;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'session') {
-    $login = trim($_POST['login']);
+    $login = stripslashes(trim($_POST['login']));
     $password = trim($_POST['password']);
     $result = $db->getRow("SELECT * FROM profile p JOIN reader r on r.id_reader = p.id_reader WHERE login='" . $login . "'");
     if (!empty($result) && password_verify($password, $result['password'])) {
         $_SESSION['user'] = $result;
+        setSession($_SESSION['user']['id_profile']);
         echo json_encode($base->request_api(true, 'Пользователь найден'));
     } else {
         echo json_encode($base->request_api(false, null, 'Пользователь не найден!'));
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'reg') {
 
-    $card = trim($_POST['card']);
-    $reader = trim(str_replace(' ', '',$_POST['reader']));
-    $email = trim($_POST['email']);
-    $login = trim($_POST['login']);
-    $password = trim($_POST['password']);
+    $card = stripslashes(trim($_POST['card']));
+    $reader = stripslashes(trim(str_replace(' ', '',$_POST['reader'])));
+    $email = stripslashes(trim($_POST['email']));
+    $login = stripslashes(trim($_POST['login']));
+    $password = stripslashes(trim($_POST['password']));
 
     if (!checkReader($card, $reader)) {
         echo json_encode($base->request_api(false, null, 'Неверно указан номер читательской карточки или ФИО читателя'), JSON_UNESCAPED_UNICODE);
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'session') {
     $in = array(
         'login' => $login,
         'password' => password_hash($password, PASSWORD_DEFAULT),
-        'about' => $about,
+        'about' => nl2br($about),
         'email' => $email,
         'reserved_email' => '',
         'avatar_path' => $avatar,
@@ -169,6 +170,31 @@ function setAvatar($post, $files)
             $avatar = $post['avatarurl'];
             return $avatar;
     }
+}
+
+function setSession($profile){
+    $base = new Base;
+    $db = new DataBase;
+    $sql = "INSERT INTO sessions SET ?u";
+
+    $user_agent = $_SERVER["HTTP_USER_AGENT"];
+    $ip = $_SERVER['REMOTE_ADDR'];
+    if (strpos($user_agent, "Firefox") !== false) $browser = "Firefox";
+    elseif (strpos($user_agent, "Opera") !== false) $browser = "Opera";
+    elseif (strpos($user_agent, "Chrome") !== false) $browser = "Chrome";
+    elseif (strpos($user_agent, "MSIE") !== false) $browser = "Internet Explorer";
+    elseif (strpos($user_agent, "Safari") !== false) $browser = "Safari";
+    else $browser = "Неизвестный";
+
+    $inSession = array(
+        'id_profile' => $profile,
+        'date' => date("Y-m-d H:i:s"),
+        'browser' => $browser,
+        'ip' => $ip
+    );
+
+    $base->db->query($sql, $inSession);
+    return;
 }
 
 

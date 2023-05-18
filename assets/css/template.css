@@ -908,6 +908,7 @@ div.profile-avatar {
     white-space: nowrap;
     color: #39424C !important;
     position: relative;
+    text-shadow: none;
 }
 
 .ll-select-row:hover {
@@ -1165,9 +1166,13 @@ input.file, input[type="file"], textarea, select, .form-scroll {
 .btn-fill-empty {
     background-color: transparent !important;
     color: #39424c !important;
-    border: 2px solid #39424c;
+    border: 1px solid #39424c;
     height: 30px;
     line-height: 29px;
+    cursor: pointer;
+    padding: 0 25px;
+    font-weight: 500;
+    border-radius: 50px;
 }
 
 /*#endregion  profile-header.php*/

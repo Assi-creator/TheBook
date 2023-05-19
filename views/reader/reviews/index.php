@@ -85,7 +85,7 @@ if (!isset($_SESSION['user'])) {
                                 </div>
 
                                     <div class="userbook-container ub-container">
-                                            <div class="userbook-container" data-book-id="<?php echo $review['id_book'];?>"
+                                            <div class="userbook-container-<?php echo $review['id_book'];?>" data-book-id="<?php echo $review['id_book'];?>"
                                                  data-book-name="<?php echo $review['book']; ?>"
                                                  data-action="<?php echo $action['id']; ?>"
                                                  data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"

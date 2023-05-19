@@ -10,4 +10,7 @@ class ConfigBase
         'db'      => 'thebook',
         'charset' => 'utf8mb4'
     );
+
+    const username = 'mastnastiy14@mail.ru';
+    const password = 'Jh7XirrknrmJwLhgiwrS';
 }

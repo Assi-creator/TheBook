@@ -29,7 +29,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
 ?>
 
-//разобраться с оценкой, в карусели внизу подправить вывод средней оценки и сделать страницу со всеми рецензиями для этой книги также выводить только 5 крутых рецензий и сворачивать их до определенного слова написать рецензцию изменить на изменить рецензию если она уже есть... модальное окно....
 <br>
 <br>
 
@@ -72,19 +71,25 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                         <img class="bc-menu__image" title="<?php echo $book['title']; ?>" src="<?php echo $book['image']; ?>"
                              style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
-                    <?php $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                    <?php  $mymark = $api->getMyMark($book['id'], $_SESSION['user']['id_profile']);
+                    $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                     $review = $api->getExistReview($book['id'], $_SESSION['user']['id_profile']);
                     $reviewId = $api->getReviewId($book['id'], $_SESSION['user']['id_profile']);
                     $rating = $api->getBookRaiting($book['id']); ?>
-                    <div class="userbook-container" data-book-id="<?php echo $book['id'];?>"
+                    <div class="userbook-container-<?php echo $book['id'];?>" data-book-id="<?php echo $book['id'];?>"
                          data-book-name="<?php echo $book['title']; ?>"
                          data-action="<?php echo $action['id']; ?>"
                          data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                          data-review = "<?php echo $reviewId;?>"
+                         data-mark="<?php echo $mymark[0]['rating']; ?>"
+                         data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                          data-exist-review="<?php echo $review;?>"
                          data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
                         <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                     </div>
+                    <input type="hidden" name="data-session" value="<?php echo $_SESSION['user']['id_profile']; ?>">
+                    <input type="hidden" name="data-book-id" value="<?php echo $book['id'];?>">
+                    <input type="hidden" name="data-review" value="<?php echo $reviewId;?>">
                     <?php
                     if (!empty($review)){$exist=1;}else{$exist=0;}
                     if($exist == 1): ?>
@@ -99,7 +104,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                     <div class="bc-rating">
                         <a class="bc-rating-medium">
                             <?php
-                            $mymark = $api->getMyMark($book['id'], $_SESSION['user']['id_profile']);
                             $rating = $api->getBookRaiting($_GET['book']); ?>
                             <span><?php echo $rating; ?></span>
                         </a>
@@ -145,7 +149,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                         <ul class="bc-genre__list">
                             <?php for ($i = 0; $i < count($book['genres']); $i++): ?>
                                 <li>
-                                    <a href="/views/genres/"><?php echo $book['genres'][$i]; ?></a>
+                                    <a href="/views/genres/genre?genre=<?php echo $book['genres'][$i]['id_genre']; ?>"><?php echo $book['genres'][$i]['name']; ?></a>
                                 </li>
                             <?php endfor; ?>
                         </ul>
@@ -276,15 +280,20 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                         $rating = $api->getMyMark($simple['id'], $_SESSION['user']['id_profile']);
                                                         $review = $api->getExistReview($simple['id'], $_SESSION['user']['id_profile']);
                                                         $reviewId = $api->getReviewId($simple['id'], $_SESSION['user']['id_profile']);?>
-                                                    <div class="userbook-container" data-book-id="<?php echo $simple['id']?>"
+                                                    <div class="userbook-container-<?php echo $simple['id'];?>" data-book-id="<?php echo $simple['id']?>"
                                                          data-book-name="<?php echo $simple['book']; ?>"
                                                          data-action="<?php echo $action['id']; ?>"
                                                          data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                          data-review = "<?php echo $reviewId;?>"
+                                                         data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                         data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                          data-exist-review="<?php echo $review; ?>"
                                                          data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>" >
                                                         <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                                     </div>
+                                                    <input type="hidden" name="data-session" value="<?php echo $_SESSION['user']['id_profile']; ?>">
+                                                    <input type="hidden" name="data-book-id" value="<?php echo $simple['id'];?>">
+                                                    <input type="hidden" name="data-review" value="<?php echo $reviewId;?>">
                                                 </div>
                                             </li>
                                         <?php endforeach; ?>
@@ -340,15 +349,20 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                     $rating = $api->getMyMark($other['id'], $_SESSION['user']['id_profile']);
                                                     $review = $api->getExistReview($other['id'], $_SESSION['user']['id_profile']);
                                                     $reviewId = $api->getReviewId($other['id'], $_SESSION['user']['id_profile']);?>
-                                                    <div class="userbook-container" data-book-id="<?php echo $other['id']?>"
+                                                    <div class="userbook-container-<?php echo $other['id'];?>" data-book-id="<?php echo $other['id']?>"
                                                          data-book-name="<?php echo $other['book']; ?>"
                                                          data-action="<?php echo $action['id']; ?>"
                                                          data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                          data-review = "<?php echo $reviewId;?>"
+                                                         data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                         data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                          data-exist-review="<?php echo $review; ?>"
                                                          data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>" >
                                                         <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                                     </div>
+                                                    <input type="hidden" name="data-session" value="<?php echo $_SESSION['user']['id_profile']; ?>">
+                                                    <input type="hidden" name="data-book-id" value="<?php echo $other['id'];?>">
+                                                    <input type="hidden" name="data-review" value="<?php echo $reviewId;?>">
                                                 </div>
                                             </li>
                                         <?php endforeach; ?>
@@ -401,15 +415,20 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                 $rating = $api->getMyMark($new['id'], $_SESSION['user']['id_profile']);
                                                 $review = $api->getExistReview($new['id'], $_SESSION['user']['id_profile']);
                                                 $reviewId = $api->getReviewId($new['id'], $_SESSION['user']['id_profile']);?>
-                                                <div class="userbook-container" data-book-id="<?php echo $new['id']?>"
+                                                <div class="userbook-container-<?php echo $new['id'];?>" data-book-id="<?php echo $new['id']?>"
                                                      data-book-name="<?php echo $new['book']; ?>"
                                                      data-action="<?php echo $action['id']; ?>"
                                                      data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-review = "<?php echo $reviewId;?>"
                                                      data-exist-review="<?php echo $review; ?>"
+                                                     data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                     data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>" >
                                                     <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                                 </div>
+                                                <input type="hidden" name="data-session" value="<?php echo $_SESSION['user']['id_profile']; ?>">
+                                                <input type="hidden" name="data-book-id" value="<?php echo $new['id'];?>">
+                                                <input type="hidden" name="data-review" value="<?php echo $reviewId;?>">
                                             </div>
                                         </li>
                                     <?php endforeach; ?>

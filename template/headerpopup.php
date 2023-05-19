@@ -44,11 +44,12 @@
                 <p class="popup__forgot">Если вы забыли пароль, вы можете поменять его.</p>
             </div>
             <div class="popup__input">
-                <label>
-                    <input class="popup__email" placeholder="Введите e-mail" type="text">
-                </label>
+                    <input maxlength="12" class="popup__login" style="margin-top: 5px" name="forgot-user" placeholder="Введите логин или номер карточки" type="text">
+                    <input class="popup__email" style="margin-top: 10px;" name="forgot" placeholder="Введите зарегистрированный e-mail" type="text">
             </div>
-            <div class="popup__space"></div>
+            <div class="popup__space">
+                <p class="popup__reg-email-error"></p>
+            </div>
             <button class="popup__send-code" name="forgot">Отправить</button>
         </div>
     </form>

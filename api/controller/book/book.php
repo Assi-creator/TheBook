@@ -67,9 +67,12 @@ class Book extends Base
      */
     function getGenresForSingleBook($id): array
     {
-        $query = $this->db->getAll("SELECT genre.name FROM genre JOIN book_genre bg on genre.id_genre = bg.id_genre JOIN book b on b.id = bg.id_book Where b.id = " . $id . "");
+        $query = $this->db->getAll("SELECT genre.id_genre AS `id_genre`, genre.name AS `name` FROM genre JOIN book_genre bg on genre.id_genre = bg.id_genre JOIN book b on b.id = bg.id_book Where b.id = " . $id . "");
         for ($i = 0; $i < count($query); $i++) {
-            $result[] = $query[$i]['name'];
+            $result[] = array(
+                'name' => $query[$i]['name'],
+                'id_genre' => $query[$i]['id_genre']
+            );
         }
         return $result;
     }
@@ -141,7 +144,7 @@ class Book extends Base
                 $result = $result + (int)($review[$i]['mark']);
             }
             $result = $result / count($review);
-            return $result;
+            return round($result, 1);
         } else return 0;
     }
 
@@ -150,9 +153,11 @@ class Book extends Base
      * @param $profile
      * @return array
      */
-    function getMyMark($id, $profile): array
+    function getMyMark($id, $profile)
     {
-        $mark = $this->db->getAll("SELECT rating FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE review.id_book = " . $id . " AND review.id_profile = " . $profile . "");
+        if ($profile !== null){
+            $mark = $this->db->getAll("SELECT mark AS `rating` FROM mark WHERE id_book = " . $id . " AND id_profile = " . $profile . "");
+        }
         return $mark;
     }
 
@@ -288,9 +293,12 @@ class Book extends Base
     }
 
     function getExistReview($book, $profile){
-        $sql = "SELECT count(*) AS `count` FROM review WHERE id_book = " . $book . " AND id_profile = " . $profile . "";
+        if ($profile !== null){
+            $sql = "SELECT count(*) AS `count` FROM review WHERE id_book = " . $book . " AND id_profile = " . $profile . "";
 
-        $result = $this->db->getRow($sql);
+            $result = $this->db->getRow($sql);
+        }
+
         if ($result['count'] == 1){
             return 1;
         } else return 0;
@@ -305,5 +313,97 @@ class Book extends Base
         } else return 0;
 
     }
+
+    function getBookByGenre($genre) {
+        $sql = "select id, book.name AS `title`, annotation, ISBN, year, series, image, a.name AS `author`, p.name AS `publishing`, g.name AS `genre` from book
+                    JOIN book_genre bg on book.id = bg.id_book
+                    JOIN book_author ba on book.id = ba.id_book
+                    JOIN author a on a.id_author = ba.id_author
+                    JOIN book_publishing bp on book.id = bp.id_book
+                    JOIN publishing p on p.id_publishing = bp.id_publishing
+                                                                                                                                   join genre g on bg.id_genre = g.id_genre
+                WHERE bg.id_genre = '".$genre."'";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getBookByGenreNew($genre){
+        $sql = "select id, book.name AS `title`, annotation, ISBN, year, series, image, a.name AS `author`, p.name AS `publishing`, g.name AS `genre` from book
+                    JOIN book_genre bg on book.id = bg.id_book
+                    JOIN book_author ba on book.id = ba.id_book
+                    JOIN author a on a.id_author = ba.id_author
+                    JOIN book_publishing bp on book.id = bp.id_book
+                    JOIN publishing p on p.id_publishing = bp.id_publishing
+                    join genre g on bg.id_genre = g.id_genre
+                WHERE bg.id_genre = '".$genre."' ORDER BY id desc";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getBookByGenreTop($genre) {
+        $sql = "SELECT id, book.name AS `title`, annotation, ISBN, year, series, image, a.name AS `author`, p.name AS `publishing`, COUNT(book_action.id_action) AS action_count
+                    FROM book
+                             INNER JOIN book_action ON book.id = book_action.id_book
+                             JOIN book_genre bg on book.id = bg.id_book
+                             JOIN book_author ba on book.id = ba.id_book
+                             JOIN author a on a.id_author = ba.id_author
+                             JOIN book_publishing bp on book.id = bp.id_book
+                             JOIN publishing p on p.id_publishing = bp.id_publishing
+                    WHERE book_action.id_action = 2 AND bg.id_genre = '".$genre."'
+                    GROUP BY book.id, book.name
+                    ORDER BY action_count DESC ";
+
+        $result = $this->db->getAll($sql);
+
+        return $result;
+    }
+
+    function getBookByGenreBest($genre){
+        $sql = "select DISTINCT id, book.name AS `title`, annotation, ISBN, year, series, image, a.name AS `author`, p.name AS `publishing`, AVG(mark.mark) as average_mark from book
+                INNER JOIN mark ON book.id = mark.id_book
+                JOIN book_genre bg on book.id = bg.id_book
+                JOIN book_author ba on book.id = ba.id_book
+                JOIN author a on a.id_author = ba.id_author
+                JOIN book_publishing bp on book.id = bp.id_book
+                JOIN publishing p on p.id_publishing = bp.id_publishing
+                JOIN mark m on book.id = m.id_book
+        WHERE bg.id_genre = '".$genre."'
+        GROUP BY book.name
+        ORDER BY average_mark DESC";
+
+        $result = $this->db->getAll($sql);
+
+        $this->log->info('array', $result);
+
+        return $result;
+    }
+
+    function getGenreTitile($genre){
+        return $this->db->getRow("SELECT name FROM genre WHERE id_genre = '".$genre."'");
+    }
+
+    function getPlusReview($book){
+        $sql = "SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile WHERE id_book = '".$book."' AND (rating = 4 OR rating = 5);";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getZeroReview($book){
+        $sql = "SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile WHERE id_book = '".$book."' AND rating = 3;";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
+    function getMinusReview($book){
+        $sql = "SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile WHERE id_book = '".$book."' AND (rating = 1 OR rating = 2);";
+
+        $result = $this->db->getAll($sql);
+        return $result;
+    }
+
 }
 

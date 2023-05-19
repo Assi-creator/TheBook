@@ -45,13 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     $sql = "SELECT count(*) AS `count` FROM book_action WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
     $action = $db->getRow($sql);
 
+    if ($act == 1 OR $act == 3){
+        if (checkMark($book, $profile)){
+            $base->db->query("DELETE FROM mark WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'");
+        }
+    }
 
     if ($action['count'] == 1) {
         $sql = "UPDATE book_action SET id_action = '" . $act . "' WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
         $db->query($sql);
-        echo json_encode($base->request_api(true, $act), JSON_UNESCAPED_UNICODE);
-        die();
-
     } else if ($action['count'] == 0) {
         $sql = "INSERT INTO book_action SET ?u";
         $in = array(
@@ -61,10 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
         );
 
         $db->query($sql, $in);
-        echo json_encode($base->request_api(true, 'Статус успешно добавлен'), JSON_UNESCAPED_UNICODE);
+        echo json_encode($base->request_api(true, $act), JSON_UNESCAPED_UNICODE);
         die();
     } else {
-        echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
+        $base->log->error('Change mark in account.php:', (array)$action);
+        echo json_encode($base->request_api(false, null, 'В базе более 1 оценки'), JSON_UNESCAPED_UNICODE);
         die();
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'removemark') {
@@ -73,8 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     $sql = "DELETE FROM book_action WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'";
     $db->query($sql);
 
+    if (checkMark($book, $profile)){$base->db->query("DELETE FROM mark WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "'");}
+
+
     echo json_encode($base->request_api(true, 'Оценка успешно удалена.'), JSON_UNESCAPED_UNICODE);
     die();
+
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'changeemail') {
    $email = $_POST['email'];
 
@@ -134,7 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
         $sql = "UPDATE profile SET password = '".password_hash($new, PASSWORD_DEFAULT)."' WHERE id_profile = '".$_SESSION['user']['id_profile']."'";
         $db->query($sql);
     } catch (\Exception $e){
-        echo json_encode($base->request_api(false, null, 'Внутренняя ошибка сервера: '.$e), JSON_UNESCAPED_UNICODE);
+        $base->log->error('Change password in account.php:', (array)$e);
+        echo json_encode($base->request_api(false, null, 'Внутренняя ошибка сервера'), JSON_UNESCAPED_UNICODE);
         die();
     }
 
@@ -162,9 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == 'editprofile') 
     // TODO: Создать класс PHPMailer и отправлять код туда, после отправки записывать email.
     echo json_encode($base->request_api(true, 'Все супер'), JSON_UNESCAPED_UNICODE);
     die();
-}
-else {
-    echo json_encode($base->request_api(false, null, 'Непредвиденная ошибка'), JSON_UNESCAPED_UNICODE);
+} else {
+    $base->log->error('Unknown command:', (array)$_POST['action']);
+    echo json_encode($base->request_api(false, null, 'Внутренняя ошибка сервера'), JSON_UNESCAPED_UNICODE);
     die();
 }
 
@@ -241,5 +249,14 @@ function checkPassword($password): bool
 
 function checkEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) ;
+}
+
+function checkMark($book, $profile){
+    $base = new Base;
+    $sql = $base->db->getRow("Select count(*) AS `count` FROM mark WHERE id_profile = '".$profile."' AND id_book = '".$book."' ");
+
+    if ($sql['count'] == 1){
+        return true;
+    } else return false;
 }
 

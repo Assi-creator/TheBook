@@ -8,96 +8,20 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     background: transparent;
 }
 
-html {
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: 100%;
-    scroll-behavior: smooth;
-}
-
-body {
-    max-width: 100%;
-    margin: 0 auto;
-    background-color: #fff;
-    font-family: "Source Sans Pro", sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-header {
-    position: sticky;
-    top: 0;
-    z-index: 500;
-    background: white;
-}
-
-a {
-    color: #3e99ed;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-b {
-    font-weight: 600;
-}
-
-h2 {
-    color: #252626;
-    clear: both;
-    margin: 0 0 20px;
-    font-size: 20px;
-    line-height: 30px;
-    font-weight: bold;
-    font-style: normal;
-    border-bottom: none;
-    text-shadow: none;
-}
-
-h1, h2.h1 {
-    clear: both;
-    font-size: 24px;
-    line-height: 30px;
-    margin-bottom: 24px;
-    font-weight: bold;
-    font-style: normal;
-    border: 0;
-}
-
-hr {
-    background: #6f7073;
-}
-
-ul {
-    list-style: none !important;
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-label {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
-    background: transparent;
-    cursor: pointer;
-}
-
-a.right, span.right {
-    float: right !important;
-}
-
-input:focus {
-    outline: none;
-}
-
+html {background-repeat: no-repeat;background-position: 50% 0;background-size: 100%;scroll-behavior: smooth;}
+body {max-width: 100%;margin: 0 auto;background-color: #fff;font-family: "Source Sans Pro", sans-serif;}
+* {margin: 0;padding: 0;box-sizing: border-box;}
+header {position: sticky;top: 0;z-index: 500;background: white;}
+a {color: #3e99ed;text-decoration: none;cursor: pointer;}
+b {font-weight: 600;}
+h2 {color: #252626;clear: both;margin: 0 0 20px;font-size: 20px;line-height: 30px;font-weight: bold;font-style: normal;border-bottom: none;text-shadow: none;}
+h1, h2.h1 {clear: both;font-size: 24px;line-height: 30px;margin-bottom: 24px;font-weight: bold;font-style: normal;border: 0;}
+hr {background: #6f7073;}
+ul {list-style: none !important;}
+table {border-collapse: collapse;border-spacing: 0;}
+label {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;background: transparent;cursor: pointer;}
+a.right, span.right {float: right !important;}
+input:focus {outline: none;}
 .page-content {
     justify-content: left;
     position: relative;
@@ -107,24 +31,10 @@ input:focus {
     -webkit-box-pack: center;
     flex-wrap: wrap;
 }
-
-.separator {
-    display: block;
-    clear: both;
-}
-
-.form-input._error {
-    border: 1px solid red;
-    border-radius: 3px;
-}
-
-:focus {
-    outline: 0;
-}
-
-section {
-    display: block;
-}
+.separator {display: block;clear: both;}
+.form-input._error {border: 1px solid red;border-radius: 3px;}
+:focus {outline: 0;}
+section {display: block;}
 
 /*#region Main-index.php*/
 
@@ -1696,6 +1606,26 @@ article.bc-about {
     width: 178px;
 }
 
+.review-menu__stars {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    width: 178px;
+}
+
+.review-menu__stars.bc-rating--full {
+    margin-left: 12px;
+    margin-right: -12px;
+}
+
+.review-menu__stars.bc-rating--full label {
+    width: calc(26px + 12px);
+}
+
 .bc-menu__rating {
     position: relative;
     display: -webkit-box;
@@ -1791,6 +1721,8 @@ input.radio, input[type="radio"] {
     display: flex;
     margin: 0 0 29px 12px;
 }
+
+a.label-genre:hover { background-color: #ECF3FC;opacity:1; }
 
 .popup-load-data {
     position: relative;
@@ -2421,6 +2353,8 @@ a:hover .arrow-genre-up, a:hover .arrow-genre-down {
     margin-right: 3px;
     vertical-align: -5px;
 }
+
+a.label-genre:hover { background-color: #ECF3FC;opacity:1; }
 
 
 /*#endregion genres*/
@@ -3326,3 +3260,4 @@ a:hover .i-group-edit {
     text-overflow: ellipsis;
     line-height: 24px;
 }
+

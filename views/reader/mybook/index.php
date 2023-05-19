@@ -16,7 +16,6 @@ if (!isset($_SESSION['user'])) {
     <script src="/assets/libs/swiper/swiper.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="/assets/js/book.js" defer></script>
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
@@ -63,29 +62,29 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                             <a class="carousel-book__title" href="/views/book/?book=<?php echo $reads['id']; ?>"><?php echo $reads['title']; ?></a>
                                             <a class="carousel-book__author"><?php echo $reads['author']; ?></a>
                                             <?php
+                                            $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
                                             $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                             $rating = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
                                             $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
-                                            $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
+                                            $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']); ?>
 
-                                            if ($rating[0]['rating'] == 0): ?>
-                                                <div class="carousel-book__rating">
-                                                    <span class="mymark"></span>
-                                                    <span>0</span>
-                                                </div>
-                                            <?php else: ?>
-                                            <div class="carousel-book__rating" style="background: none !important;">
-                                                <span class="mymark"
-                                                      style="background: url(/assets/images/root/icons/SVGsprite.svg) 0 -185px no-repeat !important;"></span>
-                                                <span><?php echo $rating[0]['rating']; ?></span>
-                                            </div>
-                                            <?php endif; ?>
+                                             <div class="carousel-book__rating">
+                                                        <?php $rating = $api->getBookRaiting($reads['id']); ?>
+                                            <span><?php echo $rating; ?></span>
+                                        </div>
+                                        <?php $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
+                                        if (!empty($mymark)):?>
+                                            <div class="lists__mymark"><?php echo $mymark[0]['rating']; ?></div>
+                                        <?php endif; ?>
                                             <div class="separator"></div>
-                                            <div class="userbook-container" data-book-id="<?php echo $reads['id']?>"
+                                            <div class="userbook-container-<?php echo $reads['id'];?>"
+                                                 data-book-id="<?php echo $reads['id']?>"
                                                  data-book-name="<?php echo $reads['title']; ?>"
                                                  data-action="<?php echo $action['id']; ?>"
                                                  data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                  data-review = "<?php echo $reviewId;?>"
+                                                 data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                 data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                  data-exist-review="<?php echo $review; ?>"
                                                  data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>" >
                                                 <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
@@ -142,7 +141,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 <span><?php echo $rating; ?></span>
                                             </div>
                                             <div class="separator"></div>
-                                            <div class="userbook-container" data-book-id="<?php echo $wishs['id'];?>"
+                                            <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $wishs['id'];?>"
                                                  data-book-name="<?php echo $wishs['title']; ?>"
                                                  data-action="<?php echo $action['id']; ?>"
                                                  data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
@@ -202,7 +201,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 <span><?php echo $rating; ?></span>
                                             </div>
                                             <div class="separator"></div>
-                                            <div class="userbook-container" data-book-id="<?php echo $readings['id']?>"
+                                            <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $readings['id']?>"
                                                  data-book-name="<?php echo $readings['title']; ?>"
                                                  data-action="<?php echo $action['id']; ?>"
                                                  data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"

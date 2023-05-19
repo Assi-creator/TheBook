@@ -43,8 +43,8 @@ $book = $api->getSingleBookById($_GET['book']);?>
                         <br>
                         <div style="margin-top: 5px; display: flex;flex-wrap: wrap; width: 500px;">
                             <?php $genre = $api->getGenresForSingleBook($book['id']); for ($i = 0; $i < count($genre); $i++):?>
-                                <a class="label-genre">
-                                    <?php echo $genre[$i]; ?>
+                                <a class="label-genre" href="/views/genres/genre?genre=<?php echo $genre[$i]['id_genre'];?>">
+                                    <?php echo $genre[$i]['name']; ?>
                                 </a>
                             <?php endfor; ?>
                         </div>
@@ -59,24 +59,24 @@ $book = $api->getSingleBookById($_GET['book']);?>
                                     <div class="tb-column-2">
                                         <label class="label-form">Ваша оценка книги</label>
                                         <div class="bc-menu__rating">
-                                            <div class="bc-menu__stars bc-rating--full">
-                                                <input id="book-radio-rating-5" class="rating-radio" type="radio" value="5"
+                                            <div class="review-menu__stars bc-rating--full">
+                                                <input id="review-radio-rating-5" class="review-radio rating-radio" type="radio" value="5"
                                                        name="bc_rating">
-                                                <label for="book-radio-rating-5"></label>
-                                                <input id="book-radio-rating-4" class="rating-radio" type="radio" value="4"
+                                                <label for="review-radio-rating-5"></label>
+                                                <input id="review-radio-rating-4" class="review-radio rating-radio" type="radio" value="4"
                                                        name="bc_rating">
-                                                <label for="book-radio-rating-4"></label>
-                                                <input id="book-radio-rating-3" class="rating-radio" type="radio" value="3"
+                                                <label for="review-radio-rating-4"></label>
+                                                <input id="review-radio-rating-3" class="review-radio rating-radio" type="radio" value="3"
                                                        name="bc_rating">
-                                                <label for="book-radio-rating-3"></label>
-                                                <input id="book-radio-rating-2" class="rating-radio" type="radio" value="2"
+                                                <label for="review-radio-rating-3"></label>
+                                                <input id="review-radio-rating-2" class="review-radio rating-radio" type="radio" value="2"
                                                        name="bc_rating">
-                                                <label for="book-radio-rating-2"></label>
-                                                <input id="book-radio-rating-1" class="rating-radio" type="radio" value="1"
+                                                <label for="review-radio-rating-2"></label>
+                                                <input id="review-radio-rating-1" class="review-radio rating-radio" type="radio" value="1"
                                                        name="bc_rating">
-                                                <label for="book-radio-rating-1"></label>
+                                                <label for="review-radio-rating-1"></label>
                                             </div>
-                                            <input name="mymark" type="hidden">
+                                            <span class="popup-book-mark hidden"></span>
                                         </div>
                                         <div style="padding-top: 7px;">
 

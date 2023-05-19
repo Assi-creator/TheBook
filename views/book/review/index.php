@@ -16,7 +16,6 @@ $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile']
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script defer src="/assets/js/header.js"></script>
     <script src="/assets/libs/swiper/swiper.min.js"></script>
     <script defer src="/assets/js/book.js"></script>
 
@@ -29,7 +28,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
 ?>
 
-//разобраться с оценкой, в карусели внизу подправить вывод средней оценки и сделать страницу со всеми рецензиями для этой книги также выводить только 5 крутых рецензий и сворачивать их до определенного слова написать рецензцию изменить на изменить рецензию если она уже есть... модальное окно....
 <br>
 <br>
 
@@ -102,6 +100,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                             <div class="bc-detailing__inner">
                                 <a class="bc-detailing__show-all">Всего <?php echo count($allReview); ?></a>
                             </div>
+
+                        <?php  ?>
                             <div class="bc-detailing__sorting">
                                 <details class="ll-details-closed">
                                     <summary>

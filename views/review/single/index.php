@@ -89,8 +89,8 @@
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>
-                                    <div class="userbook-container ub-container">
-                                        <div class="userbook-container" data-book-id="<?php echo $review['id_book'];?>"
+
+                                        <div class="userbook-container-<?php echo $review['id_book'];?>" data-book-id="<?php echo $review['id_book'];?>"
                                              data-book-name="<?php echo $review['book']; ?>"
                                              data-action="<?php echo $action['id']; ?>"
                                              data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
@@ -99,7 +99,7 @@
                                              data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
                                             <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                         </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="lenta-card__details">

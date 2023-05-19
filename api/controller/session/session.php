@@ -4,6 +4,7 @@ namespace TheBook;
 
 session_start();
 
+require $_SERVER['DOCUMENT_ROOT'] . "/api/vendor/autoload.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/api/modules/Base.class.php";
 
 $base = new Base;
@@ -78,7 +79,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'session') {
     $_SESSION['user'] = $result;
     echo json_encode($base->request_api(true, null));
 
-} else {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' AND $_POST['action'] == 'forgot') {
+        $email = $_POST['email'];
+        $user = $_POST['user'];
+
+        if(empty($email) OR empty($user)){
+            echo json_encode($base->request_api(false, null, 'Заполните все поля ввода'), JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        if(!checkEmail($email)){
+            echo json_encode($base->request_api(false, null, 'Некорректный email'), JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        //TODO: БУДЕМ КРАФТИТЬ КОД ВОССТАНОВЛЕНИЯ ДОСТУПА!!!!!!!!!!!!!!!!!!!!!!!
+
+        if(!checkEmailUser($email, $user)){
+            echo json_encode($base->request_api(false, null,'Пользователь с такой почтой не найден'), JSON_UNESCAPED_UNICODE);
+        } else {
+            $mailer = new Mailer;
+            if($mailer->sendEmail($email)){
+                echo json_encode($base->request_api(true, 'Инструкция по сбросу пароля отправлена на почту'), JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode($base->request_api(false, null,'Ошибка отправки письма'), JSON_UNESCAPED_UNICODE);
+            }
+        }
+}else {
     unset($_SESSION['user']);
     header('Location: /index.php');
 }
@@ -174,7 +201,6 @@ function setAvatar($post, $files)
 
 function setSession($profile){
     $base = new Base;
-    $db = new DataBase;
     $sql = "INSERT INTO sessions SET ?u";
 
     $user_agent = $_SERVER["HTTP_USER_AGENT"];
@@ -195,6 +221,21 @@ function setSession($profile){
 
     $base->db->query($sql, $inSession);
     return;
+}
+
+function checkEmailUser($email, $user){
+    $base = new Base;
+    $login = $base->db->getRow("SELECT count(*) as `count` FROM profile WHERE login = '".$user."' AND (email = '".$email."' OR reserved_email = '".$email."')");
+    $card = $base->db->getRow("SELECT count(*) as `count` FROM profile JOIN reader r on r.id_reader = profile.id_reader WHERE card = ".$user." AND (email = '".$email."' OR reserved_email = '".$email."')");
+
+    $base->log->debug('Login select:', $login);
+    $base->log->debug('Card select:', $card);
+
+    if ($login['count'] == 1){
+        return true;
+    } else if($card['count'] == 1) {
+        return true;
+    } else return false;
 }
 
 

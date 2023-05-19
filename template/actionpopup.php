@@ -30,30 +30,26 @@
                         <span id="ub-form-rating-popup-rating-value" class="add-book__my-rating"></span>
                     </p>
                     <div class="add-book__rating  five-point">
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-10" value="10" name="add-book-rating" checked="checked">
-                        <label for="ub-radio-rating-10"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-9" value="10" name="add-book-rating">
-                        <label for="ub-radio-rating-9"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-8" value="8" name="add-book-rating">
-                        <label for="ub-radio-rating-8"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-7" value="8" name="add-book-rating">
-                        <label for="ub-radio-rating-7"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-6" value="6" name="add-book-rating">
-                        <label for="ub-radio-rating-6"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-5" value="6" name="add-book-rating">
-                        <label for="ub-radio-rating-5"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-4" value="4" name="add-book-rating">
-                        <label for="ub-radio-rating-4"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-3" value="4" name="add-book-rating">
-                        <label for="ub-radio-rating-3"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-2" value="2" name="add-book-rating">
-                        <label for="ub-radio-rating-2"></label>
-                        <input class="ub-from-set-rating-radio" type="radio" id="ub-radio-rating-1" value="2" name="add-book-rating">
-                        <label for="ub-radio-rating-1"></label>
+                        <input id="rating-radio-popup-5" class="rating-radio-popup" type="radio" value="5"
+                               name="bc_rating">
+                        <label for="rating-radio-popup-5"></label>
+                        <input id="rating-radio-popup-4" class="rating-radio-popup" type="radio" value="4"
+                               name="bc_rating">
+                        <label for="rating-radio-popup-4"></label>
+                        <input id="rating-radio-popup-3" class="rating-radio-popup" type="radio" value="3"
+                               name="bc_rating">
+                        <label for="rating-radio-popup-3"></label>
+                        <input id="rating-radio-popup-2" class="rating-radio-popup" type="radio" value="2"
+                               name="bc_rating">
+                        <label for="rating-radio-popup-2"></label>
+                        <input id="rating-radio-popup-1" class="rating-radio-popup" type="radio" value="1"
+                               name="bc_rating">
+                        <label for="rating-radio-popup-1"></label>
                     </div>
+                    <input id="ub-rating" type="hidden" name="new_book_rating" value="0">
                 </div>
             </div>
-            <input id="ub-rating" type="hidden" name="new_book_rating" value="0">
+
             <div class="add-book__modal-remove center centered hidden" id="ub-from-confirm-modal-remove-ub-from-collection">
                 <p>Вы уверены, что хотите удалить книгу из коллекции?</p>
                 <div>
@@ -73,4 +69,6 @@
     <input type="hidden" name="data-exist-review-popup">
     <input type="hidden" name="data-exist-review-popup">
     <input type="hidden" name="data-review-popup">
+    <input type="hidden" name="data-mark-popup">
+    <input type="hidden" name="data-session-popup">
 </div>

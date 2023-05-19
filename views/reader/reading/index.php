@@ -53,19 +53,24 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                     $rating = $api->getBookRaiting($reads['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
-                                        <div class="userbook-container" style="text-align: left;">
-                                            <div class="ub-container" style="display: flex; justify-content: center;">
-                                                <div class="userbook-container" data-book-id="<?php echo $reads['id'];?>"
+
+                                                <?php  $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
+                                                $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                                $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
+                                                $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
+                                                $rating = $api->getBookRaiting($reads['id']); ?>
+                                                <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $reads['id'];?>"
                                                      data-book-name="<?php echo $reads['title']; ?>"
                                                      data-action="<?php echo $action['id']; ?>"
                                                      data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-review = "<?php echo $reviewId;?>"
+                                                     data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                     data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-exist-review="<?php echo $review;?>"
                                                      data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
                                                     <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                                 </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="separator"></div>
                                     <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
@@ -81,10 +86,9 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                             <?php
                                             $genre = $api->getGenresForSingleBook($reads['id']);
                                             $stats = $api->getStatForSingleBook($reads['id']);
-                                            for ($i = 0; $i < count($genre); $i++):
-                                                ?>
-                                                <a class="label-genre">
-                                                    <?php echo $genre[$i]; ?>
+                                            for ($i = 0; $i < count($genre); $i++):?>
+                                                <a class="label-genre" href="/views/genres/genre?genre=<?php echo $genre[$i]['id_genre'];?>">
+                                                    <?php echo $genre[$i]['name']; ?>
                                                 </a>
                                             <?php endfor; ?>
                                         </div>

@@ -1581,6 +1581,14 @@ input.file, input[type="file"], textarea, select, .form-scroll {
     margin-top: 10px;
 }
 
+.popup__reg-email-error {
+    position: relative;
+    color: #FA385D;
+    font: 14px/16px "Source Sans Pro", sans-serif;
+    text-align: center;
+    margin-top: 10px;
+}
+
 @media (max-width: 550px) {
     .popup__regForm {
         height: 550px;
@@ -2062,6 +2070,7 @@ input.radio, input[type="radio"] {
 
 .add-book__action-item .add-book__rating {
     transform: translate(1px, -2px);
+    margin: auto;
 }
 
 .add-book__rating {
@@ -2080,37 +2089,22 @@ input.radio, input[type="radio"] {
 }
 
 .add-book__action-item.rating-in-popup label {
-    width: 19px;
+    width: calc(26px + 12px);
 }
 
-.add-book__rating.five-point label:nth-of-type(2n) {
-    overflow: visible;
-}
-.add-book__rating label:nth-of-type(2n) {
-    overflow: hidden;
-}
-.add-book__rating input:checked ~ label:nth-of-type(2n)::before {
+.add-book__rating input:checked ~ label::before {
     background-position: 0 -182px;
     visibility: visible;
 }
-.add-book__action-item.rating-in-popup label:nth-of-type(2n)::before {
+.add-book__action-item.rating-in-popup label::before {
     left: 6px;
 }
-.add-book__rating label:nth-of-type(2n)::before {
-    top: -1px;
-    left: 13px;
-    visibility: hidden;
-}
 
-.add-book__rating input:checked ~ label:nth-of-type(2n-1)::before {
+.add-book__rating input:checked ~ label::before {
     background-position: 0 -182px;
 }
-.add-book__rating label:nth-of-type(2n-1)::before {
-    top: -1px;
-    left: -13px;
-}
 
-.add-book__rating label:nth-of-type(2n-1)::before, .add-book__rating label:nth-of-type(2n)::before {
+.add-book__rating label::before, .add-book__rating label::before {
     content: '';
     position: absolute;
     width: 26px;

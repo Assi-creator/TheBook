@@ -81,7 +81,7 @@ session_start(); ?>
                                             $subgenres = $api->getAllSubgenre($title['id_title']);
                                             for ($i = 0; $i < 4; $i++): ?>
                                                 <div class="subgenre">
-                                                    <a href=""><?php echo $subgenres[$i]['name']; ?></a>
+                                                    <a href="/views/genres/genre?genre=<?php echo $subgenres[$i]['id_genre']; ?>"><?php echo $subgenres[$i]['name']; ?></a>
                                                     <?php $count = $api->getCountSubgenreBooks($subgenres[$i]['id_genre']); ?>
                                                     <span><?php echo $count[0]['count'] ?></span>
                                                 </div>

@@ -13,6 +13,7 @@ class Base
 {
     public ConfigBase $config;
     public DataBase $db;
+    public Logs $log;
 
     /**
      * @throws Exception
@@ -21,6 +22,7 @@ class Base
     {
         $this->config   = new ConfigBase();
         $this->db       = new DataBase($this->config::DB_CONNECT);
+        $this->log = new Logs();
     }
 
     /**

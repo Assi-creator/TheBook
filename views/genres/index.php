@@ -1,6 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/genre/genre.php';
-$api = new TheBook\Genre;
+$api = new TheBook\controller\Genre;
 
 session_start(); ?>
 

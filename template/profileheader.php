@@ -51,7 +51,7 @@
 
     <?php
     include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
-    use TheBook\User;
+    use TheBook\controller\User;
 
     $user = new User;
     $url =  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];

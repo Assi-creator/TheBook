@@ -4,7 +4,7 @@ if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
 }
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
-$api = new \TheBook\User;
+$api = new TheBook\controller\User;
 $sessions = $api->getAllSessions();
 ?>
 
@@ -19,9 +19,7 @@ $sessions = $api->getAllSessions();
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
 </head>
 <body>
 

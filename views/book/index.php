@@ -1,6 +1,6 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
-$api = new TheBook\Book;
+$api = new TheBook\controller\Book;
 $book = $api->getSingleBookById($_GET['book']);
 $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
 ?>
@@ -75,7 +75,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                     $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                     $review = $api->getExistReview($book['id'], $_SESSION['user']['id_profile']);
                     $reviewId = $api->getReviewId($book['id'], $_SESSION['user']['id_profile']);
-                    $rating = $api->getBookRaiting($book['id']); ?>
+                    $rating = $api->getBookRating($book['id']); ?>
                     <div class="userbook-container-<?php echo $book['id'];?>" data-book-id="<?php echo $book['id'];?>"
                          data-book-name="<?php echo $book['title']; ?>"
                          data-action="<?php echo $action['id']; ?>"
@@ -104,7 +104,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                     <div class="bc-rating">
                         <a class="bc-rating-medium">
                             <?php
-                            $rating = $api->getBookRaiting($_GET['book']); ?>
+                            $rating = $api->getBookRating($_GET['book']); ?>
                             <span><?php echo $rating; ?></span>
                         </a>
                         <div class="bc-menu__rating">
@@ -267,7 +267,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                        href="/views/book/?book=<?php echo $simple['id'] ?>"><?php echo $simple['book'] ?></a>
                                                     <a class="carousel-book__author"><?php echo $simple['author'] ?></a>
                                                     <div class="carousel-book__rating">
-                                                        <?php $rating = $api->getBookRaiting($simple['id']); ?>
+                                                        <?php $rating = $api->getBookRating($simple['id']); ?>
                                                         <span><?php echo $rating; ?></span>
                                                     </div>
                                                     <?php $mymark = $api->getMyMark($simple['id'], $_SESSION['user']['id_profile']);
@@ -336,7 +336,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                        href="/views/book/?book=<?php echo $other['id'] ?>"><?php echo $other['book'] ?></a>
                                                     <a class="carousel-book__author"><?php echo $other['name'] ?></a>
                                                     <div class="carousel-book__rating">
-                                                        <?php $rating = $api->getBookRaiting($other['id']); ?>
+                                                        <?php $rating = $api->getBookRating($other['id']); ?>
                                                         <span><?php echo $rating; ?></span>
                                                     </div>
                                                     <?php $mymark = $api->getMyMark($other['id'], $_SESSION['user']['id_profile']);
@@ -402,7 +402,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                                                    href="/views/book/?book=<?php echo $new['id'] ?>"><?php echo $new['book'] ?></a>
                                                 <a class="carousel-book__author"><?php echo $new['name'] ?></a>
                                                 <div class="carousel-book__rating">
-                                                    <?php $rating = $api->getBookRaiting($new['id']); ?>
+                                                    <?php $rating = $api->getBookRating($new['id']); ?>
                                                     <span><?php echo $rating; ?></span>
                                                 </div>
                                                 <?php $mymark = $api->getMyMark($new['id'], $_SESSION['user']['id_profile']);

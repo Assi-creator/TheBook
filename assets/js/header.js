@@ -59,10 +59,37 @@ $('.popup__send-code').click(function(e){
                     let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + data.result + '</div>'
                     alert.innerHTML += message
                 } else {
+
                     $('.popup__reg-email-error').text(data.description);
                 }
             }
         });
+});
+
+$('.btn-forgot-password__form_save').click(function(e){
+   e.preventDefault();
+   let newPassword = $('input[name="forgot-new_password"]').val(),
+       repeatNewPassword = $('input[name="forgot-repeat_password"]').val();
+    alert.innerHTML = ''
+    $.ajax({
+        url: '/api/controller/user/account.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            new: newPassword,
+            repeat: repeatNewPassword,
+            action: 'forgot_password_form'
+        },
+        success(data) {
+            if (data.ok) {
+                document.location.href = '/views/reader/';
+            } else {
+                let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + data.description + '</div>'
+                alert.innerHTML += message
+                window.scrollTo(0, 0);
+            }
+        }
+    });
 });
 
 $('.popup__btn-login').click(function (e) {
@@ -187,9 +214,7 @@ $('.email-change').click(function (e) {
             success(data) {
                 console.log(data)
                 if (data.ok === true) {
-                    let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Профиль изменен</div>'
-                    alert.innerHTML += message
-                    window.scrollTo(0, 0);
+                    document.location.href = '/index.php';
                 } else {
                     let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + data.description + '</div>'
                     alert.innerHTML += message
@@ -369,11 +394,13 @@ $('#update-review').click(function (e) {
         profile = $('input[name="data-editor"]').val();
 
     $.ajax({
-        url: '/api/controller/book/review.php',
+        url: '/api/index.php',
         type: 'POST',
-        dataType: 'JSON',
+        dataType:    'JSON',
         data: {
             action: "editreview",
+            Class: 'mark',
+            function: 'editReview',
             review: review,
             mark: mark,
             title: title,
@@ -608,7 +635,6 @@ $('.add-book__action-title').on('click', function () {
 
 // TODO: удалять статус сверху книжки
 
-//УДАЛЕНИЕ СТАТУСА КНИГИ
 $('.ub-form-remove').on('click', function () {
     $.ajax({
         url: '/api/controller/user/account.php',
@@ -674,42 +700,47 @@ $('.lenta-review').each(function () {
     }
 });
 
-$('.bc-menu__stars label').on({
-    click: function () {
-        if ($('input[name="data-session"]').val() === '') {
-            $('.popup__regForm').addClass('open');
-            $('.popup__modal').addClass('popup_open');
+// $('.bc-menu__stars label').click(function(){
+//     $('input[name="mymark"]').val($(this).prev('input').val());
+//     $('.popup-book-mark').text($(this).prev('input').val());
+// });
 
-            $('.popup__reg-error').text('');
-        } else {
-            $('input[name="mymark"]').val($(this).prev('input').val());
-            $('.popup-book-mark').text($(this).prev('input').val());
-
-            let newMark = $('.popup-book-mark').text()
-            let profile = $('input[name="data-session"]').val()
-            let book = $('input[name="data-book-id"]').val()
-            let review = $('input[name="data-review"]').val()
-
-
-            $.ajax({
-                url: '/api/controller/book/review.php',
-                type: 'POST',
-                dataType: 'JSON',
-                data: {
-                    book: book,
-                    profile: profile,
-                    review: review,
-                    action: 'changerating',
-                    mark: newMark
-                },
-                success(data) {
-                    if (data.ok === true) {
-                    }
-                }
-            });
-        }
-    }
-});
+// $('.bc-menu__stars label').on({
+//     click: function () {
+//         if ($('input[name="data-session"]').val() === '') {
+//             $('.popup__regForm').addClass('open');
+//             $('.popup__modal').addClass('popup_open');
+//
+//             $('.popup__reg-error').text('');
+//         } else {
+//             $('input[name="mymark"]').val($(this).prev('input').val());
+//             $('.popup-book-mark').text($(this).prev('input').val());
+//
+//             let newMark = $('.popup-book-mark').text()
+//             let profile = $('input[name="data-session"]').val()
+//             let book = $('input[name="data-book-id"]').val()
+//             let review = $('input[name="data-review"]').val()
+//
+//
+//             $.ajax({
+//                 url: '/api/controller/book/review.php',
+//                 type: 'POST',
+//                 dataType: 'JSON',
+//                 data: {
+//                     book: book,
+//                     profile: profile,
+//                     review: review,
+//                     action: 'changerating',
+//                     mark: newMark
+//                 },
+//                 success(data) {
+//                     if (data.ok === true) {
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// });
 
 $('.review-menu__stars label').on({
     click: function () {

@@ -24,8 +24,8 @@ if (!isset($_SESSION['user'])) {
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php";
-    $api = new TheBook\User;
-    $book = new TheBook\Book;
+    $api = new TheBook\controller\User;
+    $book = new TheBook\controller\Book;
 
     $reviews = $api->getAllProfileReviewsByRating($_SESSION['user']['id_profile']);
 
@@ -72,12 +72,12 @@ if (!isset($_SESSION['user'])) {
                                     </p>
                                     <?php
                                     $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    $middle = $book->getBookRating($review['id_book']); ?>
                                     <?php
                                     $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                     $reviewa = $book->getExistReview($review['id_book'], $_SESSION['user']['id_profile']);
                                     $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $rating = $book->getBookRaiting($review['id_book']); ?>
+                                    $rating = $book->getBookRating($review['id_book']); ?>
 
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>

@@ -30,7 +30,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 
 
     <?php
-    $api = new TheBook\Book;
+    $api = new TheBook\controller\Book;
     $book = $api->getAllProfileBook($_SESSION['user']['id_profile']);
 
     $read = $book['read'];
@@ -69,7 +69,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                             $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']); ?>
 
                                              <div class="carousel-book__rating">
-                                                        <?php $rating = $api->getBookRaiting($reads['id']); ?>
+                                                        <?php $rating = $api->getBookRating($reads['id']); ?>
                                             <span><?php echo $rating; ?></span>
                                         </div>
                                         <?php $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
@@ -137,7 +137,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 $action = $api->getActionForSession($wishs['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                 $review = $api->getExistReview($wishs['id'], $_SESSION['user']['id_profile']);
                                                 $reviewId = $api->getReviewId($wishs['id'], $_SESSION['user']['id_profile']);
-                                                $rating = $api->getBookRaiting($wishs['id']); ?>
+                                                $rating = $api->getBookRating($wishs['id']); ?>
                                                 <span><?php echo $rating; ?></span>
                                             </div>
                                             <div class="separator"></div>
@@ -196,7 +196,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 <?php
                                                 $action = $api->getActionForSession($readings['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                 $review = $api->getExistReview($readings['id'], $_SESSION['user']['id_profile']);
-                                                $rating = $api->getBookRaiting($readings['id']);
+                                                $rating = $api->getBookRating($readings['id']);
                                                 $reviewId = $api->getReviewId($readings['id'], $_SESSION['user']['id_profile']);?>
                                                 <span><?php echo $rating; ?></span>
                                             </div>

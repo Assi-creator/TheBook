@@ -21,7 +21,7 @@ session_start();?>
 <body>
 
 <?php
-$api = new TheBook\Book;
+$api = new TheBook\controller\Book;
 require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <br>
@@ -75,7 +75,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                    href="/views/book/?book=<?php echo $new['id'] ?>"><?php echo $new['book'] ?></a>
                                 <a class="carousel-book__author"><?php echo $new['name'] ?></a>
                                 <div class="carousel-book__rating">
-                                    <?php $rating = $api->getBookRaiting($new['id']); ?>
+                                    <?php $rating = $api->getBookRating($new['id']); ?>
                                     <span><?php echo $rating; ?></span>
                                 </div>
                                 <div class="separator"></div>
@@ -122,7 +122,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                    href="/views/book/?book=<?php echo $new['id'] ?>"><?php echo $new['book'] ?></a>
                                 <a class="carousel-book__author"><?php echo $new['name'] ?></a>
                                 <div class="carousel-book__rating">
-                                    <?php $rating = $api->getBookRaiting($new['id']); ?>
+                                    <?php $rating = $api->getBookRating($new['id']); ?>
                                     <span><?php echo $rating; ?></span>
                                 </div>
                                 <div class="separator"></div>
@@ -171,7 +171,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
                                     <p class="lenta-card__author-wrap">
                                         <a class="lenta-card__author"><?php echo $review['author']; ?></a>
                                     </p>
-                                    <?php $middle = $api->getBookRaiting($review['id_book']); ?>
+                                    <?php $middle = $api->getBookRating($review['id_book']); ?>
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>

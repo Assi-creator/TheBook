@@ -28,7 +28,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>
 
     <?php
-    $api = new TheBook\Book;
+    $api = new TheBook\controller\Book;
     $book = $api->getAllProfileBook($_SESSION['user']['id_profile']);
 
     $read = $book['read'];
@@ -51,7 +51,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                     <?php $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                     $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
                                     $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
-                                    $rating = $api->getBookRaiting($reads['id']); ?>
+                                    $rating = $api->getBookRating($reads['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
 
@@ -59,7 +59,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                                 $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
                                                 $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
-                                                $rating = $api->getBookRaiting($reads['id']); ?>
+                                                $rating = $api->getBookRating($reads['id']); ?>
                                                 <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $reads['id'];?>"
                                                      data-book-name="<?php echo $reads['title']; ?>"
                                                      data-action="<?php echo $action['id']; ?>"

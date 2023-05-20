@@ -44,7 +44,7 @@
                         </details>
                     </li>
                     <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
-                    <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a></li>
+                    <li class="user-nav__item"><a href="/api/old/session.php">Выйти</a></li>
                 </ul>
             </details>
         <?php else: ?>
@@ -52,7 +52,12 @@
         <?php endif; ?>
     </div>
 
-    <div id="tinyalert"></div>
+    <div id="tinyalert">
+        <?php if(isset($_SESSION['tmp_alert'])){
+            echo $_SESSION['tmp_alert'];
+            unset($_SESSION['tmp_alert']);
+        } ?>
+    </div>
 
     <div class="page-header__wrapper-mob">
         <div class="page-header__mob">
@@ -87,7 +92,7 @@
                             </details>
                         </li>
                         <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
-                        <li class="user-nav__item"><a href="/api/controller/session/session.php">Выйти</a></li>
+                        <li class="user-nav__item"><a href="/api/old/session.php">Выйти</a></li>
                     </ul>
                 </details>
             <?php else: ?>

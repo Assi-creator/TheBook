@@ -24,7 +24,7 @@
     require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
     include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/book/book.php";
     include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/user/user.php";
-    $book = new TheBook\Book;
+    $book = new TheBook\controller\Book;
 
     $reviews = $book->getSingleReview($_GET['review']);
 
@@ -79,13 +79,13 @@
                                     <?php
                                     $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
 
-                                    $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    $middle = $book->getBookRating($review['id_book']); ?>
                                     <?php
                                     $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                     $reviewa = $book->getExistReview($review['id_book'], $_SESSION['user']['id_profile']);
                                     $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $rating = $book->getBookRaiting($review['id_book']); ?>
-                                    <?php $middle = $book->getBookRaiting($review['id_book']); ?>
+                                    $rating = $book->getBookRating($review['id_book']); ?>
+                                    <?php $middle = $book->getBookRating($review['id_book']); ?>
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>

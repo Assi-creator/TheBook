@@ -27,7 +27,7 @@
     require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
     include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/book/book.php";
     include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/user/user.php";
-    $book = new TheBook\Book;
+    $book = new TheBook\controller\Book;
 
     $reviews = $book->getAllReview();
 
@@ -132,7 +132,7 @@
                                 <p class="lenta-card__author-wrap">
                                     <a class="lenta-card__author"><?php echo $review['author']; ?></a>
                                 </p>
-                                <?php $middle = $book->getBookRaiting($review['id_book']); ?>
+                                <?php $middle = $book->getBookRating($review['id_book']); ?>
                                 <div class="lenta-card__rating">
                                     <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                 </div>

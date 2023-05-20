@@ -3,7 +3,7 @@ if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
 }
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
-$api = new TheBook\Book;
+$api = new TheBook\controller\Book;
 $book = $api->getSingleBookById($_GET['book']);?>
 
 <!DOCTYPE html>

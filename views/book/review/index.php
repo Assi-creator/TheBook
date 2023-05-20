@@ -1,6 +1,6 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
-$api = new TheBook\Book;
+$api = new TheBook\controller\Book;
 $book = $api->getSingleBookById($_GET['book']);
 $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
 ?>
@@ -74,7 +74,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                     <?php $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                     $review = $api->getExistReview($book['id'], $_SESSION['user']['id_profile']);
                     $reviewId = $api->getReviewId($book['id'], $_SESSION['user']['id_profile']);
-                    $rating = $api->getBookRaiting($book['id']); ?>
+                    $rating = $api->getBookRating($book['id']); ?>
                     <div class="userbook-container" data-book-id="<?php echo $book['id'];?>"
                          data-book-name="<?php echo $book['title']; ?>"
                          data-action="<?php echo $action['id']; ?>"

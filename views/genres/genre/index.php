@@ -1,6 +1,6 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
-$api = new TheBook\Book;
+$api = new TheBook\controller\Book;
 $genre = $api->getBookByGenre($_GET['genre']); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +61,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                     <?php $action = $api->getActionForSession($genreBook['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                     $review = $api->getExistReview($genreBook['id'], $_SESSION['user']['id_profile']);
                                     $reviewId = $api->getReviewId($genreBook['id'], $_SESSION['user']['id_profile']);
-                                    $rating = $api->getBookRaiting($genreBook['id']); ?>
+                                    $rating = $api->getBookRating($genreBook['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
 
@@ -69,7 +69,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                         $action = $api->getActionForSession($genreBook['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                         $review = $api->getExistReview($genreBook['id'], $_SESSION['user']['id_profile']);
                                         $reviewId = $api->getReviewId($genreBook['id'], $_SESSION['user']['id_profile']);
-                                        $rating = $api->getBookRaiting($genreBook['id']); ?>
+                                        $rating = $api->getBookRating($genreBook['id']); ?>
                                         <div class="userbook-container-<?php echo $genreBook['id'];?>" data-book-id="<?php echo $genreBook['id'];?>"
                                              data-book-name="<?php echo $genreBook['title']; ?>"
                                              data-action="<?php echo $action['id']; ?>"

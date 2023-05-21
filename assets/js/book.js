@@ -1,4 +1,3 @@
-
 new Swiper('.swiper-container', {
     navigation:{
         nextEl: '.next-carousel',

@@ -7,12 +7,17 @@ use PHPMailer\PHPMailer\Exception;
 
 session_start();
 
-class Mailer extends Base
-{
-    public function sendEmail($email, $action)
+class Mailer extends Base {
+    /**
+     * Функция отправки Email с помощью библиотеки PHPMailer
+     * @param $email
+     * @param $action
+     * @return bool
+     */
+    public function sendEmail($email, $action): bool
     {
         $to = $email;
-        $key = md5($email.rand(1000,9999));
+        $key = md5($email . rand(1000, 9999));
         if ($action == 1) {
             $url = "http://thebook/views/forgot?key=$key";
             $subject = 'Восстановление пароля на сайт';

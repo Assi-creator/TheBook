@@ -22,6 +22,7 @@
                     <input id="read-now" type="radio" name="ub-status" value="3">
                     <label class="add-book__action-title" for="read-now">Хочу прочитать</label>
                 </div>
+                <input type="hidden" name="tmp_mark" value="">
 
                 <div id="add-book__rating-inline" class="add-book__action-item not-selectable rating-in-popup hidden" style="top: 88px;">
                     <input id="ub-rating" type="hidden" name="new-book-rating" value="0">

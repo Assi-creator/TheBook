@@ -1,9 +1,12 @@
 <?php
 
 namespace TheBook\controller;
+
 use TheBook\Base;
 use TheBook\Mailer;
 use TheBook\Utils;
+
+require $_SERVER['DOCUMENT_ROOT'] . '/api/vendor/autoload.php';
 
 class session extends Base {
 
@@ -12,7 +15,7 @@ class session extends Base {
      * @param $obj
      * @return array|null
      */
-    protected function auth($obj): ?array
+    public function auth($obj): ?array
     {
         $login = stripslashes(trim($obj['login']));
         $password = trim($obj['password']);
@@ -33,10 +36,10 @@ class session extends Base {
      * @param $obj
      * @return array
      */
-    protected function registration($obj): array
+    public function registration($obj): array
     {
         $card = stripslashes(trim($obj['card']));
-        $reader = stripslashes(trim(str_replace(' ', '',$obj['reader'])));
+        $reader = stripslashes(trim(str_replace(' ', '', $obj['reader'])));
         $email = stripslashes(trim($obj['email']));
         $login = stripslashes(trim($obj['login']));
         $password = stripslashes(trim($obj['password']));
@@ -50,7 +53,7 @@ class session extends Base {
             return $this->request_api(false, null, 'Логин занят');
         }
 
-        if(strlen($password) < 8) {
+        if (strlen($password) < 8) {
             return $this->request_api(false, null, 'Пароль должен содержать не менее 8 символов');
         }
 
@@ -58,11 +61,11 @@ class session extends Base {
             return $this->request_api(false, null, 'Email занят');
         }
 
-        if($email != null && !$utils->checkEmail($email)){
+        if ($email != null && !$utils->checkEmail($email)) {
             return $this->request_api(false, null, 'Указан некорректный email');
         }
 
-        if(!$utils->checkExistAccount($card)){
+        if (!$utils->checkExistAccount($card)) {
             return $this->request_api(false, null, 'Данный читатель уже зарегистрирован');
         }
 
@@ -90,11 +93,12 @@ class session extends Base {
 
     /**
      * Выход пользователя из системы и удаление переменных сессии
-     * @return void
+     * @return array
      */
-    protected function logout() {
+    public function logout(): array
+    {
         unset($_SESSION['user']);
-        header('Location: /index.php');
+        return $this->request_api(true, null);
     }
 
     /**
@@ -102,28 +106,28 @@ class session extends Base {
      * @param $obj
      * @return array
      */
-    protected function forgotPassword($obj): array
+    public function forgotPassword($obj): array
     {
         $email = $obj['email'];
         $user = $obj['user'];
         $utils = new Utils();
 
-        if(empty($email) OR empty($user)){
+        if (empty($email) or empty($user)) {
             return $this->request_api(false, null, 'Заполните все поля ввода');
         }
 
-        if(!$utils->checkEmail($email)){
+        if (!$utils->checkEmail($email)) {
             return $this->request_api(false, null, 'Некорректный email');
         }
 
-        if(!$utils->checkEmailUser($email, $user)){
-            return $this->request_api(false, null,'Пользователь с такой почтой не найден');
+        if (!$utils->checkEmailUser($email, $user)) {
+            return $this->request_api(false, null, 'Пользователь с такой почтой не найден');
         } else {
             $mailer = new Mailer;
-            if($mailer->sendEmail($email, 1)){
+            if ($mailer->sendEmail($email, 1)) {
                 return $this->request_api(true, 'Инструкция по сбросу пароля отправлена на почту');
             } else {
-                return $this->request_api(false, null,'Ошибка отправки письма');
+                return $this->request_api(false, null, 'Ошибка отправки письма');
             }
         }
     }

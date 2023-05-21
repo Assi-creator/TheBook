@@ -1,7 +1,9 @@
 <?php session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
-} ?>
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,17 +15,18 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
 
-<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 
 <br>
 <br>
 <main class="page-content-reader page-content main-body">
-    <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php";
+    <?php
+    require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php";
     $api = new TheBook\controller\User;
     $book = new TheBook\controller\Book;
 
@@ -71,27 +74,23 @@ if (!isset($_SESSION['user'])) {
                                         <a class="lenta-card__author"><?php echo $review['author']; ?></a>
                                     </p>
                                     <?php
-                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $middle = $book->getBookRating($review['id_book']); ?>
-                                    <?php
-                                    $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
-                                    $reviewa = $book->getExistReview($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $reviewId = $book->getReviewId($review['id_book'], $_SESSION['user']['id_profile']);
-                                    $rating = $book->getBookRating($review['id_book']); ?>
-
+                                    $middle = $book->getBookRating($review['id_book']);
+                                    $mymark = $book->getMyMark($review['id_book'], $_SESSION['user']['id_profile']);
+                                    $action = $book->getActionForSession($review['id_book'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']); ?>
                                     <div class="lenta-card__rating">
                                         <span style="font-size: 22px;"><?php echo $middle; ?></span>
                                     </div>
-                                    <div class="userbook-container ub-container">
-                                        <div class="userbook-container" data-book-id="<?php echo $review['id_book'];?>"
-                                             data-book-name="<?php echo $review['book']; ?>"
-                                             data-action="<?php echo $action['id']; ?>"
-                                             data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
-                                             data-review = "<?php echo $reviewId;?>"
-                                             data-exist-review="<?php echo $reviewa;?>"
-                                             data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
-                                            <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
-                                        </div>
+                                    <div class="userbook-container-<?php echo $review['id_book'];?>"
+                                         data-book-id="<?php echo $review['id_book'];?>"
+                                         data-book-name="<?php echo $review['book']; ?>"
+                                         data-action="<?php echo $action['id']; ?>"
+                                         data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                         data-review = "<?php echo $review['id_review']?>"
+                                         data-mark = "<?php echo $mymark['rating']; ?>"
+                                         data-exist-review="1"
+                                         data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
+                                         data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                        <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +109,7 @@ if (!isset($_SESSION['user'])) {
                                     <p><?php echo $review['text']; ?></p>
                                 </div>
                             </div>
-                            <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
+                            <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $review['id_review'];?>">
                         </div>
                     </article>
                 <?php endforeach; ?>

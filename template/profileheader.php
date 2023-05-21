@@ -50,14 +50,10 @@
     </div>
 
     <?php
-    include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
-    use TheBook\controller\User;
-
-    $user = new User;
+    $user = new \TheBook\controller\user();
     $url =  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     $url = explode('/', $url);
     $countAction = $user->getCountActionForProfile($_SESSION['user']['id_profile']);
-
     ?>
 
     <!--Нижнее меню-->

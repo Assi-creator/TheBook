@@ -12,13 +12,16 @@ class Utils extends Base
      */
     public function setAvatar($post, $files)
     {
+        $this->log->debug('КАК ЖЕ МЕНЯ ВСЕ', array($post, $files));
         switch ($post['value']) {
             case 'undefined':
             case 'current':
                 $avatar = $_SESSION['user']['avatar_path'];
+                $this->log->info('Successful set Current avatar', array());
                 return $avatar;
             case 'no':
                 $avatar = "/assets/images/root/icons/noavatar.svg";
+                $this->log->info('Successful remove avatar', array());
                 return $avatar;
             case 'new':
                 if (!empty($files['avatar']['name']) && $post['avatar'] != 'undefined') {
@@ -33,6 +36,7 @@ class Utils extends Base
                         $check = move_uploaded_file($fileTmpName, $destination);
                         if ($check) {
                             $avatar = "/assets/images/profiles/" . $imgName;
+                            $this->log->info('Successful set File avatar', array());
                         } else {
                             $avatar = "/assets/images/root/icons/noavatar.svg";
                         }
@@ -43,6 +47,7 @@ class Utils extends Base
                 return $avatar;
             case 'url':
                 $avatar = $post['avatarurl'];
+                $this->log->info('Successful set URL avatar', array());
                 return $avatar;
         }
     }
@@ -65,7 +70,7 @@ class Utils extends Base
      */
     public function checkExistsEmail($email): bool
     {
-        if ($email == null){
+        if ($email == null) {
             return true;
         }
         $check = $this->db->getRow("SELECT count(*) AS `count` FROM profile WHERE email = '" . $email . "'");
@@ -80,7 +85,7 @@ class Utils extends Base
     public function checkPassword($password): bool
     {
         $result = $this->db->getRow("SELECT * FROM profile WHERE id_profile='" . $_SESSION['user']['id_profile'] . "'");
-        if (password_verify($password, $result['password'])){
+        if (password_verify($password, $result['password'])) {
             return true;
         }
         return false;
@@ -91,8 +96,9 @@ class Utils extends Base
      * @param $email
      * @return mixed
      */
-    public function checkEmail($email){
-        return filter_var($email, FILTER_VALIDATE_EMAIL) ;
+    public function checkEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
@@ -103,9 +109,9 @@ class Utils extends Base
      */
     public function checkMark($book, $profile): bool
     {
-        $sql = $this->db->getRow("Select count(*) AS `count` FROM mark WHERE id_profile = '".$profile."' AND id_book = '".$book."' ");
+        $sql = $this->db->getRow("Select count(*) AS `count` FROM mark WHERE id_profile = '" . $profile . "' AND id_book = '" . $book . "' ");
 
-        if ($sql['count'] == 1){
+        if ($sql['count'] == 1) {
             return true;
         } else return false;
     }
@@ -115,7 +121,8 @@ class Utils extends Base
      * @param $profile
      * @return void
      */
-    public function setSession($profile){
+    public function setSession($profile)
+    {
         $sql = "INSERT INTO sessions SET ?u";
 
         $user_agent = $_SERVER["HTTP_USER_AGENT"];
@@ -171,15 +178,15 @@ class Utils extends Base
      */
     public function checkEmailUser($email, $user): bool
     {
-        $login = $this->db->getRow("SELECT count(*) as `count` FROM profile WHERE login = '".$user."' AND (email = '".$email."' OR reserved_email = '".$email."')");
-        $card = $this->db->getRow("SELECT count(*) as `count` FROM profile JOIN reader r on r.id_reader = profile.id_reader WHERE card = ".(int)$user." AND (email = '".$email."' OR reserved_email = '".$email."')");
+        $login = $this->db->getRow("SELECT count(*) as `count` FROM profile WHERE login = '" . $user . "' AND (email = '" . $email . "' OR reserved_email = '" . $email . "')");
+        $card = $this->db->getRow("SELECT count(*) as `count` FROM profile JOIN reader r on r.id_reader = profile.id_reader WHERE card = " . (int)$user . " AND (email = '" . $email . "' OR reserved_email = '" . $email . "')");
 
         $this->log->debug('Login select:', $login);
         $this->log->debug('Card select:', $card);
 
-        if ($login['count'] == 1){
+        if ($login['count'] == 1) {
             return true;
-        } else if($card['count'] == 1) {
+        } else if ($card['count'] == 1) {
             return true;
         } else return false;
     }

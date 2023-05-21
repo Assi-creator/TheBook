@@ -9,8 +9,6 @@
     <title>Рецензии на книгу</title>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
-
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
@@ -23,27 +21,21 @@
     <?php
     require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
     include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/book/book.php";
-    include $_SERVER['DOCUMENT_ROOT'] . "/api/controller/user/user.php";
     $book = new TheBook\controller\Book;
 
-    $reviews = $book->getSingleReview($_GET['review']);
-
+    $review = $book->getSingleReview($_GET['review']);
     ?>
     <section class="ugs-sotring">
         <h3 class="ugs-sorting__title">Больше рецензий</h3>
         <ul class="ugs-sotring__list">
-<!--            <li class="ugs-sotring__item ugs-sotring__item">-->
-<!--                <a href="/views/reader/reviews">Все рецензии --><?php //echo $reviews[0]['login']; ?><!--</a>-->
-<!--            </li>-->
             <li class="ugs-sotring__item ">
-                <a href="/views/book/review?book=<?php echo $reviews[0]['id_book']; ?>">Все рецензии на книгу "<?php echo $reviews[0]['book']; ?>"</a>
+                <a href="/views/book/review?book=<?php echo $review['id_book']; ?>">Все рецензии на книгу "<?php echo $review['book']; ?>"</a>
             </li>
         </ul>
     </section>
     <section class="lenta__list" style="min-height: 60vh;">
         <div id="objects-container">
             <div id="review-page-list">
-                <?php foreach ($reviews as $review): ?>
                     <article class="review-card lenta__item" style="margin-bottom: 50px;">
                         <div class="header-card">
                             <a class="header-card-user">
@@ -95,6 +87,7 @@
                                              data-action="<?php echo $action['id']; ?>"
                                              data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                              data-review = "<?php echo $reviewId;?>"
+                                             data-mark = "<?php echo $review['rating'];?>"
                                              data-exist-review="<?php echo $reviewa;?>"
                                              data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
                                             <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
@@ -118,7 +111,6 @@
                             </div>
                         </div>
                     </article>
-                <?php endforeach; ?>
             </div>
         </div>
     </section>

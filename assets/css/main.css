@@ -3261,3 +3261,45 @@ a:hover .i-group-edit {
     line-height: 24px;
 }
 
+#content {
+    text-align: left;
+}
+
+#content {
+    position: relative;
+    clear: both;
+    max-width: 1200px;
+    margin-right: 0;
+    margin-left: 0;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+#content {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#inner {
+    width: 100%;
+    margin-left: 0;
+    position: relative;
+    right: 0%;
+    background: #ffffff;
+}
+
+#leftsidewrap {
+    float: left;
+    width: 100%;
+    position: relative;
+    left: 0%;
+    padding: 0;
+}
+
+#leftside {
+    position: relative;
+    overflow: hidden;
+}
+
+

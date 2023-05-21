@@ -1,7 +1,8 @@
 <?php session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
-} ?>
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,6 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
@@ -65,7 +65,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                      data-action="<?php echo $action['id']; ?>"
                                                      data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-review = "<?php echo $reviewId;?>"
-                                                     data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                     data-mark="<?php echo $mymark['rating']; ?>"
                                                      data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-exist-review="<?php echo $review;?>"
                                                      data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
@@ -94,7 +94,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                 </a>
                                             <?php endfor; ?>
                                         </div>
-                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mark)) {echo $mark[0]['rating'];} else {echo 0;} ?></span>
+                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mark)) {echo $mark['rating'];} else {echo 0;} ?></span>
                                         </div>
                                         <div class="brow-stats">
                                             <a style="cursor: default">

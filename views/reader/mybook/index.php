@@ -1,7 +1,9 @@
 <?php session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
-} ?>
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +15,8 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/libs/swiper/swiper.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="/assets/js/book.js" defer></script>
-    <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
 
@@ -74,7 +74,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                         </div>
                                         <?php $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
                                         if (!empty($mymark)):?>
-                                            <div class="lists__mymark"><?php echo $mymark[0]['rating']; ?></div>
+                                            <div class="lists__mymark"><?php echo $mymark['rating']; ?></div>
                                         <?php endif; ?>
                                             <div class="separator"></div>
                                             <div class="userbook-container-<?php echo $reads['id'];?>"
@@ -83,7 +83,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                  data-action="<?php echo $action['id']; ?>"
                                                  data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                  data-review = "<?php echo $reviewId;?>"
-                                                 data-mark="<?php echo $mymark[0]['rating']; ?>"
+                                                 data-mark="<?php echo $mymark['rating']; ?>"
                                                  data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                  data-exist-review="<?php echo $review; ?>"
                                                  data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>" >

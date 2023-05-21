@@ -1,11 +1,12 @@
-<?php
-session_start();
+<?php session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
+
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
 }
-include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
-$api = new TheBook\controller\User;
-$sessions = $api->getAllSessions();
+
+$user = new TheBook\controller\User;
+$sessions = $user->getAllSessions();
 ?>
 
 <!DOCTYPE html>

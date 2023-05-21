@@ -1,7 +1,9 @@
 <?php session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
-} ?>
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/user/user.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,6 +1,6 @@
 <?php
 namespace TheBook;
-require $_SERVER['DOCUMENT_ROOT'] . "/api/vendor/autoload.php";  //
+require $_SERVER['DOCUMENT_ROOT'] . "/api/vendor/autoload.php";
 date_default_timezone_set('Europe/Moscow');
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS' or $_SERVER['REQUEST_METHOD'] == 'GET' or $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -40,6 +40,17 @@ if (isset($_POST['Class'], $_POST['function'])) {
         $base = new \TheBook\Base();
         $base->log->error("Method not found: {$function_name}");
         return $base->request_api(false, null, "Method {$function_name} not found");
+    }
+
+    if($_FILES) {
+        $base = new \TheBook\Base();
+
+        $base->log->info('$_FILESSSSSS', array($_FILES));
+        $files = $_FILES;
+        $result = $class_instance->$function_name($_POST, $files);
+        $base->log->info('EditProfile:', (array($result)));
+        echo json_encode($result, true);
+        die();
     }
 
     $result = $class_instance->$function_name($_POST);

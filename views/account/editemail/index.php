@@ -12,16 +12,9 @@ if (!isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Читайте, изучайте интересные подборки книг, делитесь впечатлениями о книгах">
 
-    <title><?php if (!empty($_SESSION['user']['email'])) {
-            echo 'Изменить email';
-        } else {
-            echo 'Добавить email';
-        } ?></title>
+    <title><?php if (!empty($_SESSION['user']['email'])) {echo 'Изменить email';} else {echo 'Добавить email';} ?></title>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
-
-    <script src="/assets/js/header.js" defer></script>
-    <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
 

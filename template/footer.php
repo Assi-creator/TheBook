@@ -4,13 +4,13 @@
             <ul class="footer-information">
                 <p>Информация</p>
                 <li class="footer-info__item">
-                    <a href="/../views/information/about/">О библиотеке</a>
+                    <a href="/views/information/about/">О библиотеке</a>
                 </li>
                 <li class="footer-info__item">
                     <a href="#">Контакты</a>
                 </li>
                 <li class="footer-info__item">
-                    <a href="/../views/information/rules/">Правила сервиса</a>
+                    <a href="/views/information/rules/">Правила библиотеки</a>
                 </li>
             </ul>
 
@@ -30,10 +30,10 @@
                     <a href="#">Пожаловаться</a>
                 </li>
                 <li class="footer-support__item">
-                    <a href="/../views/information/agreement/">Пользовательское соглашение</a>
+                    <a href="/views/information/agreement/">Пользовательское соглашение</a>
                 </li>
                 <li class="footer-support__item">
-                    <a href="/../views/information/agreement/">Политика обработки персональных данных</a>
+                    <a href="/views/information/policy/">Политика обработки персональных данных</a>
                 </li>
             </ul>
         </div>

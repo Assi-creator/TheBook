@@ -16,9 +16,7 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
 </head>
 <body>
 

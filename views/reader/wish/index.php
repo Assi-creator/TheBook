@@ -1,7 +1,8 @@
 <?php session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /index.php');
-} ?>
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,6 @@ if (!isset($_SESSION['user'])) {
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/js/header.js" defer></script>
     <script src="/assets/js/profile.js" defer></script>
 </head>
 <body>
@@ -53,17 +53,17 @@ if (!isset($_SESSION['user'])) {
                                     $rating = $api->getBookRating($reads['id']); ?>
                                     <div class="brow-rating"></div>
                                     <div class="book-data">
-                                                <?php  $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
-                                                $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
-                                                $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
-                                                $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
-                                                $rating = $api->getBookRating($reads['id']); ?>
+                                                <?php
+                                                    $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                                    $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
+                                                    $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
+                                                    $rating = $api->getBookRating($reads['id']);
+                                                ?>
                                                 <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $reads['id'];?>"
                                                      data-book-name="<?php echo $reads['title']; ?>"
                                                      data-action="<?php echo $action['id']; ?>"
                                                      data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-review = "<?php echo $reviewId;?>"
-                                                     data-mark="<?php echo $mymark[0]['rating']; ?>"
                                                      data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
                                                      data-exist-review="<?php echo $review;?>"
                                                      data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">

@@ -3,15 +3,18 @@
 namespace TheBook;
 
 require $_SERVER['DOCUMENT_ROOT'] . "/api/vendor/autoload.php";
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+
 class Logs
 {
     protected $logs;
+
     function __construct()
     {
         $this->logs = new Logger('api');
-        $stream = new StreamHandler($_SERVER['DOCUMENT_ROOT'].'/api/logs/debug.log', Logger::DEBUG);
+        $stream = new StreamHandler($_SERVER['DOCUMENT_ROOT'] . '/api/logs/debug.log', Logger::DEBUG);
         $this->logs->pushHandler($stream);
         #return $this->logs;
     }
@@ -23,7 +26,7 @@ class Logs
      */
     public function error(string $string, array $context = []): void
     {
-        $this->logs->error($string,$context);
+        $this->logs->error($string, $context);
     }
 
     /**
@@ -33,7 +36,7 @@ class Logs
      */
     public function info(string $string, array $context = []): void
     {
-        $this->logs->info($string,$context);
+        $this->logs->info($string, $context);
     }
 
     /**

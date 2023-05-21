@@ -1,5 +1,6 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
+
 $api = new TheBook\controller\Book;
 $book = $api->getSingleBookById($_GET['book']);
 $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
@@ -16,7 +17,6 @@ $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile']
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
-    <script src="/assets/libs/swiper/swiper.min.js"></script>
     <script defer src="/assets/js/book.js"></script>
 
 </head>
@@ -71,7 +71,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";
                         <img class="bc-menu__image" title="<?php echo $book['title']; ?>" src="<?php echo $book['image']; ?>"
                              style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
-                    <?php $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                    <?php
+                    $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                     $review = $api->getExistReview($book['id'], $_SESSION['user']['id_profile']);
                     $reviewId = $api->getReviewId($book['id'], $_SESSION['user']['id_profile']);
                     $rating = $api->getBookRating($book['id']); ?>

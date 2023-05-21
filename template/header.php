@@ -1,5 +1,7 @@
 <script src="/assets/libs/jquery-3.6.4.min.js"></script>
+<script src="/assets/libs/swiper/swiper.min.js"></script>
 <script defer src="/assets/js/header.js"></script>
+<script src="/assets/js/profile.js" defer></script>
 
 <header class="page-header">
     <div class="page-header__wrapper">
@@ -44,7 +46,7 @@
                         </details>
                     </li>
                     <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
-                    <li class="user-nav__item"><a href="/api/old/session.php">Выйти</a></li>
+                    <li class="user-nav__item"><a class="logout">Выйти</a></li>
                 </ul>
             </details>
         <?php else: ?>
@@ -92,7 +94,7 @@
                             </details>
                         </li>
                         <li class="user-nav__item"><a href="/views/reader/reviews/">Рецензии</a></li>
-                        <li class="user-nav__item"><a href="/api/old/session.php">Выйти</a></li>
+                        <li class="user-nav__item"><a class="logout">Выйти</a></li>
                     </ul>
                 </details>
             <?php else: ?>

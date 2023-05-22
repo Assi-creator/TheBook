@@ -77,7 +77,7 @@ class book extends Base {
      */
     public function getAllReviewForSingleBook($id): array
     {
-        return $this->db->getAll("SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE id_book = " . $id . "");
+        return $this->db->getAll("SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile JOIN reader r on r.id_reader = p.id_reader  WHERE id_book = " . $id . "");
     }
 
     /**
@@ -87,7 +87,7 @@ class book extends Base {
      */
     public function getTopReviewsForSingleBook($id): ?array
     {
-        return $this->db->getAll("SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE id_book = " . $id . " ORDER BY id_review DESC LIMIT 5");
+        return $this->db->getAll("SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile JOIN reader r on r.id_reader = p.id_reader  WHERE id_book = " . $id . " ORDER BY id_review DESC LIMIT 5");
     }
 
     /**
@@ -184,14 +184,29 @@ class book extends Base {
                                         JOIN book_author ba on book.id = ba.id_book 
                                         JOIN author a on a.id_author = ba.id_author 
                                    WHERE book.year = " . $currentYear . " OR book.year = " . $previousYear . " 
-                                   ORDER BY RAND() LIMIT 20 ");
+                                   ORDER BY RAND() LIMIT 21 ");
     }
 
-    public function getRecommendationBook() {
+    /**
+     * Функция возвращает массив 20 книг для вкладки "Что почитать?"
+     * @return array
+     */
+    public function getRecommendationBook(): array
+    {
         return $this->db->getAll("SELECT book.id, book.name AS `book`, book.image, a.name FROM book 
                                         JOIN book_author ba on book.id = ba.id_book 
                                         JOIN author a on a.id_author = ba.id_author  
-                                   ORDER BY RAND() LIMIT 20 ");
+                                   ORDER BY RAND() LIMIT 21 ");
+    }
+
+    public function getPopularBook(){
+        return $this->db->getAll("SELECT book.id, book.name AS `book`, book.image, a.name, COUNT(book_action.id_action) AS action_count FROM book 
+                                        INNER JOIN book_action ON book.id = book_action.id_book
+                                        JOIN book_author ba on book.id = ba.id_book 
+                                        JOIN author a on a.id_author = ba.id_author  
+                                   WHERE book_action.id_action = 2
+                                    GROUP BY book.id, book.name
+                                    ORDER BY action_count DESC LIMIT 21 ");
     }
 
     /**
@@ -253,11 +268,12 @@ class book extends Base {
      */
     public function getSingleReview($review): array
     {
-        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile AS `id_profile`, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author` FROM review
+        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile AS `id_profile`, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author`, gender FROM review
                    JOIN book b on b.id = review.id_book
                    JOIN book_author ba on b.id = ba.id_book
                    JOIN author a on a.id_author = ba.id_author
                    join profile p on p.id_profile = review.id_profile
+                   JOIN reader r on r.id_reader = p.id_reader
                 WHERE id_review = " . $review . "";
         return $this->db->getRow($sql);
     }
@@ -268,12 +284,22 @@ class book extends Base {
      */
     public function getAllReview(): array
     {
-        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author` FROM review
+        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author`, gender FROM review
                    JOIN book b on b.id = review.id_book
                    JOIN book_author ba on b.id = ba.id_book
                    JOIN author a on a.id_author = ba.id_author
-                   join profile p on p.id_profile = review.id_profile ORDER BY date DESC limit 20";
+                   join profile p on p.id_profile = review.id_profile
+                   JOIN reader r on r.id_reader = p.id_reader ORDER BY date DESC limit 20";
         return $this->db->getAll($sql);
+    }
+
+    /**
+     * Функция возвращает количество всех рецензий
+     * @return mixed
+     */
+    public function getCountAllReview(){
+        $result = $this->db->getRow("SELECT count(*) AS `count` FROM review");
+        return $result['count'];
     }
 
     /**
@@ -283,8 +309,7 @@ class book extends Base {
     function getAllSubgenres(): array
     {
         $sql = "SELECT * FROM genre_title";
-        $result = $this->db->getAll($sql);
-        return $result;
+        return $this->db->getAll($sql);
     }
 
     /**
@@ -492,5 +517,18 @@ class book extends Base {
             JOIN genre g on bg.id_genre = g.id_genre 
         WHERE g.id_genre = " . $subgenre . "");
         }
+    }
+
+    public function getGenreReview($id) {
+        $id_genre = trim($id);
+        $sql = "SELECT id_review, review.id_book AS `id_book`, p.id_profile, p.login, p.avatar_path, title, rating, text, date, b.name AS `book`, image, a.name AS `author`, gender FROM review
+                     JOIN book b on b.id = review.id_book
+                     JOIN book_author ba on b.id = ba.id_book
+                     JOIN author a on a.id_author = ba.id_author
+                     join profile p on p.id_profile = review.id_profile
+                     JOIN reader r on r.id_reader = p.id_reader
+                    join book_genre bg on b.id = bg.id_book 
+                WHERE bg.id_genre = ".$id_genre."";
+        return $this->db->getAll($sql);
     }
 }

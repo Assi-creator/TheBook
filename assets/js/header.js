@@ -14,7 +14,7 @@ let popupReview = $('input[name="data-exist-review-popup"]')
 let popupIdReview = $('input[name="data-review-popup"]')
 let popupMark = $('input[name="data-mark-popup"]')
 let popupSession = $('input[name="data-session-popup"]')
-let status = document.querySelector('.bc-menu__status-wrapper');
+
 
 $('.page-header__login').click(function () {
     $('.popup__regForm').addClass('open');
@@ -36,6 +36,81 @@ $('.popup__btn-back').click(function () {
     $('.popup__forgotPass').removeClass('open');
 });
 
+$('.page-header__search-input').on({
+    keyup: function () {
+        let search =  $('input[name="search"]').val();
+
+        if (search === ''){
+            $('.ll-block-hide').css('display','none');
+        } else {
+            $.ajax({
+                url: '/api/',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    Class: 'search',
+                    function: 'bookSearch',
+                    search: search
+                },
+                success(data) {
+                    if (data.ok) {
+                        if (data.result !== null) {
+                            $('.ll-block-hide').css('display','flex');
+                            //TODO: Добавить все ссылки и кнопку "Показать всё" изменять href
+                            let searchResObjects = $('#search-res .search-res-objects');
+                            searchResObjects.empty(); // очистка результатов предыдущего поиска
+                            data.result.forEach(book => {
+                                let listItem = $('<li>').addClass('search-res-object__item book-item__item book-item--short').attr('id', 'searchrow-' + book.id);
+                                let link = $('<a>').addClass('book-item__link').attr('href', '/views/book?book=' + book.id_book +'').attr('title', book.title);
+                                let img = $('<img>').attr('src', book.image).attr('width', '100%').attr('height', 'auto');
+                                link.append(img);
+                                let wrapper = $('<div>').addClass('book-item__wrapper');
+                                let title = $('<a>').addClass('book-item__title').attr('href', '/views/book?book=' + book.id_book +'').text(book.title);
+                                wrapper.append(title);
+                                let author = $('<p>').addClass('book-item__author-wrap book-item__author').text(book.author);
+                                wrapper.append(author);
+                                let genresList = $('<ul>').addClass('link-menu__list');
+                                book.genre.forEach(genres => {
+                                    let genreItem = $('<li>');
+                                    let genreLink = $('<a>').attr('href', '/views/genres/genre/?genre=' + genres.id_genre +'').text(genres.name);
+                                    genreItem.append(genreLink);
+                                    genresList.append(genreItem);
+                                });
+                                wrapper.append(genresList);
+                                let rating = $('<span>').addClass('book-item__rating').text(book.rating);
+                                wrapper.append(rating);
+                                let stat = $('<div>').addClass('book-item-stat');
+                                let added = $('<a>').addClass('icon-added-grey').attr('title', `${book.reads} прочитали`).css('cursor', 'default').text(book.reads);
+                                let read = $('<a>').addClass('icon-read-grey').attr('title', `${book.wishs} планируют прочитать`).css('cursor', 'default').text(book.wishs);
+                                let review = $('<a>').addClass('icon-review-grey').attr('title', `${book.reviews} рецензий`).attr('href', '/views/book/review/?book=' + book.id_book +'').text(book.reviews);
+                                stat.append(added).append(read).append(review);
+                                wrapper.append(stat);
+                                listItem.append(link).append(wrapper);
+                                searchResObjects.append(listItem);
+                                $('.see-all').attr('href', '/views/find?search=' + search +'')
+                            });
+                        } else if (data.result === null) {
+                            let searchResObjects = $('#search-res .search-res-objects');
+                            searchResObjects.empty();
+                            $('.ll-block-hide').css('display','none');
+                        }
+                    }
+                }
+            });
+        }
+    },
+    focus: function (){
+        // $('.ll-block-hide').css('display','flex');
+    },
+    click: function () {
+        // $('.ll-block-hide').css('display','flex');
+    }
+});
+
+document.addEventListener("click", function (e) {
+    console.log(e.target);
+});
+
 $('.popup__send-code').click(function (e) {
     e.preventDefault()
     $('.popup__reg-email-error').text('');
@@ -43,7 +118,7 @@ $('.popup__send-code').click(function (e) {
         user = $('input[name="forgot-user"]').val()
 
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -73,7 +148,7 @@ $('.btn-forgot-password__form_save').click(function (e) {
         repeatNewPassword = $('input[name="forgot-repeat_password"]').val();
     alert.innerHTML = ''
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -101,7 +176,7 @@ $('.popup__btn-login').click(function (e) {
 
 
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -122,7 +197,7 @@ $('.popup__btn-login').click(function (e) {
 
 $('.logout').click(function(){
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -191,7 +266,7 @@ $('#btn_reg').click(function (e) {
         formData.append('avatarurl', avatarurl);
 
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             processData: false,
             contentType: false,
@@ -222,7 +297,7 @@ $('.email-change').click(function (e) {
             password = $('input[name="account-password"]').val();
 
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -255,7 +330,7 @@ $('.change-password').click(function (e) {
             repeat = $('input[name="account-repeat_password"]').val();
 
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -267,9 +342,7 @@ $('.change-password').click(function (e) {
             },
             success(data) {
                 if (data.ok) {
-                    let message = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Профиль изменен</div>'
-                    alert.innerHTML += message
-                    window.scrollTo(0, 0);
+                    document.location.href = '/views/reader/';
                 } else {
                     let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + data.description + '</div>'
                     alert.innerHTML += message
@@ -289,7 +362,7 @@ $('.change-reserv-email').click(function (e) {
         let backup = $('input[name="security-email_backup"]').val();
 
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -331,7 +404,7 @@ $('#btn-editprofile-save').click(function (e) {
         formEditData.append('avatarurl', avatarurl);
 
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             processData: false,
             contentType: false,
@@ -376,7 +449,7 @@ $('#create-review').click(function (e) {
         profile = $('input[name="data-editor"]').val();
 
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -411,7 +484,7 @@ $('#update-review').click(function (e) {
         profile = $('input[name="data-editor"]').val();
 
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -427,7 +500,12 @@ $('#update-review').click(function (e) {
         },
         success(data) {
             if (data.ok) {
-                location.href = '/views/reader/reviews/'
+                if(data.result !== null) {
+                    location.href = '/views/review/single/?review='+data.result+''
+                } else {
+                    location.href = '/views/reader/reviews/'
+                }
+
             } else {
                 let message = '<div class="red"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>' + data.description + '</div>'
                 alert.innerHTML += message
@@ -453,10 +531,11 @@ $('.add-book__close-button').click(function () {
     }
 });
 
+$()
+
 $('.ub-form-cansel').on('click', function () {
     $('.add-book__modal-remove').addClass('hidden');
 });
-let actionID;
 
 $('.add-book__action-item label').on({
     click: function () {
@@ -467,8 +546,6 @@ $('.add-book__action-item label').on({
     }
 });
 
-
-//ОТКРЫТИЕ ОКНА СТАТУСА
 $('.btn-add-plus').on('click', function () {
     $('.add-book').removeClass('hidden')
     $('.add-book__modal-remove').addClass('hidden');
@@ -536,8 +613,14 @@ $('.btn-add-plus').on('click', function () {
 
     $('.add-book__save-button').click(function () {
         let newMark = $('input[name="new_book_rating"]').val()
+
+        console.log(newMark)
+        if (newMark === 0 || newMark === '' || newMark === null || newMark === "0") {
+            newMark = "1"
+        }
+
         $.ajax({
-            url: '/api/index.php',
+            url: '/api/',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -549,16 +632,36 @@ $('.btn-add-plus').on('click', function () {
                 mark: newMark,
                 review: popupIdReview.val()
             },
-            success(data) {
-                if (data.ok) {
+            success(response) {
+                if (response.ok) {
                     $container.attr('data-mark', null)
                     $container.attr('data-action', null)
+
+                    let idStatus = popupBook.val()
+                    let status = $('.bc-menu__status-wrapper.status-' + idStatus + ' ')
+                    let message;
+
+                    switch (response.result) {
+                        case '1':
+                            message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/reading/">Читаю сейчас</a>';
+                            break;
+                        case '2':
+                            message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/read/">Прочитал</a>';
+                            break;
+                        case '3':
+                            message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/wish/">В планах</a>';
+                            break;
+                    }
+
+                    if (status.length > 0) {
+                        status[0].innerHTML += message
+                    }
 
                     if (popupAction.val() === '2') {
                         $container.attr('data-mark', Number(newMark))
 
                         $.ajax({
-                            url: '/api/index.php',
+                            url: '/api/',
                             type: 'POST',
                             dataType: 'JSON',
                             data: {
@@ -594,16 +697,16 @@ $('.btn-add-plus').on('click', function () {
                                     let val = popupBook.val();
                                     $('.lists__mymark.'+ val +' ').css('display', 'flex')
                                     if ($('.lists__mymark').hasClass(val)) {
+                                        $('.lists__mymark.'+ val +' ').css('display', null)
                                         $('.lists__mymark.'+ val +' ').text(newMark)
-                                        console.log($('.lists__mymark.'+ val +' '))
                                     }
                                 }
                             }
                         });
                         $('.add-book').addClass('hidden')
-                    } else {
+                    } else if (popupAction.val() === '1' || popupAction.val() === '3') {
                         $.ajax({
-                            url: '/api/index.php',
+                            url: '/api/',
                             type: 'POST',
                             dataType: 'JSON',
                             data: {
@@ -640,14 +743,6 @@ $('.btn-add-plus').on('click', function () {
     });
 });
 
-
-
-
-
-
-// TODO: пошаманить с пустой книгой + data атрибуты надо менять на usercontainer
-
-//ИЗМЕНЕНИЕ СТАТУСА КНИГИ
 $('.add-book__action-title').on('click', function () {
     if (popupSession.val() === '') {
         $('.popup__regForm').addClass('open');
@@ -682,52 +777,13 @@ $('.add-book__action-title').on('click', function () {
                 $('.add-book__modal-remove').addClass('hidden');
             }
             popupAction.val(actionId)
-
-            // $.ajax({
-            //     url: '/api/index.php',
-            //     type: 'POST',
-            //     dataType: 'JSON',
-            //     data: {
-            //         book: popupBook.val(),
-            //         profile: popupProfile.val(),
-            //         act: actionId,
-            //         action: 'changemark'
-            //     },
-            //     success(data) {
-            //         if (data.ok === true) {
-            //             let message;
-            //             switch (data.result) {
-            //                 case '1':
-            //                     message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/reading/">Читаю сейчас</a>';
-            //                     break;
-            //                 case '2':
-            //                     message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/read/">Прочитал</a>';
-            //                     break;
-            //                 case '3':
-            //                     message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/wish/">В планах</a>';
-            //                     break;
-            //             }
-            //             popupAction.val(actionId)
-            //             let action = String(data.result);
-            //
-            //             $container.data('action', action)
-            //
-            //             //TODO: статус меняется постоянно у скрола справа а не у тыкнутой плитки
-            //             if (status !== null) {
-            //                 status.innerHTML += message
-            //             }
-            //         }
-            //     }
-            // });
         }
     }
 });
 
-// TODO: удалять статус сверху книжки
-
 $('.ub-form-remove').on('click', function () {
     $.ajax({
-        url: '/api/index.php',
+        url: '/api/',
         type: 'POST',
         dataType: 'JSON',
         data: {
@@ -743,15 +799,12 @@ $('.ub-form-remove').on('click', function () {
                 $container.find($('.btn-add-plus')).removeClass('btn-add-plus--add');
                 $('.add-book__action-item').removeClass('selected extendable');
 
-                if (status !== null) {
-                    status.innerHTML = ""
-                }
                 $container.attr('data-mark', null)
                 $container.attr('data-action', null)
                 $('.popup-book-mark').text(null)
 
                 $.ajax({
-                    url: '/api/index.php',
+                    url: '/api/',
                     type: 'POST',
                     dataType: 'JSON',
                     data: {
@@ -762,7 +815,7 @@ $('.ub-form-remove').on('click', function () {
                     success(data) {
                         if ($(".popup-book-mark").length){
                             if ($('.bc-rating-medium').hasClass(popupBook.val())){
-                                $('.bc-rating-medium span').text(null)
+                                $('.bc-rating-medium span').text(data)
                             }
                         }
 
@@ -782,6 +835,12 @@ $('.ub-form-remove').on('click', function () {
                         }
                     }
                 });
+                let idStatus = popupBook.val()
+                let status = $('.bc-menu__status-wrapper.status-' + idStatus + ' ')
+                if (status.length > 0) {
+                    status[0].innerHTML = ''
+                }
+
                 $('.add-book').addClass('hidden')
             }
         }
@@ -825,6 +884,20 @@ $('.lenta-review').each(function () {
             });
         }
     }
+});
+
+const details = document.querySelectorAll(".ll-details-closed");
+
+// добавить к каждому клику события клика
+[...details].forEach((targetDetail) => {
+    targetDetail.addEventListener("click", _ => {
+        // закрывать всех кроме кликнутого
+        details.forEach((detail) => {
+            if (detail !== targetDetail) {
+                detail.removeAttribute("open");
+            }
+        });
+    });
 });
 
 $('.review-menu__stars label').on({
@@ -946,7 +1019,7 @@ reviewCard.forEach(card => {
                 $('.add-book__save-button').click(function () {
                     let newMark = $('input[name="new_book_rating"]').val()
                     $.ajax({
-                        url: '/api/index.php',
+                        url: '/api/',
                         type: 'POST',
                         dataType: 'JSON',
                         data: {
@@ -967,7 +1040,7 @@ reviewCard.forEach(card => {
                                     $container.attr('data-mark', Number(newMark))
 
                                     $.ajax({
-                                        url: '/api/index.php',
+                                        url: '/api/',
                                         type: 'POST',
                                         dataType: 'JSON',
                                         data: {
@@ -1012,7 +1085,7 @@ reviewCard.forEach(card => {
                                     $('.add-book').addClass('hidden')
                                 } else {
                                     $.ajax({
-                                        url: '/api/index.php',
+                                        url: '/api/',
                                         type: 'POST',
                                         dataType: 'JSON',
                                         data: {
@@ -1126,8 +1199,14 @@ reviewCards.forEach(cards => {
 
                 $('.add-book__save-button').click(function () {
                     let newMark = $('input[name="new_book_rating"]').val()
+
+                    console.log(newMark)
+                    if (newMark === 0 || newMark === '' || newMark === null || newMark === "0") {
+                        newMark = "1"
+                    }
+
                     $.ajax({
-                        url: '/api/index.php',
+                        url: '/api/',
                         type: 'POST',
                         dataType: 'JSON',
                         data: {
@@ -1139,16 +1218,37 @@ reviewCards.forEach(cards => {
                             mark: newMark,
                             review: popupIdReview.val()
                         },
-                        success(data) {
-                            if (data.ok) {
+                        success(response) {
+                            if (response.ok) {
                                 $container.attr('data-mark', null)
                                 $container.attr('data-action', null)
+
+                                let idStatus = popupBook.val()
+                                let status = $('.bc-menu__status-wrapper.status-' + idStatus + ' ')
+                                console.log(status)
+                                let message;
+
+                                switch (response.result) {
+                                    case '1':
+                                        message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/reading/">Читаю сейчас</a>';
+                                        break;
+                                    case '2':
+                                        message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/read/">Прочитал</a>';
+                                        break;
+                                    case '3':
+                                        message = '<a class="bc-menu__status bc-menu__status-lists" href="/views/reader/wish/">В планах</a>';
+                                        break;
+                                }
+
+                                if (status.length > 0) {
+                                    status[0].innerHTML += message
+                                }
 
                                 if (popupAction.val() === '2') {
                                     $container.attr('data-mark', Number(newMark))
 
                                     $.ajax({
-                                        url: '/api/index.php',
+                                        url: '/api/',
                                         type: 'POST',
                                         dataType: 'JSON',
                                         data: {
@@ -1191,9 +1291,9 @@ reviewCards.forEach(cards => {
                                         }
                                     });
                                     $('.add-book').addClass('hidden')
-                                } else {
+                                } else if (popupAction.val() === '1' || popupAction.val() === '3') {
                                     $.ajax({
-                                        url: '/api/index.php',
+                                        url: '/api/',
                                         type: 'POST',
                                         dataType: 'JSON',
                                         data: {
@@ -1237,6 +1337,7 @@ $.each($('.radiogroup'), function (index, val) {
         $(this).addClass('active');
     }
 });
+
 
 function Close() {
     alert.innerHTML = ''

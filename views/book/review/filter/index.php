@@ -1,10 +1,10 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/review/review.php';
 
 $api = new TheBook\controller\Book;
 $book = $api->getSingleBookById($_GET['book']);
-$action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
-?>
+$action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']); ?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -18,34 +18,37 @@ $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile']
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
     <script defer src="/assets/js/book.js"></script>
-
 </head>
 <body>
-
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php"; ?>
+<br>
+<br>
 
-<br>
-<br>
-<?php $allReview = $api->getAllReviewForSingleBook($_GET['book']); ?>
+<?php
+$reviewapi = new \TheBook\controller\review();
+$allReviews = $api->getAllReviewForSingleBook($_GET['book']);
+$allReview = $reviewapi->searchReviewForSingleBook($_GET['book'], $_GET['rating'], $_GET['order']); ?>
 
 <main class="main-body page-content book-card bc-new">
+    <input type="hidden" name="rating" value="<?=$_GET['rating'] ?>">
+    <input type="hidden" name="rating" value="<?=$_GET['order'] ?>">
     <section class="bc-header">
         <div class="bc-header__bg-wrap">
             <img class="bc-header__bg" src="<?=$book['image'] ?>" style="width: 100%; height: auto;">
         </div>
         <div class="bc-header__wrap">
             <h1 class="bc__book-title"><?=$book['title']?></h1>
-            <h2 class="bc-author"><?= $book['author']?></h2>
+            <h2 class="bc-author"><?=$book['author']; ?></h2>
             <ul class="bc-header__list">
                 <li>
-                    <a class="bc-header__link bc-detailing-about" href="/views/book/?book=<?php echo $book['id']; ?>">
+                    <a class="bc-header__link bc-detailing-about" href="/views/book/?book=<?=$book['id']?>">
                         Описание
                     </a>
                 </li>
                 <li>
-                    <a class="bc-header__link bc-detailing-review bc-header__link--active" href="/views/book/review?book=<?php echo $book['id']; ?>">
+                    <a class="bc-header__link bc-detailing-review bc-header__link--active" href="/views/book/review?book=<?=$book['id']?>">
                         Рецензии
                     </a>
                 </li>
@@ -59,12 +62,12 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php"; ?>
                     <?php if (!empty($_SESSION['user'])):
                         if (!empty($action)): ?>
                             <span class="bc-menu__status-wrapper">
-                            <a class="bc-menu__status bc-menu__status-lists" href="/views/reader/<?=$action['href'] ?>/"><?=$action['action']?></a>
+                            <a class="bc-menu__status bc-menu__status-lists" href="/views/reader/<?=$action['href'] ?>/"><?=$action['action'] ?></a>
                         </span>
                         <?php endif; ?>
                     <?php endif; ?>
                     <div class="bc-menu__image-wrapper">
-                        <img class="bc-menu__image" title="<?=$book['title']?>" src="<?=$book['image']?>" style="cursor: pointer;" width="100%" height="100%" alt="">
+                        <img class="bc-menu__image" title="<?=$book['title']?>" src="<?=$book['image'] ?>" style="cursor: pointer;" width="100%" height="100%" alt="">
                     </div>
                     <?php
                         $action = $api->getActionForSession($book['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
@@ -89,45 +92,75 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php"; ?>
                     <?php endif; ?>
                 </div>
             </div>
-
             <article class="bc">
                 <div id="content-loaded">
                     <article class="bc-review">
-                            <div class="bc-detailing__inner">
-                                <a class="bc-detailing__show-all">Всего <?php echo count($allReview); ?></a>
-                            </div>
-
-                        <?php $reviewapi = new \TheBook\controller\review();
-                        $ratingCount = $reviewapi->getRatingReviewCount($book['id']); ?>
-                            <div class="bc-detailing__sorting">
-                                <details class="ll-details-closed">
-                                    <summary>
+                        <div class="bc-detailing__inner">
+                            <a class="bc-detailing__show-all">Всего <?=count($allReviews)?></a>
+                        </div>
+                        <?php $ratingCount = $reviewapi->getRatingReviewCount($book['id']); ?>
+                        <div class="bc-detailing__sorting">
+                            <details class="ll-details-closed">
+                                <summary>
+                                    <?php if (isset($_GET['rating'])):?>
+                                    <?php switch ($_GET['rating']) {
+                                            case 'plus':
+                                                echo "Положительные ".$ratingCount['plus'][0];
+                                                break;
+                                            case 'zero':
+                                                echo "Нейтральные ".$ratingCount['zero'][0];
+                                                breaK;
+                                            case 'minus':
+                                                echo "Отрицательные ".$ratingCount['minus'][0];
+                                                break;
+                                            case 'all-rating':
+                                                echo "Все виды";
+                                                break;
+                                        }
+                                        ?>
+                                    <?php else: ?>
                                         Все виды
-                                    </summary>
-                                    <div>
-                                        <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=all-rating">Все виды</a>
-                                        <?php if ($ratingCount['plus'][0] !== '0'): ?>
-                                            <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=plus">Положительные <?=$ratingCount['plus'][0] ?></a>
-                                        <?php endif; ?>
-                                        <?php if ($ratingCount['zero'][0] !== '0'): ?>
-                                            <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=zero">Нейтральные <?=$ratingCount['zero'][0] ?></a>
-                                        <?php endif; ?>
-                                        <?php if ($ratingCount['minus'][0] !== '0'): ?>
-                                            <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=minus">Отрицательные <?=$ratingCount['minus'][0] ?></a>
-                                        <?php endif; ?>
-                                    </div>
-                                </details>
-                                <details class="ll-details-closed">
-                                    <summary>
+                                    <?php endif; ?>
+                                </summary>
+                                <div>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=all-rating">Все виды</a>
+                                    <?php if ($ratingCount['plus'][0] !== '0'): ?>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=plus">Положительные <?=$ratingCount['plus'][0] ?></a>
+                                    <?php endif; ?>
+                                    <?php if ($ratingCount['zero'][0] !== '0'): ?>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=zero">Нейтральные <?=$ratingCount['zero'][0] ?></a>
+                                    <?php endif; ?>
+                                    <?php if ($ratingCount['minus'][0] !== '0'): ?>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&rating=minus">Отрицательные <?=$ratingCount['minus'][0] ?></a>
+                                    <?php endif; ?>
+                                </div>
+                            </details>
+                            <details class="ll-details-closed">
+                                <summary>
+                                    <?php if (isset($_GET['order'])):?>
+                                        <?php switch ($_GET['order']) {
+                                            case 'rating':
+                                                echo "По рейтингу";
+                                                break;
+                                            case 'date':
+                                                echo "По дате добавления";
+                                                breaK;
+                                            case 'all-order':
+                                                echo "По релевантности";
+                                                break;
+                                        }
+                                        ?>
+                                    <?php else: ?>
                                         По релевантности
-                                    </summary>
-                                    <div>
-                                        <a href="/views/book/review/filter?book=<?=$book['id']?>&order=all-order">По релевантности</a>
-                                        <a href="/views/book/review/filter?book=<?=$book['id']?>&order=rating">По рейтингу</a>
-                                        <a href="/views/book/review/filter?book=<?=$book['id']?>&order=date">По дате добавления</a>
-                                    </div>
-                                </details>
-                            </div>
+                                    <?php endif; ?>
+                                </summary>
+                                <div>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&order=all-order">По релевантности</a>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&order=rating">По рейтингу</a>
+                                    <a class="filter" href="/views/book/review/filter?book=<?=$book['id']?>&order=date">По дате добавления</a>
+                                </div>
+                            </details>
+                        </div>
 
                         <div id="book-reviews">
                             <?php foreach ($allReview as $review): ?>
@@ -151,7 +184,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php"; ?>
                                         </div>
                                         <h3 class="lenta-card__title" style="font-size: 26px;">
                                             <span class="lenta-card__mymark" style="font-size: 26px;"><?=$review['rating'] ?></span>
-                                            <a href="/views/review/single?review=<?=$review['id_review']?>"><?=$review['title']; ?></a>
+                                            <a href="/views/review/single?review=<?=$review['id_review']?>"><?=$review['title']?></a>
                                         </h3>
                                         <div class="lenta-card__text">
                                             <div id="lenta-card__text-review-escaped" style="font-size: 18px; max-height: 220px;">

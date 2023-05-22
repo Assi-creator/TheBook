@@ -4,7 +4,7 @@ if (!isset($_SESSION['user'])) {
 }
 include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php';?>
 require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 
 <br>
-
 <br>
 <main class="page-content-reader page-content main-body">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/profileheader.php"; ?>
@@ -30,13 +29,11 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
     <?php
     $api = new TheBook\controller\Book;
     $book = $api->getAllProfileBook($_SESSION['user']['id_profile']);
+    $read = $book['read']; ?>
 
-    $read = $book['read'];
-    ?>
     <div class="wrapper-ugc" style="max-width: 816px; margin: 15px;">
         <h1><?php if ($_SESSION['user']['gender'] == 'ж') {echo 'Прочитала';} else {echo 'Прочитал';} ?></h1>
         <?php if (!empty($read)): ?>
-
             <div class="blist-biglist" id="booklist">
                 <?php foreach ($read as $reads): ?>
                     <div class="book-item-manage">
@@ -44,65 +41,56 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                             <div class="brow-inner">
                                 <div class="brow-cover">
                                     <div class="cover-wrapper">
-                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="<?php echo $reads['title']; ?>">
-                                            <img class="cover-rounded" src="<?php echo $reads['image']; ?>" alt="<?php echo $reads['title']; ?>" style="min-width: 140px; background-color: #ffffff;" width="140">
+                                        <a href="/views/book/?book=<?=$reads['id']?>" title="<?=$reads['title']?>">
+                                            <img class="cover-rounded" src="<?=$reads['image']?>" alt="<?=$reads['title']?>" style="min-width: 140px; background-color: #ffffff;" width="140">
                                         </a>
                                     </div>
-                                    <?php $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
+                                    <?php  $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
+                                    $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
                                     $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
                                     $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
-                                    $rating = $api->getBookRating($reads['id']); ?>
-                                    <div class="brow-rating"></div>
+                                    $rating = $api->getBookRating($reads['id']);?>
                                     <div class="book-data">
-
-                                                <?php  $mymark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
-                                                $action = $api->getActionForSession($reads['id'], $_SESSION['user']['id_profile'], $_SESSION['user']['gender']);
-                                                $review = $api->getExistReview($reads['id'], $_SESSION['user']['id_profile']);
-                                                $reviewId = $api->getReviewId($reads['id'], $_SESSION['user']['id_profile']);
-                                                $rating = $api->getBookRating($reads['id']); ?>
-                                                <div class="userbook-container-<?php echo $reads['id'];?>" data-book-id="<?php echo $reads['id'];?>"
-                                                     data-book-name="<?php echo $reads['title']; ?>"
-                                                     data-action="<?php echo $action['id']; ?>"
-                                                     data-profile="<?php echo $_SESSION['user']['id_profile']; ?>"
-                                                     data-review = "<?php echo $reviewId;?>"
-                                                     data-mark="<?php echo $mymark['rating']; ?>"
-                                                     data-session="<?php echo $_SESSION['user']['id_profile']; ?>"
-                                                     data-exist-review="<?php echo $review;?>"
-                                                     data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
-                                                    <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
-                                                </div>
-
+                                        <div class="userbook-container-<?=$reads['id']?>"
+                                             data-book-id="<?=$reads['id']?>"
+                                             data-book-name="<?=$reads['title']?>"
+                                             data-action="<?=$action['id']; ?>"
+                                             data-profile="<?=$_SESSION['user']['id_profile']?>"
+                                             data-review = "<?=$reviewId?>"
+                                             data-mark="<?=$mymark['rating']?>"
+                                             data-session="<?=$_SESSION['user']['id_profile']?>"
+                                             data-exist-review="<?=$review?>"
+                                             data-exist-action="<?php if (!empty($action)){echo 1;}else{echo 0;} ?>">
+                                            <a class="btn-add-plus <?php if (!empty($action)){echo 'btn-add-plus--add';}?>"></a>
+                                        </div>
                                     </div>
                                     <div class="separator"></div>
-                                    <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?php echo $reviewId;?>">
+                                    <input type="hidden" name="reviewID" class="reviewID" id="reviewID" value="<?=$reviewId?>">
                                 </div>
-
 
                                 <div class="brow-data">
                                     <div>
-                                        <a class="brow-book-name with-cycle" href="/views/book/?book=<?php echo $reads['id']; ?>"><?php echo $reads['title']; ?></a>
+                                        <a class="brow-book-name with-cycle" href="/views/book/?book=<?=$reads['id']?>"><?=$reads['title']?></a>
                                         <div style="padding-top: 8px;"></div>
                                         <p class="brow-book-author"><?php echo $reads['author']; ?></p>
                                         <div class="brow-genres">
-                                            <?php
-                                            $genre = $api->getGenresForSingleBook($reads['id']);
-                                            $mark = $api->getMyMark($reads['id'], $_SESSION['user']['id_profile']);
+                                            <?php $genre = $api->getGenresForSingleBook($reads['id']);
                                             $stats = $api->getStatForSingleBook($reads['id']);
                                             for ($i = 0; $i < count($genre); $i++):?>
-                                                <a class="label-genre" href="/views/genres/genre?genre=<?php echo $genre[$i]['id_genre'];?>">
-                                                    <?php echo $genre[$i]['name']; ?>
+                                                <a class="label-genre" href="/views/genres/genre?genre=<?=$genre[$i]['id_genre']?>">
+                                                    <?=$genre[$i]['name']?>
                                                 </a>
                                             <?php endfor; ?>
                                         </div>
-                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mark)) {echo $mark['rating'];} else {echo 0;} ?></span>
+                                        <div class="brow-rating">Ваша оценка: <span><?php if (!empty($mymark)) {echo $mymark['rating'];} else {echo 0;} ?> &#9733;</span>
                                         </div>
                                         <div class="brow-stats">
                                             <a style="cursor: default">
-                                                <span class="i-cusers opc-054"></span> <?php echo $stats['read']; ?>
+                                                <span class="i-cusers opc-054"></span> <?=$stats['read']?>
                                                 прочитали
                                             </a>
-                                            <a href="/views/book/review?book=<?php echo $reads['id']; ?>">
-                                                <span class="i-creviews opc-054"></span> <?php echo $stats['review']; ?>
+                                            <a href="/views/book/review?book=<?=$reads['id']?>">
+                                                <span class="i-creviews opc-054"></span> <?=$stats['review']?>
                                                 рецензий
                                             </a>
                                         </div>
@@ -113,18 +101,19 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                                     <td style="font-weight: bold;padding-right: 6px;">ISBN:</td>
                                                     <td>
                                                         <span itemprop="isbn">
-                                                            <?php echo $reads['ISBN'] ?>
-                                                        </span></td>
+                                                            <?=$reads['ISBN'] ?>
+                                                        </span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-weight: bold;padding-right: 6px;">Год издания:</td>
-                                                    <td><?php echo $reads['year'] ?></td>
+                                                    <td><?=$reads['year'] ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-weight: bold;padding-right: 6px;">Издательство:</td>
                                                     <td>
                                                         <span itemprop="publisher">
-                                                            <p><?php echo $reads['publishing'] ?></p>
+                                                            <p><?=$reads['publishing'] ?></p>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -136,34 +125,30 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                             </table>
                                         </div>
                                         <div class="brow-marg">
-                                            <p><?php echo $reads['annotation']; ?></p>
+                                            <p><?=$reads['annotation']?></p>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="separator"></div>
                             </div>
-                            <?php
-                            $review = $api->getProfileReviewForSingleBook($reads['id'], $_SESSION['user']['id_profile']);
-                            if (!empty($review)):
-                                ?>
+                            <?php $review = $api->getProfileReviewForSingleBook($reads['id'], $_SESSION['user']['id_profile']);
+                            if (!empty($review)):?>
                                 <div class="brow-review">
                                     <div class="group-review review-inner">
                                         <div class="with-pad event-header uerow">
                                             <div class="rel">
-                                                <div class="group-user-date"
-                                                     style="margin-bottom: 0; line-height: 20px;">
+                                                <div class="group-user-date" style="margin-bottom: 0; line-height: 20px;">
                                                     <div class="group-login-date dont-author">
-                                            <span class="date-topright">
-                                                <a title="Рецензия на книгу ">
-                                                    <span style="cursor:default;" class="date"><?php echo formatDate($review['date']); ?></span>
-                                                </a>
-                                            </span>
+                                                        <span class="date-topright">
+                                                            <a title="Рецензия на книгу ">
+                                                                <span style="cursor:default;" class="date"><?=formatDate($review['date']); ?></span>
+                                                            </a>
+                                                        </span>
                                                         <a class="a-login-black" href="/views/review/">Моя рецензия на книгу</a>
                                                         <br>
-                                                        <a href="/views/book/?book=<?php echo $reads['id']; ?>" title="<?php echo $reads['title']; ?>"><?php echo $reads['title']; ?></a>
+                                                        <a href="/views/book/?book=<?=$reads['id']; ?>" title="<?=$reads['title']?>"><?=$reads['title']?></a>
                                                         автора
-                                                        <a title="Автор" style="color: black; cursor: default;"><?php echo $reads['author']; ?></a>
+                                                        <a title="Автор" style="color: black; cursor: default;"><?=$reads['author']; ?></a>
                                                     </div>
                                                     <div class="separator"></div>
                                                 </div>
@@ -171,11 +156,10 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                                         </div>
                                         <div class="backgr-block review">
                                             <div class="lenta-card" style="min-height: 0; padding: 20px">
-                                                <a class="post-scifi-title" href="/views/review/single?review=<?php echo $review['id_review']?>"><?php echo $review['title']; ?></a>
+                                                <a class="post-scifi-title" href="/views/review/single?review=<?=$review['id_review']?>"><?=$review['title']?></a>
                                                 <div class="lenta-card__text" id="review-text-brief" style="max-height: 220px;">
-                                                    <p><?php echo $review['text']; ?></p>
+                                                    <p><?=$review['text']?></p>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +169,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                     </div>
                 <?php endforeach; ?>
             </div>
-
         <?php else: ?>
             <div id="es-top-wrapper" class="block-border card-block es-top-wrapper for-books">
                 <div class="with-pads">
@@ -196,9 +179,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
                         Ваш список пока пуст!
                         <br>
                         <br>
-                        Выберите свой любимый <a href="/views/genres/">Жанр</a>, там Вы гарантированно найдете
-                        интересные
-                        книги.
+                        Выберите свой любимый <a href="/views/genres/">Жанр</a>, там Вы гарантированно найдете интересные книги.
                     </div>
                     <div class="separator"></div>
                 </div>
@@ -208,7 +189,6 @@ require $_SERVER['DOCUMENT_ROOT'] . "/template/actionpopup.php";?>
 </main>
 
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/footer.php"; ?>
-
 </body>
 </html>
 

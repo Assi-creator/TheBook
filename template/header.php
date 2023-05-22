@@ -11,11 +11,24 @@
         <div class="page-header__search">
           <span style="display: inline-block; width: 100%" tabindex="1">
             <form autocomplete="off" method="POST">
-              <div class="page-header__search-form">
-                <input class="page-header__search-input" placeholder="Поиск книги" type="text" value="">
+              <div class="page-header__search-form" style="z-index: 10006 !important;">
+                <input class="page-header__search-input" name="search" placeholder="Поиск книги или автора" type="text" value="">
                 <button class="page-header__search-button" type="submit">Найти</button>
               </div>
             </form>
+              <div id="search-res-block" class="ll-block-hide" style="display: none">
+                  <div id="search-res">
+                      <div class="search-res-objects">
+                          <ul class="search-res-object__list">
+                          </ul>
+                      </div>
+                      <div class="search-res__show-all">
+                          <a class="see-all">
+                              Показать все результаты
+                          </a>
+                      </div>
+                  </div>
+              </div>
           </span>
         </div>
 
@@ -25,7 +38,7 @@
                     <img alt="<?php echo $_SESSION['user']['login']; ?>"
                          src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="100%" height="100%">
                 </summary>
-                <ul class="user-nav__list" data-simplebar="init">
+                <ul class="user-nav__list">
                     <li class="user-nav__item">
                         <a class="user-nav__login" href="/views/reader">
                             <img alt="<?php echo $_SESSION['user']['login']; ?>"
@@ -105,10 +118,23 @@
           <span style=" display: inline-block; width: 100%" tabindex="1">
             <form autocomplete="off" method="POST">
               <div class="page-header__search-form">
-                <input class="page-header__search-input" placeholder="Поиск книги" type="text" value="">
-                <button class="page-header__search-button" type="submit">Найти</button>
+                <input class="page-header__search-input" name="search" placeholder="Поиск книги" type="text" value="">
+                <button class="page-header__search-button" type="button">Найти</button>
               </div>
             </form>
+              <div id="search-res-block" class="ll-block-hide" style="display: none">
+                  <div id="search-res">
+                      <div class="search-res-objects">
+                          <ul class="search-res-object__list">
+                          </ul>
+                      </div>
+                      <div class="search-res__show-all">
+                          <a href="" onclick="location.href='/views/find?Тут текст c инпута'">
+                              Показать все результаты
+                          </a>
+                      </div>
+                  </div>
+              </div>
           </span>
         </div>
     </div>
@@ -121,8 +147,7 @@
                 margin: 0 auto;">
         <ul class="main-menu">
             <li><a href="/">Главная</a></li>
-            <li><a href="/../views/genres/">Жанры</a></li>
-            <li><a href="/">Авторы</a></li>
+            <li><a href="/views/genres/">Жанры</a></li>
             <li><a href="/views/review/">Рецензии</a></li>
         </ul>
     </nav>

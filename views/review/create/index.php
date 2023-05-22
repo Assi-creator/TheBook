@@ -13,7 +13,7 @@ $book = $api->getSingleBookById($_GET['book']);?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Читайте, изучайте интересные подборки книг, делитесь впечатлениями о книгах">
 
-    <title>Рецензия на <?php echo $book['title'];?> </title>
+    <title>Рецензия на <?=$book['title'];?> </title>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
 
@@ -32,18 +32,18 @@ $book = $api->getSingleBookById($_GET['book']);?>
                     <h2>Новая рецензия</h2>
                 </div>
                 <div class="with-pad backgr-block review" style="margin-top: 0; flex-direction:row;">
-                    <a href="/views/book/?book=<?php echo $book['id']?>">
-                        <img src="<?php echo $book['image']?>" style="min-width: 100px; background-color: white; float: left;" width="100">
+                    <a href="/views/book/?book=<?=$book['id']?>">
+                        <img src="<?=$book['image']?>" style="min-width: 100px; background-color: white; float: left;" width="100">
                     </a>
                     <div class="book-block-data" style="margin-left: 35px; width: 500px">
-                        <a class="post-scifi-title" href="/views/book/?book=<?php echo $book['id']?>"><?php echo $book['title'];?></a>
+                        <a class="post-scifi-title" href="/views/book/?book=<?=$book['id']?>"><?=$book['title'];?></a>
                         <br>
-                        <a style="cursor:default; color: black;"><?php echo $book['author']; ?></a>
+                        <a style="cursor:default; color: black;"><?=$book['author']; ?></a>
                         <br>
                         <div style="margin-top: 5px; display: flex;flex-wrap: wrap; width: 500px;">
                             <?php $genre = $api->getGenresForSingleBook($book['id']); for ($i = 0; $i < count($genre); $i++):?>
-                                <a class="label-genre" href="/views/genres/genre?genre=<?php echo $genre[$i]['id_genre'];?>">
-                                    <?php echo $genre[$i]['name']; ?>
+                                <a class="label-genre" href="/views/genres/genre?genre=<?=$genre[$i]['id_genre'];?>">
+                                    <?=$genre[$i]['name']; ?>
                                 </a>
                             <?php endfor; ?>
                         </div>
@@ -53,46 +53,46 @@ $book = $api->getSingleBookById($_GET['book']);?>
                 <div class="with-pad">
                     <table class="form-new" style="100%">
                         <tbody>
-                            <tr>
-                                <tb>
-                                    <div class="tb-column-2">
-                                        <label class="label-form">Ваша оценка книги</label>
-                                        <div class="bc-menu__rating">
-                                            <div class="review-menu__stars bc-rating--full">
-                                                <input id="review-radio-rating-5" class="review-radio rating-radio" type="radio" value="5"
-                                                       name="bc_rating">
-                                                <label for="review-radio-rating-5"></label>
-                                                <input id="review-radio-rating-4" class="review-radio rating-radio" type="radio" value="4"
-                                                       name="bc_rating">
-                                                <label for="review-radio-rating-4"></label>
-                                                <input id="review-radio-rating-3" class="review-radio rating-radio" type="radio" value="3"
-                                                       name="bc_rating">
-                                                <label for="review-radio-rating-3"></label>
-                                                <input id="review-radio-rating-2" class="review-radio rating-radio" type="radio" value="2"
-                                                       name="bc_rating">
-                                                <label for="review-radio-rating-2"></label>
-                                                <input id="review-radio-rating-1" class="review-radio rating-radio" type="radio" value="1"
-                                                       name="bc_rating">
-                                                <label for="review-radio-rating-1"></label>
-                                            </div>
-                                            <span class="popup-book-mark hidden"></span>
+                        <tr>
+                            <tb>
+                                <div class="tb-column-2">
+                                    <label class="label-form">Ваша оценка книги</label>
+                                    <div class="bc-menu__rating">
+                                        <div class="review-menu__stars bc-rating--full">
+                                            <input id="review-radio-rating-5" class="review-radio rating-radio" type="radio" value="5"
+                                                   name="bc_rating">
+                                            <label for="review-radio-rating-5"></label>
+                                            <input id="review-radio-rating-4" class="review-radio rating-radio" type="radio" value="4"
+                                                   name="bc_rating">
+                                            <label for="review-radio-rating-4"></label>
+                                            <input id="review-radio-rating-3" class="review-radio rating-radio" type="radio" value="3"
+                                                   name="bc_rating">
+                                            <label for="review-radio-rating-3"></label>
+                                            <input id="review-radio-rating-2" class="review-radio rating-radio" type="radio" value="2"
+                                                   name="bc_rating">
+                                            <label for="review-radio-rating-2"></label>
+                                            <input id="review-radio-rating-1" class="review-radio rating-radio" type="radio" value="1"
+                                                   name="bc_rating">
+                                            <label for="review-radio-rating-1"></label>
                                         </div>
-                                        <div style="padding-top: 7px;">
+                                        <span class="popup-book-mark hidden"></span>
+                                    </div>
+                                    <div style="padding-top: 7px;">
 
-                                        </div>
                                     </div>
-                                    <div class="tb-column-sep"></div>
-                                    <div class="tb-column-2"></div>
-                                </tb>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="label-form" for="review[title]">Заголовок рецензии</label>
-                                    <div class="form-input">
-                                        <input id="title" type="text" maxlength="500" name="review[title]" value="">
-                                    </div>
-                                </td>
-                            </tr>
+                                </div>
+                                <div class="tb-column-sep"></div>
+                                <div class="tb-column-2"></div>
+                            </tb>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="label-form" for="review[title]">Заголовок рецензии</label>
+                                <div class="form-input">
+                                    <input id="title" type="text" maxlength="500" name="review[title]" value="">
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <label class="label-form" for="review[review]">Текст вашей рецензии</label>
@@ -122,8 +122,8 @@ $book = $api->getSingleBookById($_GET['book']);?>
                     <input type="button" class="btn-fill btn-wh right" value="Отмена" onclick="location.href='/views/reader/';">
                 </div>
             </div>
-            <input type="hidden" name="data-editor" value="<?php echo $_SESSION['user']['id_profile'];?>">
-            <input type="hidden" name="data-book" value="<?php echo $book['id'];?>">
+            <input type="hidden" name="data-editor" value="<?=$_SESSION['user']['id_profile'];?>">
+            <input type="hidden" name="data-book" value="<?=$book['id'];?>">
         </form>
     </div>
 </main>

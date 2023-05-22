@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@ if (!isset($_SESSION['user'])) {
                                 <td><input class="wide" type="text" name="account-new_email" value=""></td>
                             </tr>
                             <tr>
-                                <td>Пароль <?php echo $_SESSION['user']['login']; ?></td>
+                                <td>Пароль <?=$_SESSION['user']['login']?></td>
                                 <td><input class="wide" type="password" name="account-password" value=""></td>
                             </tr>
                             </tbody>
@@ -51,14 +51,14 @@ if (!isset($_SESSION['user'])) {
                             <tbody>
                             <tr>
                                 <td>Текущий email</td>
-                                <td><?php echo $_SESSION['user']['email']; ?></td>
+                                <td><?=$_SESSION['user']['email']?></td>
                             </tr>
                             <tr>
                                 <td>Новый email</td>
                                 <td><input class="wide" type="text" name="account-new_email" value=""></td>
                             </tr>
                             <tr>
-                                <td>Пароль <?php echo $_SESSION['user']['login']; ?></td>
+                                <td>Пароль <?=$_SESSION['user']['login']?></td>
                                 <td><input class="wide" type="password" name="account-password" value=""></td>
                             </tr>
                             </tbody>

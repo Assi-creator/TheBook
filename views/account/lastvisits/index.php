@@ -10,7 +10,7 @@ $sessions = $user->getAllSessions();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,9 +44,9 @@ $sessions = $user->getAllSessions();
                     <?php
                     foreach($sessions as $session):?>
                     <tr class="p unnoticeable">
-                        <td style="text-align: center;padding: 5px 0;"><?php echo $session['ip']; ?></td>
-                        <td style="text-align: center;padding: 5px 0;"><?php echo formatDate($session['date']); ?></td>
-                        <td style="text-align: center;padding: 5px 0;"><?php echo $session['browser']; ?></td>
+                        <td style="text-align: center;padding: 5px 0;"><?=$session['ip']?></td>
+                        <td style="text-align: center;padding: 5px 0;"><?=formatDate($session['date'])?></td>
+                        <td style="text-align: center;padding: 5px 0;"><?=$session['browser']?></td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>

@@ -18,14 +18,13 @@ if ($_GET['key'] != $_SESSION['change_key']) {
     <title>Восстановление пароля</title>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/link.php"; ?>
-
 </head>
 <body>
 
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/template/header.php"; ?>
 
 <main class="page-content-reader main-body">
-    <input type="hidden" value="<?php echo $_GET['key']; ?>">
+    <input type="hidden" value="<?=$_GET['key']?>">
     <div class="wrapper-ugc" style="max-width: 816px; margin-top: 15px;">
         <form>
             <div class="block-border card-block">

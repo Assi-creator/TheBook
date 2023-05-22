@@ -20,7 +20,15 @@ class review extends Base {
         $book = trim($obj['book']);
         $mark = trim($obj['mark']);
 
-        if (empty($title) and empty($text) and empty($mark)) {
+        if (empty($mark) and empty($title) and empty($text)) {
+            return $this->request_api(false, null, 'Заполните рецензию');
+        }
+
+        if (empty($mark)) {
+            return $this->request_api(false, null, 'Укажите оценку');
+        }
+
+        if (empty($title) and empty($text)) {
             return $this->request_api(false, null, 'Заполните хотя бы одно поле');
         }
 
@@ -58,20 +66,22 @@ class review extends Base {
         }
 
         try {
-            $this->db->query($sqlReview, $inReview);
             $this->db->query($sqlMark, $inMark);
+            $this->db->query($sqlReview, $inReview);
+
+            $_SESSION['tmp_alert'] = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Рецензия создана</div>';
 
             return $this->request_api(true, 'Рецензия успешно добавлена');
         } catch (\Exception $e) {
             $this->log->error('New Review in review.php:', (array)$e);
-            return $this->request_api(false, null, 'Внутрення ошибка сервера');
+            return $this->request_api(false, null, 'Внутренняя ошибка сервера');
         }
     }
 
     /**
      * Функция редактирования/удаления рецензии
      * @param $obj
-     * @return array|void
+     * @return array
      */
     public function editReview($obj)
     {
@@ -102,7 +112,9 @@ class review extends Base {
                 $this->db->query($sqlReview, $inReview);
                 $this->db->query($sqlMark);
 
-                return $this->request_api(true, 'Рецензия успешно обновлена');
+                $_SESSION['tmp_alert'] = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Рецензия обновлена</div>';
+
+                return $this->request_api(true, $review);
             } catch (\Exception $e) {
                 $this->log->error('Edit Review in review.php:', (array)$e);
                 return $this->request_api(false, null, 'Внутрення ошибка сервера');
@@ -111,11 +123,68 @@ class review extends Base {
 
             try {
                 $this->db->query("DELETE FROM review WHERE id_review = '" . $review . "'");
-                return $this->request_api(true, 'Рецензия успешно удалена');
+
+                $_SESSION['tmp_alert'] = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Рецензия удалена</div>';
+                return $this->request_api(true, null);
             } catch (\Exception $e) {
                 $this->log->error('Edit Review in review.php:', (array)$e);
                 return $this->request_api(false, null, 'Внутрення ошибка сервера');
             }
         }
     }
+
+    public function searchReviewForSingleBook($book, $ratings = null, $orders = null) {
+        $id = trim($book);
+        $rating = trim($ratings);
+        $order = trim($orders);
+
+        switch ($rating) {
+            case 'plus':
+                $sqlRating = "AND (rating = 4 OR rating = 5)";
+                break;
+            case 'zero':
+                $sqlRating = "AND rating = 3";
+                break;
+            case 'minus':
+                $sqlRating = "AND (rating = 1 OR rating = 2)";
+                break;
+            case 'all-review':
+                $sqlRating = '';
+                break;
+        }
+
+        switch ($order) {
+            case 'rating':
+                $sqlOrder = "ORDER BY rating DESC";
+                break;
+            case 'date':
+                $sqlOrder = "ORDER BY date DESC";
+                break;
+            case 'all-order':
+                $sqlOrder = '';
+                break;
+        }
+
+        $sql = "SELECT * FROM review JOIN profile p on p.id_profile = review.id_profile  WHERE id_book = '" . $id . "' ".$sqlRating." ".$sqlOrder."";
+        $this->log->debug("Single book review sql search:", array($sql));
+        try {
+            $result = $this->db->getAll($sql);
+            $this->log->debug("Single book review search:", array($result));
+            return $result;
+        } catch (\Exception $e){
+            $this->log->error("Single book review search:", array($e));
+            return $this->request_api(false, null, $e);
+        }
+    }
+
+    public function getRatingReviewCount($id) {
+        $result = array(
+          'plus' => $this->db->getCol("SELECT count(*) FROM review WHERE id_book = ".$id." AND (rating = 5 OR rating = 4)"),
+          'zero' => $this->db->getCol("SELECT count(*) FROM review WHERE id_book = ".$id." AND rating = 3"),
+          'minus' => $this->db->getCol("SELECT count(*) FROM review WHERE id_book = ".$id." AND (rating = 2 OR rating = 1)")
+        );
+        return $result;
+    }
+
+
 }

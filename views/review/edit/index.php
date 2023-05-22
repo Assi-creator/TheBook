@@ -32,18 +32,18 @@ $review = $api->getReviewById($_GET['review']);?>
                     <h2>Редактировать рецензию</h2>
                 </div>
                 <div class="with-pad backgr-block review" style="margin-top: 0; flex-direction:row;">
-                    <a href="/views/book/?book=<?php echo $review['id_book']?>">
-                        <img src="<?php echo $review['image']?>" style="min-width: 100px; background-color: white; float: left;" width="100">
+                    <a href="/views/book/?book=<?=$review['id_book']?>">
+                        <img src="<?=$review['image']?>" style="min-width: 100px; background-color: white; float: left;" width="100">
                     </a>
                     <div class="book-block-data" style="margin-left: 35px; width: 500px;">
-                        <a class="post-scifi-title" href="/views/book/?book=<?php echo $review['id_book']?>"><?php echo $review['book'];?></a>
+                        <a class="post-scifi-title" href="/views/book/?book=<?=$review['id_book']?>"><?=$review['book'];?></a>
                         <br>
-                        <a style="cursor:default; color: black;"><?php echo $review['author']; ?></a>
+                        <a style="cursor:default; color: black;"><?=$review['author']; ?></a>
                         <br>
                         <div style="margin-top: 5px; display: flex;flex-wrap: wrap; width: 500px;">
                             <?php $genre = $api->getGenresForSingleBook($review['id_book']); for ($i = 0; $i < count($genre); $i++):?>
-                                <a class="label-genre" href="/views/genres/genre?genre=<?php echo $genre[$i]['id_genre'];?>">
-                                    <?php echo $genre[$i]['name']; ?>
+                                <a class="label-genre" href="/views/genres/genre?genre=<?=$genre[$i]['id_genre'];?>">
+                                    <?=$genre[$i]['name']; ?>
                                 </a>
                             <?php endfor; ?>
                         </div>
@@ -75,7 +75,7 @@ $review = $api->getReviewById($_GET['review']);?>
                                                    name="bc_rating">
                                             <label for="review-radio-rating-1"></label>
                                         </div>
-                                        <span class="popup-book-mark hidden"><?php echo $review['rating']; ?></span>
+                                        <span class="popup-book-mark hidden"><?=$review['rating']; ?></span>
                                     </div>
                                     <div style="padding-top: 7px;">
 
@@ -89,7 +89,7 @@ $review = $api->getReviewById($_GET['review']);?>
                             <td>
                                 <label class="label-form" for="review[title]">Заголовок рецензии</label>
                                 <div class="form-input">
-                                    <input id="title" type="text" maxlength="500" name="review[title]" value="<?php echo $review['title']; ?>">
+                                    <input id="title" type="text" maxlength="500" name="review[title]" value="<?=$review['title']; ?>">
                                 </div>
                             </td>
                         </tr>
@@ -101,7 +101,7 @@ $review = $api->getReviewById($_GET['review']);?>
                                         <div class="text-editor-container" id="tereview-ed_editor">
                                             <div class="editor-textarea">
                                                 <div class="textarea-outer">
-                                                    <textarea class="ed_textarea  llcut" id="review" name="review[review]" rows="10" placeholder="Расскажите подробнее, чем вам понравилась книга, стараясь не раскрывать сюжет (не спойлерите)" ><?php echo strip_tags($review['text']); ?></textarea>
+                                                    <textarea class="ed_textarea  llcut" id="review" name="review[review]" rows="10" placeholder="Расскажите подробнее, чем вам понравилась книга, стараясь не раскрывать сюжет (не спойлерите)" ><?=strip_tags($review['text']); ?></textarea>
                                                 </div>
                                                 <br>
                                                 <div class="text-editor-separator"></div>
@@ -119,8 +119,8 @@ $review = $api->getReviewById($_GET['review']);?>
                         </tr>
                         <tr>
                             <td style="padding-bottom:0;">
-                                <label style="margin:0;" class="label-form" for="reviewremove"><input
-                                        type="checkbox" id="reviewremove" name="review[remove]" value="yes"> Удалить рецензию</label>
+                                <label style="margin:0;" class="label-form" for="reviewremove">
+                                    <input type="checkbox" id="reviewremove" name="review[remove]" value="yes"> Удалить рецензию</label>
                             </td>
                         </tr>
                         </tbody>
@@ -131,9 +131,9 @@ $review = $api->getReviewById($_GET['review']);?>
                     <input type="button" class="btn-fill btn-wh right" value="Отмена" onclick="location.href='/views/reader/';">
                 </div>
             </div>
-            <input type="hidden" name="data-editor" value="<?php echo $_SESSION['user']['id_profile'];?>">
-            <input type="hidden" name="data-book" value="<?php echo $review['id_book'];?>">
-            <input type="hidden" name="data-review" value="<?php echo $review['id_review'];?>">
+            <input type="hidden" name="data-editor" value="<?=$_SESSION['user']['id_profile'];?>">
+            <input type="hidden" name="data-book" value="<?=$review['id_book'];?>">
+            <input type="hidden" name="data-review" value="<?=$review['id_review'];?>">
         </form>
     </div>
 </main>

@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,7 @@ if (!isset($_SESSION['user'])) {
                             </div>
                             <div class="form-input">
                                 <input class="_req" type="text" id="account-name" name="profile-login"
-                                       value="<?php echo $_SESSION['user']['login'] ?>">
+                                       value="<?=$_SESSION['user']['login']?>">
                             </div>
                         </div>
                         <div class="tb-column-sep"></div>
@@ -62,7 +62,7 @@ if (!isset($_SESSION['user'])) {
                                             <div class="textarea-outer">
                           <textarea placeholder="..." class="ed_textarea  llcut"
                                     id="account-about" name="profile-about" style="color: black !important;"
-                                    rows="10"><?php echo $_SESSION['user']['about']; ?></textarea>
+                                    rows="10"><?=$_SESSION['user']['about']?></textarea>
                                             </div>
                                             <br>
                                             <div class="text-editor-separator"></div>
@@ -80,9 +80,9 @@ if (!isset($_SESSION['user'])) {
 
                     <div class="form-row" id="image">
                         <label class="label-form" for="account-picture">Аватарка</label>
-                        <img alt="<?php echo $_SESSION['user']['login'] ?>" title="<?php echo $_SESSION['user']['login'] ?>"
+                        <img alt="<?=$_SESSION['user']['login']?>" title="<?=$_SESSION['user']['login'] ?>"
                              style="min-width:200px; height: 200px; object-fit: cover; background-color: #ffffff;"
-                             src="<?php echo $_SESSION['user']['avatar_path']; ?>" width="200"><br>
+                             src="<?=$_SESSION['user']['avatar_path']?>" width="200"><br>
 
 
                         <div class="tb-column-2 radiogroup">

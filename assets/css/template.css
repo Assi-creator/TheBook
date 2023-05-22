@@ -359,7 +359,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 #tinyalert {
     position: fixed;
-    z-index: 10004;
+    z-index: 10007;
     max-height: 100%;
     overflow: hidden;
     font-size: 14px;
@@ -2244,7 +2244,5 @@ input.radio, input[type="radio"] {
     background-color: cornflowerblue;
     border-color: cornflowerblue;
 }
-
-
 
 /*endregion action-popup.php*/

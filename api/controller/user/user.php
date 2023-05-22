@@ -80,7 +80,6 @@ class user extends Base {
      */
     public function saveAction($obj): array
     {
-        //TODO: Суть удаляется оценка отлично при изменении с 2 на 1/3 но не добавляется больше INSERT нужно где-то добавить
         $book = $obj['book'];
         $profile = $obj['profile'];
         $action = $obj['act'];
@@ -170,7 +169,7 @@ class user extends Base {
                 }
             }
         }
-        return $this->request_api(true, 'Смотри логи');
+        return $this->request_api(true, $action);
     }
 
     /**

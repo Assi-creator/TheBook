@@ -118,6 +118,7 @@ class account extends Base {
             $this->log->error('Change password in account.php:', (array)$e);
             return $this->request_api(false, null, 'Внутренняя ошибка сервера');
         }
+        $_SESSION['tmp_alert'] = '<div class="green"> <a title="[x]" class="action a-close site-alert-close" onclick="Close();"><span class="i-clear"></span></a>Пароль успешно изменен</div>';
         return $this->request_api(true, 'Все супер');
     }
 
@@ -126,7 +127,7 @@ class account extends Base {
      * @param $obj
      * @return array
      */
-    public function changeForgotPassword($obj)
+    public function changeForgotPassword($obj): array
     {
         $new = $obj['new'];
         $repeat = $obj['repeat'];

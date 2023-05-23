@@ -52,6 +52,43 @@ class Utils extends Base
         }
     }
 
+    public function setImageBook($post, $files) {
+        $this->log->debug('!!!!!!!!', array($post, $files));
+        switch ($post['value']) {
+            case 'undefined':
+            case 'current':
+                $avatar = "/assets/images/root/icons/no-book-image.png";
+                $this->log->info('Successful set Current image book', array());
+                return $avatar;
+            case 'new':
+                if (!empty($files['avatar']['name']) && $post['avatar'] != 'undefined') {
+                    $imgName = $post['title'] . "_" . $_FILES['avatar']['name'];
+                    $fileTmpName = $files['avatar']['tmp_name'];
+                    $fileType = $files['avatar']['type'];
+                    $destination = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/book/" . $imgName;
+
+                    if (strpos($fileType, 'image') === false) {
+                        $avatar = "/assets/images/root/icons/no-book-image.png";
+                    } else {
+                        $check = move_uploaded_file($fileTmpName, $destination);
+                        if ($check) {
+                            $avatar = "/assets/images/book/" . $imgName;
+                            $this->log->info('Successful set File image book', array());
+                        } else {
+                            $avatar = "/assets/images/root/icons/no-book-image.png";
+                        }
+                    }
+                } else {
+                    $avatar = "/assets/images/root/icons/no-book-image.png";
+                }
+                return $avatar;
+            case 'url':
+                $avatar = $post['avatarurl'];
+                $this->log->info('Successful set URL avatar', array());
+                return $avatar;
+        }
+    }
+
     /**
      * Проверка на существование логина
      * @param $login

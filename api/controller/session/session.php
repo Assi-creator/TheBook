@@ -36,7 +36,7 @@ class session extends Base {
      * @param $obj
      * @return array
      */
-    public function registration($obj): array
+    public function registration($obj, $file = null): array
     {
         $card = stripslashes(trim($obj['card']));
         $reader = stripslashes(trim(str_replace(' ', '', $obj['reader'])));
@@ -69,7 +69,7 @@ class session extends Base {
             return $this->request_api(false, null, 'Данный читатель уже зарегистрирован');
         }
 
-        $avatar = $utils->setAvatar($_POST, $_FILES);
+        $avatar = $utils->setAvatar($obj, $file);
         $reader = $this->db->getRow("SELECT id_reader FROM reader WHERE card='" . $card . "'");
         $about = trim($_POST['about']);
 

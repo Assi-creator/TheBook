@@ -35,13 +35,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/api/controller/book/book.php'; ?>
                 <div class="swiper-wrapper" data-count="15"
                      style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
                     <div class="swiper-slide" style="width: 100%; height: auto">
-                        <img src="assets/images/root/9b6b07735b700af26deca758c2f8b43f-jpeg.webp" style="width:100px; height:100px;">
+                        <img src="assets/images/root/bibl-banner-1.png" style="width:100px; height:100px;">
                     </div>
                     <div class="swiper-slide" style="width: 100%; height: auto">
-                        <img src="assets/images/root/9b6b07735b700af26deca758c2f8b43f-jpeg.webp" style="width:100%; height:auto;">
+                        <img src="assets/images/root/bibl-banner-1.png" style="width:100%; height:auto;">
                     </div>
                     <div class="swiper-slide" style="width: 100%; height: auto">
-                        <img src="assets/images/root/9b6b07735b700af26deca758c2f8b43f-jpeg.webp" style="width:100%; height:auto;">
+                        <img src="assets/images/root/bibl-banner-1.png" style="width:100%; height:auto;">
                     </div>
                 </div>
             </div>

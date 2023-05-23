@@ -264,6 +264,7 @@ $('#btn_reg').click(function (e) {
         formData.append('value', value);
         formData.append('avatar', avatar);
         formData.append('avatarurl', avatarurl);
+        formData.append('file', 2);
 
         $.ajax({
             url: '/api/',
@@ -402,6 +403,7 @@ $('#btn-editprofile-save').click(function (e) {
         formEditData.append('value', value);
         formEditData.append('avatar', avatar);
         formEditData.append('avatarurl', avatarurl);
+        formEditDataData.append('file', 2);
 
         $.ajax({
             url: '/api/',
@@ -743,6 +745,7 @@ $('.btn-add-plus').on('click', function () {
     });
 });
 
+
 $('.add-book__action-title').on('click', function () {
     if (popupSession.val() === '') {
         $('.popup__regForm').addClass('open');
@@ -857,6 +860,77 @@ $('.add-book__rating label').on({
 $('.section-form__search-btn').click(function (e) {
     e.preventDefault();
     $('#section-form-search').addClass('focus');
+
+    let gerne = $('input[name="filter-genre-id"]').val(),
+        rating = $('input[name="filter-rating"]').val(),
+        order = $('input[name="filter-order"]').val(),
+        date =  $('input[name="filter-month"]').val(),
+        name = $('input[name="filter-search"]').val()
+
+    const params = new URLSearchParams();
+    if (gerne !== '') {
+        params.append('genre', gerne);
+    }
+    if (rating !== '') {
+        params.append('rating', rating);
+    }
+    if (date !== '') {
+        params.append('date', date);
+    }
+    if (order !== '') {
+        params.append('order', order);
+    }
+    if(name !== '') {
+        params.append('name', name);
+    }
+    const url = '/views/review/search/' + (params.toString() !== '' ? `?${params.toString()}` : '');
+    window.location.href = url;
+});
+
+$('#btn_add_book').click(function(){
+    alert.innerHTML = ''
+        let title = $('input[name="title-book"]').val(),
+            author = $('input[name="book-author"]').val(),
+            genre = $('input[name="subgenre-id"]').val(),
+            publishing = $('input[name="book-publishing"]').val(),
+            ISBN = $('input[name="book-ISBN"]').val(),
+            pages = $('input[name="book-count"]').val(),
+            year = $('input[name="book-year"]').val(),
+            age = $('input[name="book-age"]').val(),
+            series = $('input[name="book-series"]').val(),
+            annotation = $('textarea[name="book-annotation"]').val(),
+            avatarurl = $('input[name="profile-url"]').val();
+
+        let formAddData = new FormData();
+        formAddData.append('Class', 'book');
+        formAddData.append('function', 'setNewBook');
+        formAddData.append('value', value);
+        formAddData.append('file', 1);
+        formAddData.append('title', title);
+        formAddData.append('author', author);
+        formAddData.append('genre', genre);
+        formAddData.append('publishing', publishing);
+        formAddData.append('ISBN', ISBN);
+        formAddData.append('pages', pages);
+        formAddData.append('year', year);
+        formAddData.append('age', age);
+        formAddData.append('series', series);
+        formAddData.append('annotation', annotation);
+        formAddData.append('annotation', annotation);
+        formAddData.append('avatar', avatar);
+        formAddData.append('avatarurl', avatarurl);
+
+        $.ajax({
+            url: '/api/',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formAddData,
+            success(data) {
+                console.log(data)
+            }
+        });
 });
 
 $('.lenta-review').each(function () {

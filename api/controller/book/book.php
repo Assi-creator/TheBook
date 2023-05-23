@@ -3,6 +3,7 @@
 namespace TheBook\controller;
 
 use TheBook\Base;
+use TheBook\Utils;
 
 require $_SERVER['DOCUMENT_ROOT'] . '/api/vendor/autoload.php';
 
@@ -530,5 +531,111 @@ class book extends Base {
                     join book_genre bg on b.id = bg.id_book 
                 WHERE bg.id_genre = ".$id_genre."";
         return $this->db->getAll($sql);
+    }
+
+    public function setNewBook($obj, $file = null) {
+        $utils = new Utils();
+        $title = $obj['title'];
+        $author = $obj['author'];
+        $genres = explode(",", $obj['genre']);
+        $arrayGenre = array_unique($genres);
+        $publishing = $obj['publishing'];
+        $ISBN = $obj['ISBN'];
+        $pages = $obj['pages'];
+        $year = $obj['year'];
+        $age = $obj['age'];
+        $series = $obj['series'];
+        $annotation = $obj['annotation'];
+
+        $this->log->info('POST for add book:', array($obj));
+        $image = $utils->setImageBook($obj, $file);
+
+        try {
+            $last_number = $this->db->getRow("SELECT inventory_number FROM book ORDER BY id DESC LIMIT 1");
+            $sqlBook = "INSERT INTO book SET ?u";
+            $inBook = array(
+                // TODO: придумать как записывать инвентарный номер
+                'inventory_number' => (string)((int)$last_number['inventory_number'] + 1),
+                'name' => $title,
+                'annotation' => nl2br($annotation),
+                'ISBN' => $ISBN,
+                'year' => (int)$year,
+                'age' => (int)$age,
+                'series' => $series,
+                'pages' => (int)$pages,
+                'image' => $image
+            );
+            $this->db->query($sqlBook, $inBook);
+            $last_insert_book = $this->db->getRow("SELECT id FROM book ORDER BY id DESC LIMIT 1");
+
+            $this->setAuthor($author, $last_insert_book['id']);
+            $this->setPublishing($publishing, $last_insert_book['id']);
+            $this->setBookGenre($arrayGenre, $last_insert_book['id']);
+
+
+        } catch (\Exception $e) {
+            $this->log->error('Error add book:', array($e));
+        }
+    }
+
+    public function setAuthor($tmp, $lastbook) {
+        $checkAuthor = $this->db->getRow("SELECT id_author FROM author WHERE name LIKE '%".$tmp."%'");
+        $id_author = (int)$checkAuthor['id_author'];
+
+        if ($id_author !== 0) {
+            try {
+                $this->db->query("INSERT INTO book_author (id_book, id_author) VALUES ($lastbook, $id_author)");
+            } catch (\Exception $e) {
+                $this->log->error('Error add book_author line 585:', array($e));
+            }
+        } else {
+            try {
+                $this->db->query("INSERT INTO author (name) VALUES ('$tmp')");
+                $last_author = $this->db->getRow("SELECT * FROM author ORDER BY id_author DESC LIMIT 1");
+                $last = $last_author['id_author'];
+                $this->db->query("INSERT INTO book_author (id_book, id_author) VALUES ($lastbook, $last)");
+            } catch (\Exception $e) {
+                $this->log->error('Error add author line 591:', array($e));
+            }
+        }
+    }
+
+    public function setPublishing($tmp, $lastbook) {
+        $checkPublishing = $this->db->getRow("SELECT id_publishing FROM publishing WHERE name LIKE '%".$tmp."%'");
+        $id_publishing = (int)$checkPublishing['id_publishing'];
+
+        if ($id_publishing !== 0) {
+            try {
+                $this->db->query("INSERT INTO book_publishing (id_book, id_publishing) VALUES ($lastbook, $id_publishing)");
+            } catch (\Exception $e) {
+                $this->log->error('Error add book_author line 585:', array($e));
+            }
+        } else {
+            try {
+                $this->db->query("INSERT INTO publishing (name) VALUES ('$tmp')");
+                $last_publishing = $this->db->getRow("SELECT * FROM publishing ORDER BY id_publishing DESC LIMIT 1");
+                $last = $last_publishing['id_publishing'];
+                $this->db->query("INSERT INTO book_publishing (id_book, id_publishing) VALUES ($lastbook, $last)");
+            } catch (\Exception $e) {
+                $this->log->error('Error add publishing line 613:', array($e));
+            }
+        }
+    }
+
+    public function setBookGenre ($tmp, $lastbook) {
+
+        $sql = "INSERT INTO book_genre SET ?u";
+
+        for ($i = 0; $i < count($tmp); $i++){
+            $inGenre = array(
+              'id_book' => $lastbook,
+              'id_genre' => $tmp[$i]
+            );
+            try{
+                $this->db->query($sql, $inGenre);
+            } catch (\Exception $e) {
+                $this->log->error('Error add genre line 632:', array($e, $tmp));
+            }
+        }
     }
 }

@@ -43,14 +43,25 @@ if (isset($_POST['Class'], $_POST['function'])) {
     }
 
     if($_FILES) {
-        $base = new \TheBook\Base();
+        if ($_POST['file'] == 1){
+            $base = new \TheBook\Base();
 
-        $base->log->info('$_FILESSSSSS', array($_FILES));
-        $files = $_FILES;
-        $result = $class_instance->$function_name($_POST, $files);
-        $base->log->info('EditProfile:', (array($result)));
-        echo json_encode($result, true);
-        die();
+            $base->log->info('$_FILES', array($_FILES));
+            $files = $_FILES;
+            $result = $class_instance->$function_name($_POST, $files);
+            $base->log->info('AddBook:', (array($result)));
+            echo json_encode($result, true);
+            die();
+        } else {
+            $base = new \TheBook\Base();
+
+            $base->log->info('$_FILES', array($_FILES));
+            $files = $_FILES;
+            $result = $class_instance->$function_name($_POST, $files);
+            $base->log->info('EditProfile:', (array($result)));
+            echo json_encode($result, true);
+            die();
+        }
     }
 
     $result = $class_instance->$function_name($_POST);
